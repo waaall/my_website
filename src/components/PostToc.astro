@@ -1,0 +1,278 @@
+---
+import type { Lang } from '@/types/post';
+import type { MarkdownHeading } from 'astro';
+import { messages } from '@/i18n/locales';
+
+interface Props {
+  lang: Lang;
+  headings: MarkdownHeading[];
+  // 哪些层级进入 TOC（默认 h2/h3）
+  depths?: number[];
+}
+
+const { lang, headings, depths = [2, 3] } = Astro.props;
+const t = messages[lang];
+const items = headings.filter((h) => depths.includes(h.depth));
+const minDepth = items.length > 0 ? Math.min(...items.map((h) => h.depth)) : 2;
+---
+
+{
+  items.length > 0 && (
+    <aside class="post-toc" data-toc-root data-open="false" aria-label={t.common.tableOfContents}>
+      <button
+        type="button"
+        class="post-toc__fab"
+        aria-label={t.common.tableOfContents}
+        aria-expanded="false"
+        data-toc-toggle
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <line x1="8" y1="6" x2="21" y2="6" />
+          <line x1="8" y1="12" x2="21" y2="12" />
+          <line x1="8" y1="18" x2="21" y2="18" />
+          <line x1="3" y1="6" x2="3.01" y2="6" />
+          <line x1="3" y1="12" x2="3.01" y2="12" />
+          <line x1="3" y1="18" x2="3.01" y2="18" />
+        </svg>
+      </button>
+
+      <div class="post-toc__overlay" data-toc-overlay aria-hidden="true" />
+
+      <nav class="post-toc__panel" data-toc-panel aria-label={t.common.tableOfContents}>
+        <h2 class="post-toc__title">{t.common.tableOfContents}</h2>
+        <ol class="post-toc__list">
+          {items.map((h) => (
+            <li class="post-toc__item" style={`--toc-indent: ${h.depth - minDepth}`}>
+              <a class="post-toc__link" href={`#${h.slug}`} data-toc-link>
+                {h.text}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </aside>
+  )
+}
+
+<style>
+  /* 桌面：TOC 在右侧栏，sticky 跟随；窄屏：浮动按钮 + 滑入面板 */
+  .post-toc {
+    --toc-width: 16rem;
+    --toc-fab-size: 2.75rem;
+  }
+
+  /* 桌面（≥1024px）：直接展示，不显示 fab/遮罩 */
+  @media (min-width: 1024px) {
+    .post-toc {
+      grid-area: toc;
+    }
+
+    .post-toc__fab,
+    .post-toc__overlay {
+      display: none !important;
+    }
+
+    .post-toc__panel {
+      position: sticky;
+      top: calc(var(--header-height) + var(--sp-3));
+      max-height: calc(100vh - var(--header-height) - var(--sp-6));
+      overflow-y: auto;
+    }
+  }
+
+  /* 窄屏：fab 浮动按钮 */
+  @media (max-width: 1023.98px) {
+    .post-toc__fab {
+      position: fixed;
+      right: var(--sp-4);
+      bottom: var(--sp-4);
+      width: var(--toc-fab-size);
+      height: var(--toc-fab-size);
+      border-radius: 50%;
+      background: var(--color-bg-elevated);
+      color: var(--color-fg);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--color-border);
+      z-index: 60;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition:
+        transform var(--transition-fast),
+        background-color var(--transition-fast);
+    }
+
+    .post-toc__fab:hover {
+      transform: translateY(-1px);
+      background: var(--color-bg-subtle);
+    }
+
+    /* 滑入面板 */
+    .post-toc__panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(80vw, 320px);
+      height: 100vh;
+      background: var(--color-bg);
+      border-left: 1px solid var(--color-border);
+      padding: var(--sp-6) var(--sp-4) var(--sp-4);
+      transform: translateX(100%);
+      transition: transform var(--transition-base);
+      z-index: 70;
+      overflow-y: auto;
+      box-shadow: var(--shadow-md);
+    }
+
+    /* 半透明遮罩 */
+    .post-toc__overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-base);
+      z-index: 65;
+    }
+
+    .post-toc[data-open='true'] .post-toc__panel {
+      transform: translateX(0);
+    }
+
+    .post-toc[data-open='true'] .post-toc__overlay {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  .post-toc__title {
+    font-size: var(--fs-sm);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    margin: 0 0 var(--sp-3);
+    color: var(--color-fg-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .post-toc__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-left: 1px solid var(--color-border);
+  }
+
+  .post-toc__item {
+    padding-left: calc(var(--sp-3) + var(--toc-indent, 0) * var(--sp-3));
+  }
+
+  .post-toc__link {
+    display: block;
+    padding: var(--sp-1) var(--sp-2);
+    margin-left: -1px;
+    border-left: 2px solid transparent;
+    color: var(--color-fg-muted);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-normal);
+    text-decoration: none;
+    transition:
+      color var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  .post-toc__link:hover {
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+
+  .post-toc__link.is-active {
+    color: var(--color-link);
+    border-left-color: var(--color-accent);
+    font-weight: 500;
+  }
+</style>
+
+<script>
+  // TOC 行为：fab 切换 + 遮罩/正文/ESC 关闭 + 章节激活高亮
+  const NARROW_BREAKPOINT = 1024;
+
+  document.querySelectorAll<HTMLElement>('[data-toc-root]').forEach((root) => {
+    const toggle = root.querySelector<HTMLButtonElement>('[data-toc-toggle]');
+    const overlay = root.querySelector<HTMLElement>('[data-toc-overlay]');
+    const links = root.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
+
+    const setOpen = (open: boolean) => {
+      root.dataset.open = open ? 'true' : 'false';
+      toggle?.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+
+    const isNarrow = () => window.innerWidth < NARROW_BREAKPOINT;
+
+    toggle?.addEventListener('click', () => {
+      setOpen(root.dataset.open !== 'true');
+    });
+
+    overlay?.addEventListener('click', () => setOpen(false));
+
+    // 点击 TOC 项跳转后，窄屏自动收起
+    links.forEach((link) => {
+      link.addEventListener('click', () => {
+        if (isNarrow()) setOpen(false);
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && root.dataset.open === 'true') setOpen(false);
+    });
+
+    // 点击文章正文区也关闭（仅窄屏）
+    const article = document.querySelector<HTMLElement>('[data-post-article]');
+    article?.addEventListener('click', () => {
+      if (isNarrow() && root.dataset.open === 'true') setOpen(false);
+    });
+
+    // 章节高亮：监听文章里被 TOC 引用的标题
+    const ids = Array.from(links)
+      .map((l) => l.getAttribute('href')?.slice(1))
+      .filter((id): id is string => Boolean(id));
+    const headings = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (headings.length > 0 && 'IntersectionObserver' in window) {
+      // 当前可见标题集合，按文档顺序选最靠前一个作为 active
+      const visible = new Set<string>();
+      const updateActive = () => {
+        const firstVisible = ids.find((id) => visible.has(id));
+        links.forEach((link) => {
+          const linkId = link.getAttribute('href')?.slice(1);
+          link.classList.toggle('is-active', linkId === firstVisible);
+        });
+      };
+
+      const obs = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) visible.add(entry.target.id);
+            else visible.delete(entry.target.id);
+          }
+          updateActive();
+        },
+        // 顶部留出 header 空间，底部偏 70% 让"已滚过中部"的章节优先生效
+        { rootMargin: '-15% 0px -70% 0px', threshold: [0, 1] },
+      );
+
+      headings.forEach((h) => obs.observe(h));
+    }
+  });
+</script>

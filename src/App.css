@@ -1,6 +1,0 @@
-/* 应用级样式：跨页面的轻量状态样式 */
-
-/* 主题切换瞬间避免闪烁 */
-.app-container.theme-transitioning * {
-  transition: none !important;
-}

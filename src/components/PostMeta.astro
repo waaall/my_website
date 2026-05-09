@@ -1,0 +1,85 @@
+---
+import type { Lang, Post } from '@/types/post';
+import { messages } from '@/i18n/locales';
+import { routePaths } from '@/lib/routes';
+import { formatDate } from '@/lib/format';
+import { slugifyTag } from '@/lib/post-helpers';
+
+interface Props {
+  post: Post;
+  lang: Lang;
+}
+
+const { post, lang } = Astro.props;
+const t = messages[lang];
+---
+
+<aside class="post-meta">
+  <p class="post-meta__row">
+    <time datetime={post.date.toISOString()}>{formatDate(post.date, lang)}</time>
+    <span class="post-meta__sep">·</span>
+    <span>{t.common.readingTime(post.readingTime)}</span>
+  </p>
+
+  {
+    post.tags.length > 0 && (
+      <ul class="post-meta__tags">
+        {post.tags.map((tag) => (
+          <li>
+            <a href={routePaths.tag(lang, slugifyTag(tag))}>#{tag}</a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</aside>
+
+<style>
+  .post-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    color: var(--color-fg-muted);
+    font-size: var(--fs-sm);
+  }
+
+  .post-meta__row {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    margin: 0;
+  }
+
+  .post-meta__sep {
+    color: var(--color-border-strong);
+  }
+
+  .post-meta__tags {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+  }
+
+  .post-meta__tags a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 var(--sp-2);
+    height: 1.5rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-subtle);
+    color: var(--color-fg-muted);
+    font-size: var(--fs-xs);
+    text-decoration: none;
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  .post-meta__tags a:hover {
+    background: var(--color-border);
+    color: var(--color-fg);
+  }
+</style>

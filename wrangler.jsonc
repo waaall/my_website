@@ -9,9 +9,9 @@
     "enabled": true
   },
   "assets": {
-    // Vite 构建产物目录；wrangler deploy 会把这里的静态资源上传到 Workers
+    // Astro 构建产物目录；wrangler deploy 会把这里的静态资源上传到 Workers
     "directory": "./dist",
-    // BrowserRouter/SPA 兜底：直接访问任意前端路由时返回 index.html
-    "not_found_handling": "single-page-application"
+    // 静态站点：未知路径返回 dist/404.html
+    "not_found_handling": "404-page"
   }
 }

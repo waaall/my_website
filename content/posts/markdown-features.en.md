@@ -19,6 +19,7 @@ Regular prose lives between headings.
 - Supports nesting
   - Second level
   - Second level
+
 1. Ordered list
 2. Second item
 
@@ -42,12 +43,12 @@ npm run dev
 
 ## Tables
 
-| Feature        | Library             | Notes              |
-| -------------- | ------------------- | ------------------ |
-| Parser         | react-markdown      | AST-based          |
-| GFM            | remark-gfm          | Tables, strike     |
-| Highlight      | rehype-highlight    | Backed by hljs     |
-| Heading anchor | rehype-slug         | Auto-generated ids |
+| Feature        | Library          | Notes              |
+| -------------- | ---------------- | ------------------ |
+| Parser         | react-markdown   | AST-based          |
+| GFM            | remark-gfm       | Tables, strike     |
+| Highlight      | rehype-highlight | Backed by hljs     |
+| Heading anchor | rehype-slug      | Auto-generated ids |
 
 ## Quote
 

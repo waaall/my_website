@@ -1,0 +1,141 @@
+---
+import type { Lang } from '@/types/post';
+import { siteConfig } from '@/config/site';
+import { mainNav } from '@/config/nav';
+import { messages } from '@/i18n/locales';
+import { routePaths, stripLangPrefix } from '@/lib/routes';
+import ThemeSwitch from './ThemeSwitch.astro';
+import LangSwitch from './LangSwitch.astro';
+import SearchBox from './SearchBox.astro';
+
+interface Props {
+  lang: Lang;
+  pathname: string; // 当前完整路径（含语言段），用于高亮当前导航项 + 计算切语言后的目标
+}
+
+const { lang, pathname } = Astro.props;
+const t = messages[lang];
+
+const pathWithoutLang = stripLangPrefix(pathname, siteConfig.supportedLangs);
+
+// 简易高亮判断：当前 pathname 是 nav.href 的前缀（首页要精确匹配）
+const isActive = (href: string): boolean => {
+  if (href === routePaths.langHome(lang)) return pathname === href;
+  return pathname.startsWith(href);
+};
+
+const themeLabels = {
+  light: t.theme.light,
+  dark: t.theme.dark,
+  auto: t.theme.auto,
+  toggle: t.theme.toggle,
+};
+---
+
+<header class="site-header">
+  <div class="container container--wide site-header__inner">
+    <a class="site-header__brand" href={routePaths.langHome(lang)}>
+      {siteConfig.name[lang]}
+    </a>
+
+    <nav class="site-header__nav" aria-label="primary">
+      {
+        mainNav.map((item) => {
+          const href = item.href(lang);
+          return (
+            <a href={href} class:list={['site-header__link', { 'is-active': isActive(href) }]}>
+              {t.nav[item.key]}
+            </a>
+          );
+        })
+      }
+    </nav>
+
+    <div class="site-header__tools">
+      <SearchBox lang={lang} />
+      <ThemeSwitch labels={themeLabels} />
+      <LangSwitch lang={lang} pathWithoutLang={pathWithoutLang} />
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    height: var(--header-height);
+    background: color-mix(in srgb, var(--color-bg) 92%, transparent);
+    backdrop-filter: saturate(180%) blur(8px);
+    -webkit-backdrop-filter: saturate(180%) blur(8px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .site-header__inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-5);
+  }
+
+  .site-header__brand {
+    font-family: var(--font-serif);
+    font-size: var(--fs-lg);
+    font-weight: 600;
+    color: var(--color-fg);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  .site-header__brand:hover {
+    color: var(--color-link-hover);
+    text-decoration: none;
+  }
+
+  .site-header__nav {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-1);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .site-header__nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .site-header__link {
+    padding: var(--sp-2) var(--sp-3);
+    border-radius: var(--radius-md);
+    color: var(--color-fg-muted);
+    font-size: var(--fs-sm);
+    white-space: nowrap;
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  .site-header__link:hover {
+    background: var(--color-bg-subtle);
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+
+  .site-header__link.is-active {
+    color: var(--color-fg);
+    background: var(--color-bg-subtle);
+  }
+
+  .site-header__tools {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+
+  @media (max-width: 640px) {
+    .site-header__brand {
+      font-size: var(--fs-base);
+    }
+  }
+</style>

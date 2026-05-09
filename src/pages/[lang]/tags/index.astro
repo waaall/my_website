@@ -1,0 +1,92 @@
+---
+import type { GetStaticPaths } from 'astro';
+import type { Lang } from '@/types/post';
+import { siteConfig } from '@/config/site';
+import { messages } from '@/i18n/locales';
+import { routePaths } from '@/lib/routes';
+import { getTagCounts } from '@/lib/posts';
+import { slugifyTag } from '@/lib/post-helpers';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+
+export const getStaticPaths: GetStaticPaths = () =>
+  siteConfig.supportedLangs.map((lang) => ({ params: { lang } }));
+
+const lang = Astro.params.lang as Lang;
+const t = messages[lang];
+const counts = await getTagCounts(lang);
+
+// 按数量降序，同数量按名称
+const tags = Array.from(counts.entries()).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+
+// 字号根据数量缩放，1.0 ~ 1.5 之间，避免大数标签视觉霸屏
+const maxCount = Math.max(1, ...tags.map((t) => t[1]));
+const sizeOf = (count: number) => 1 + (count / maxCount) * 0.6;
+---
+
+<BaseLayout lang={lang} title={`${t.nav.tags} · ${siteConfig.name[lang]}`}>
+  <section class="container container--content tags-page">
+    <PageHeader title={t.common.allTags} subtitle={t.archive.total(tags.length)} />
+
+    {
+      tags.length === 0 ? (
+        <p class="tags-page__empty">{t.common.empty}</p>
+      ) : (
+        <ul class="tags-page__cloud">
+          {tags.map(([tag, count]) => (
+            <li>
+              <a
+                href={routePaths.tag(lang, slugifyTag(tag))}
+                style={`font-size: ${sizeOf(count)}rem`}
+              >
+                #{tag}
+                <span class="tags-page__count">{count}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .tags-page {
+    padding-bottom: var(--sp-10);
+  }
+
+  .tags-page__empty {
+    color: var(--color-fg-subtle);
+    padding: var(--sp-6) 0;
+  }
+
+  .tags-page__cloud {
+    list-style: none;
+    padding: var(--sp-5) 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3) var(--sp-4);
+    align-items: baseline;
+  }
+
+  .tags-page__cloud a {
+    color: var(--color-fg);
+    text-decoration: none;
+    font-family: var(--font-serif);
+    line-height: var(--lh-tight);
+    transition: color var(--transition-fast);
+  }
+
+  .tags-page__cloud a:hover {
+    color: var(--color-link);
+  }
+
+  .tags-page__count {
+    color: var(--color-fg-subtle);
+    font-size: var(--fs-xs);
+    font-family: var(--font-sans);
+    margin-left: 0.25em;
+    vertical-align: super;
+  }
+</style>

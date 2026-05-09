@@ -12,7 +12,9 @@ export const messages = {
     },
     common: {
       search: '搜索',
-      searchPlaceholder: '搜索标题、标签、摘要…',
+      searchPlaceholder: '搜索文章…',
+      searchEmpty: '输入关键词以搜索',
+      searchUnavailable: '搜索索引未生成（仅生产构建后可用）',
       readMore: '阅读全文',
       readingTime: (min: number) => `约 ${min} 分钟阅读`,
       publishedOn: '发布于',
@@ -43,7 +45,13 @@ export const messages = {
       desc: '页面不存在或已被移除。',
     },
     footer: {
-      poweredBy: '由 Vite + React 构建',
+      poweredBy: '由 Astro 构建',
+    },
+    theme: {
+      light: '浅色',
+      dark: '深色',
+      auto: '跟随系统',
+      toggle: '切换主题',
     },
   },
   en: {
@@ -56,7 +64,9 @@ export const messages = {
     },
     common: {
       search: 'Search',
-      searchPlaceholder: 'Search title, tags, summary…',
+      searchPlaceholder: 'Search posts…',
+      searchEmpty: 'Type to search',
+      searchUnavailable: 'Search index not built (only available after production build)',
       readMore: 'Read more',
       readingTime: (min: number) => `${min} min read`,
       publishedOn: 'Published on',
@@ -87,7 +97,13 @@ export const messages = {
       desc: 'This page does not exist or has been removed.',
     },
     footer: {
-      poweredBy: 'Built with Vite + React',
+      poweredBy: 'Built with Astro',
+    },
+    theme: {
+      light: 'Light',
+      dark: 'Dark',
+      auto: 'System',
+      toggle: 'Toggle theme',
     },
   },
 } as const;

@@ -11,4 +11,4 @@ title: 关于
 
 ## 站点
 
-源码托管于 GitHub，内容以 Markdown 撰写，使用 Vite + React 构建。
+源码托管于 GitHub，内容以 Markdown 撰写，使用 Astro 静态构建，并部署到 Cloudflare。

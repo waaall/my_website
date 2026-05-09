@@ -11,4 +11,4 @@ This is a personal archive of long-form notes.
 
 ## Stack
 
-Source on GitHub, content written in Markdown, built with Vite + React.
+Source on GitHub, content written in Markdown, built with Astro, and deployed to Cloudflare.

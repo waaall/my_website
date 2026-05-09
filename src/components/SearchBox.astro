@@ -1,0 +1,384 @@
+---
+import type { Lang } from '@/types/post';
+import { messages } from '@/i18n/locales';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = messages[lang];
+
+// 把仅运行期需要的文案塞进 dataset，脚本里读取，避免在脚本中再做 i18n
+const labels = {
+  placeholder: t.common.searchPlaceholder,
+  empty: t.common.searchEmpty,
+  noResults: t.common.noResults,
+  loading: t.common.loading,
+  unavailable: t.common.searchUnavailable,
+};
+---
+
+<button type="button" class="search-trigger" aria-label={t.common.search} data-search-trigger>
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="11" cy="11" r="7"></circle>
+    <path d="m21 21-4.35-4.35"></path>
+  </svg>
+</button>
+
+<dialog
+  class="search-dialog"
+  data-search-dialog
+  data-labels={JSON.stringify(labels)}
+  aria-label={t.common.search}
+>
+  <form class="search-dialog__form" data-search-form>
+    <svg
+      class="search-dialog__icon"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="7"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+    <input
+      class="search-dialog__input"
+      type="search"
+      autocomplete="off"
+      spellcheck="false"
+      placeholder={t.common.searchPlaceholder}
+      data-search-input
+    />
+    <button
+      type="button"
+      class="search-dialog__close"
+      data-search-close
+      aria-label={t.common.search}
+    >
+      ESC
+    </button>
+  </form>
+
+  <div class="search-dialog__results" data-search-results>
+    <p class="search-dialog__placeholder">{t.common.searchEmpty}</p>
+  </div>
+</dialog>
+
+<style>
+  .search-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-md);
+    color: var(--color-fg-muted);
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  .search-trigger:hover {
+    background: var(--color-bg-subtle);
+    color: var(--color-fg);
+  }
+
+  .search-dialog {
+    position: fixed;
+    top: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(640px, calc(100vw - var(--sp-5) * 2));
+    max-height: 70vh;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-elevated);
+    color: var(--color-fg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+
+  .search-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  .search-dialog[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search-dialog__form {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: var(--sp-3) var(--sp-4);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-elevated);
+  }
+
+  .search-dialog__icon {
+    color: var(--color-fg-subtle);
+    flex-shrink: 0;
+  }
+
+  .search-dialog__input {
+    flex: 1 1 auto;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    color: var(--color-fg);
+    font-size: var(--fs-base);
+    padding: var(--sp-2) 0;
+  }
+
+  .search-dialog__close {
+    flex-shrink: 0;
+    padding: 0.15rem var(--sp-2);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    color: var(--color-fg-subtle);
+    font-size: var(--fs-xs);
+    font-family: var(--font-mono);
+  }
+
+  .search-dialog__close:hover {
+    color: var(--color-fg);
+    border-color: var(--color-border-strong);
+  }
+
+  .search-dialog__results {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: var(--sp-2) 0;
+  }
+
+  .search-dialog__placeholder {
+    color: var(--color-fg-subtle);
+    text-align: center;
+    padding: var(--sp-6);
+    margin: 0;
+    font-size: var(--fs-sm);
+  }
+
+  .search-result {
+    display: block;
+    padding: var(--sp-3) var(--sp-4);
+    color: var(--color-fg);
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition:
+      background-color var(--transition-fast),
+      border-left-color var(--transition-fast);
+  }
+
+  .search-result:hover,
+  .search-result:focus {
+    background: var(--color-bg-subtle);
+    border-left-color: var(--color-accent);
+    text-decoration: none;
+    color: var(--color-fg);
+  }
+
+  .search-result__title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-base);
+    margin: 0 0 var(--sp-1);
+  }
+
+  .search-result__excerpt {
+    color: var(--color-fg-muted);
+    font-size: var(--fs-sm);
+    margin: 0;
+    line-height: var(--lh-normal);
+  }
+
+  .search-result__excerpt mark {
+    background: var(--color-mark);
+    color: inherit;
+  }
+</style>
+
+<script>
+  // Pagefind 客户端搜索：仅生产构建后可用（dist/pagefind 由 build 脚本生成）
+  // 这里用纯 TS + 动态 import，避免引入框架运行时
+
+  type Labels = {
+    placeholder: string;
+    empty: string;
+    noResults: string;
+    loading: string;
+    unavailable: string;
+  };
+
+  type PagefindResult = {
+    id: string;
+    data: () => Promise<{
+      url: string;
+      excerpt: string;
+      meta: { title?: string };
+      filters?: Record<string, string[]>;
+    }>;
+  };
+
+  type PagefindAPI = {
+    search: (
+      term: string,
+      opts?: { filters?: Record<string, string> },
+    ) => Promise<{ results: PagefindResult[] }>;
+    init?: () => Promise<void>;
+  };
+
+  const escapeHtml = (s: string) =>
+    s
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+
+  const debounce = <T extends unknown[]>(fn: (...args: T) => void, ms: number) => {
+    let timer: ReturnType<typeof setTimeout>;
+    return (...args: T) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => fn(...args), ms);
+    };
+  };
+
+  const initSearch = () => {
+    const trigger = document.querySelector<HTMLButtonElement>('[data-search-trigger]');
+    const dialog = document.querySelector<HTMLDialogElement>('[data-search-dialog]');
+    if (!trigger || !dialog) return;
+
+    const input = dialog.querySelector<HTMLInputElement>('[data-search-input]');
+    const closeBtn = dialog.querySelector<HTMLButtonElement>('[data-search-close]');
+    const results = dialog.querySelector<HTMLElement>('[data-search-results]');
+    const form = dialog.querySelector<HTMLFormElement>('[data-search-form]');
+    const labels: Labels = JSON.parse(dialog.dataset.labels ?? '{}');
+
+    let pagefind: PagefindAPI | null | 'unavailable' = null;
+
+    const renderState = (html: string) => {
+      if (results) results.innerHTML = html;
+    };
+
+    const showPlaceholder = () => {
+      renderState(`<p class="search-dialog__placeholder">${escapeHtml(labels.empty)}</p>`);
+    };
+
+    const showUnavailable = () => {
+      renderState(`<p class="search-dialog__placeholder">${escapeHtml(labels.unavailable)}</p>`);
+    };
+
+    const showLoading = () => {
+      renderState(`<p class="search-dialog__placeholder">${escapeHtml(labels.loading)}</p>`);
+    };
+
+    const ensurePagefind = async (): Promise<PagefindAPI | null> => {
+      if (pagefind === 'unavailable') return null;
+      if (pagefind) return pagefind;
+      try {
+        // 仅在生产构建后存在；用变量 url 绕过 TS 静态分析
+        const url = '/pagefind/pagefind.js';
+        const mod = (await import(/* @vite-ignore */ url)) as PagefindAPI;
+        if (mod.init) await mod.init();
+        pagefind = mod;
+        return mod;
+      } catch {
+        pagefind = 'unavailable';
+        return null;
+      }
+    };
+
+    const lang = document.documentElement.lang || 'zh';
+
+    const runSearch = async (term: string) => {
+      if (!term.trim()) {
+        showPlaceholder();
+        return;
+      }
+      showLoading();
+      const api = await ensurePagefind();
+      if (!api) {
+        showUnavailable();
+        return;
+      }
+      const { results: list } = await api.search(term, { filters: { lang } });
+      if (list.length === 0) {
+        renderState(`<p class="search-dialog__placeholder">${escapeHtml(labels.noResults)}</p>`);
+        return;
+      }
+      // 取前 10 条详情
+      const data = await Promise.all(list.slice(0, 10).map((r) => r.data()));
+      renderState(
+        data
+          .map((d) => {
+            const title = d.meta.title ?? d.url;
+            // Pagefind 的 excerpt 已含 <mark> 标签
+            return `<a class="search-result" href="${d.url}">
+              <p class="search-result__title">${escapeHtml(title)}</p>
+              <p class="search-result__excerpt">${d.excerpt}</p>
+            </a>`;
+          })
+          .join(''),
+      );
+    };
+
+    const debouncedSearch = debounce((term: string) => {
+      void runSearch(term);
+    }, 180);
+
+    const open = () => {
+      if (!dialog.open) dialog.showModal();
+      requestAnimationFrame(() => input?.focus());
+    };
+    const close = () => {
+      if (dialog.open) dialog.close();
+    };
+
+    trigger.addEventListener('click', open);
+    closeBtn?.addEventListener('click', close);
+
+    // 拦截 form submit，避免触发原生提交
+    form?.addEventListener('submit', (e) => e.preventDefault());
+
+    input?.addEventListener('input', () => {
+      debouncedSearch(input.value);
+    });
+
+    // 点击结果后关闭
+    results?.addEventListener('click', (e) => {
+      const target = (e.target as HTMLElement).closest('a.search-result');
+      if (target) close();
+    });
+
+    // ⌘/Ctrl + K 快捷键
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (dialog.open) close();
+        else open();
+      }
+    });
+  };
+
+  initSearch();
+</script>

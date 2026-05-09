@@ -1,8 +1,8 @@
 ---
-title: "Asking Why Down to Bedrock and Building a Knowledge Tree: My Way of Thinking"
+title: 'Asking Why Down to Bedrock and Building a Knowledge Tree: My Way of Thinking'
 date: 2026-03-02
 tags: [Essays]
-summary: "An understanding-oriented way of thinking: build knowledge into a tree, and chase the key questions all the way down to the mechanism layer."
+summary: 'An understanding-oriented way of thinking: build knowledge into a tree, and chase the key questions all the way down to the mechanism layer.'
 ---
 
 I'm better at an understanding-oriented way of thinking: build knowledge into a tree, and chase the key questions down to the mechanism layer. It doesn't suit standardized exams, and it doesn't quite suit the old-style mode of narrow specialization in a tiny domain either, but it's very useful for learning complex systems and for picking up new fields quickly across industries. On top of that, AI has perfectly solved a big chunk of my pain points in this style, and this style of thinking also seems unusually well matched to using AI efficiently.
@@ -26,7 +26,7 @@ Was thinking about all this useful? At the time it didn't seem to be. But it end
 
 ### How does `print("Hello World")` turn into the 0s and 1s inside the CPU?
 
-- So my first question when getting ready to learn software was: how does the code I write — C or Python — turn into the assembly/machine instructions I just barely got my head around? That's the territory of compilers/interpreters. If someone asks this, the typical Baidu answer is: GCC's workflow — compile, assemble, link… For me, that's nowhere near enough. What is "compiling"? How does the process actually go? What algorithms are used to "interpret" such simple syntax into machine instructions? What is linking? Why can it find those library functions? So I downloaded an ebook of *Compiler Principles* and tried to read it — way too hard (for me at that stage), and I shelved it. I still got the general gist of the process, so this part only formed a weak link.
+- So my first question when getting ready to learn software was: how does the code I write — C or Python — turn into the assembly/machine instructions I just barely got my head around? That's the territory of compilers/interpreters. If someone asks this, the typical Baidu answer is: GCC's workflow — compile, assemble, link… For me, that's nowhere near enough. What is "compiling"? How does the process actually go? What algorithms are used to "interpret" such simple syntax into machine instructions? What is linking? Why can it find those library functions? So I downloaded an ebook of _Compiler Principles_ and tried to read it — way too hard (for me at that stage), and I shelved it. I still got the general gist of the process, so this part only formed a weak link.
 
 Was thinking about this useful? It didn't seem useful at the time, and honestly even now it doesn't seem all that useful — I occasionally pay attention to how the Python interpreter works, but there's no need to expect everything to be useful. It being fun is plenty.
 
@@ -78,9 +78,9 @@ For AI prompts, three things are very important:
 
 1. Crystal-clear about the requirements: which parts must be done, which are optional, which can be improvised freely.
 2. Make an effort to extract the known conditions: which don't need to be mentioned (e.g. "translate into Chinese" — I don't need to explain what Chinese is), and which do.
-3. Specify the expected output range. If you want it to be more general, with more ideas, you should make it explicit in the prompt that the existing data/information is not the only thing being expressed, and you can give various examples to help it abstract from different inputs to the essential thing you want; if you want it to be more specialized and precise, then state clearly how accurate the existing data is, and give examples of the kinds of cases you do *not* want handled, so it understands the scope and the level of precision you're after.
+3. Specify the expected output range. If you want it to be more general, with more ideas, you should make it explicit in the prompt that the existing data/information is not the only thing being expressed, and you can give various examples to help it abstract from different inputs to the essential thing you want; if you want it to be more specialized and precise, then state clearly how accurate the existing data is, and give examples of the kinds of cases you do _not_ want handled, so it understands the scope and the level of precision you're after.
 
-But on the process of *writing* a prompt, I think there are a few more interesting points:
+But on the process of _writing_ a prompt, I think there are a few more interesting points:
 
 1. You have to be able to step into a particular perspective: it knows nothing about your needs or any of the relevant context. But it has a vast store of general knowledge and a strong ability to understand — and "understanding" is not psychic ability. It does not know what you're thinking. Then, if you had a colleague/classmate like that (and ideally imagine it as a robot, because while it looks smart, it's also quite "rigid" — much of the time it won't, like a human would, automatically filter out content that obviously doesn't fit the scenario, and that ends up affecting it; so context management is also very important — I may go into that in the future), how would you get them to help you? Express it that way.
 2. You can try having a conversation with the AI to refine the above (requirements, conditions, output range), then start a new conversation to produce the final prompt. Of course, as model capability, information processing, and need-understanding evolve, this will become less important. Current models have already started actively asking about uncertain parts of a question (I'm not sure whether that's the system prompt's doing, or whether OpenAI/Anthropic have already internalized this behavior into the model itself).

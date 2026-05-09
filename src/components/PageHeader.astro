@@ -1,0 +1,33 @@
+---
+// 列表/归档/标签页通用页头：标题 + 副标题
+interface Props {
+  title: string;
+  subtitle?: string;
+}
+
+const { title, subtitle } = Astro.props;
+---
+
+<header class="page-header">
+  <h1 class="page-header__title">{title}</h1>
+  {subtitle && <p class="page-header__subtitle">{subtitle}</p>}
+</header>
+
+<style>
+  .page-header {
+    padding: var(--sp-10) 0 var(--sp-6);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--sp-3);
+  }
+
+  .page-header__title {
+    font-size: var(--fs-3xl);
+    margin: 0;
+  }
+
+  .page-header__subtitle {
+    color: var(--color-fg-muted);
+    font-size: var(--fs-base);
+    margin: var(--sp-2) 0 0;
+  }
+</style>

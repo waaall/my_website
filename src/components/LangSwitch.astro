@@ -1,0 +1,76 @@
+---
+import type { Lang } from '@/types/post';
+import { otherLang, siteConfig } from '@/config/site';
+import { withLangPrefix } from '@/lib/routes';
+import { LANG_STORAGE_KEY } from '@/lib/theme';
+
+interface Props {
+  lang: Lang;
+  // 当前页面的"无语言段路径"，例如 "/posts/hello-world"；语言切换会自动拼上对应语言
+  pathWithoutLang: string;
+}
+
+const { lang, pathWithoutLang } = Astro.props;
+const target = otherLang(lang);
+const targetHref = withLangPrefix(target, pathWithoutLang);
+const labels = siteConfig.langLabels;
+---
+
+<a
+  class="lang-switch"
+  href={targetHref}
+  hreflang={target}
+  data-storage-key={LANG_STORAGE_KEY}
+  data-target-lang={target}
+  aria-label={`switch to ${labels[target]}`}
+>
+  <span class="lang-switch__current">{labels[lang]}</span>
+  <span class="lang-switch__sep">/</span>
+  <span class="lang-switch__target">{labels[target]}</span>
+</a>
+
+<style>
+  .lang-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-1);
+    padding: 0 var(--sp-3);
+    height: 2.25rem;
+    border-radius: var(--radius-md);
+    color: var(--color-fg-muted);
+    font-size: var(--fs-sm);
+    text-decoration: none;
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  .lang-switch:hover {
+    background: var(--color-bg-subtle);
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+
+  .lang-switch__current {
+    color: var(--color-fg);
+  }
+
+  .lang-switch__sep,
+  .lang-switch__target {
+    color: var(--color-fg-subtle);
+  }
+
+  /* 此处空间预留：siteConfig.supportedLangs 多于两种时可改为下拉，本文件不会重复硬编码 */
+</style>
+
+<script>
+  import { LANG_STORAGE_KEY } from '@/lib/theme';
+
+  // 用户主动切换 → 持久化偏好
+  document.querySelectorAll<HTMLAnchorElement>('.lang-switch').forEach((el) => {
+    el.addEventListener('click', () => {
+      const target = el.dataset.targetLang;
+      if (target) localStorage.setItem(LANG_STORAGE_KEY, target);
+    });
+  });
+</script>

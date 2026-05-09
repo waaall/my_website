@@ -1,0 +1,122 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import katexCssUrl from 'katex/dist/katex.min.css?url';
+
+import type { Lang } from '@/types/post';
+import { siteConfig, otherLang } from '@/config/site';
+import { messages } from '@/i18n/locales';
+import { routePaths } from '@/lib/routes';
+import { getAllPosts, getNeighbors, getPost, getPostEntry, getPostOtherLang } from '@/lib/posts';
+import PostLayout from '@/layouts/PostLayout.astro';
+import PostMeta from '@/components/PostMeta.astro';
+import PostPager from '@/components/PostPager.astro';
+import LangMissingNote from '@/components/LangMissingNote.astro';
+import { formatDate } from '@/lib/format';
+import { containsMathMarkup } from '@/lib/post-helpers';
+import '@/styles/markdown.css';
+
+// 静态路径：所有 (lang × slug) 组合，slug 在任一语言存在即生成路径
+// 这样缺失语言版本的页面也能渲染"提示 + 切换"
+export const getStaticPaths: GetStaticPaths = async () => {
+  const all = await getAllPosts();
+  const slugs = Array.from(new Set(all.map((p) => p.slug)));
+  return siteConfig.supportedLangs.flatMap((lang) =>
+    slugs.map((slug) => ({ params: { lang, slug } })),
+  );
+};
+
+const lang = Astro.params.lang as Lang;
+const slug = Astro.params.slug as string;
+const t = messages[lang];
+
+const post = await getPost(slug, lang);
+const fallback = post ? undefined : await getPostOtherLang(slug, lang);
+// getStaticPaths 已保证 slug 在至少一种语言存在，因此 post/fallback 至少有一个
+
+// 用于渲染：当前语言版本（若存在）；否则展示提示，正文留空
+const entry = post ? await getPostEntry(slug, lang) : undefined;
+const rendered = entry ? await render(entry) : null;
+const Content = rendered?.Content;
+const headings = rendered?.headings ?? [];
+
+const neighbors = post ? await getNeighbors(slug, lang) : { prev: undefined, next: undefined };
+const fallbackHref = fallback ? routePaths.post(otherLang(lang), fallback.slug) : '';
+const pageTitle = post
+  ? `${post.title} · ${siteConfig.name[lang]}`
+  : `${t.common.langMissing} · ${siteConfig.name[lang]}`;
+const pageDesc = post?.summary ?? siteConfig.description[lang];
+const pagefindDate = post?.date.toISOString().slice(0, 10);
+const hasMath = entry ? containsMathMarkup(entry.body ?? '') : false;
+---
+
+<PostLayout
+  lang={lang}
+  title={pageTitle}
+  description={pageDesc}
+  indexable={Boolean(post)}
+  headings={headings}
+  pagefindDate={pagefindDate}
+  katexCssHref={hasMath ? katexCssUrl : undefined}
+>
+  {
+    post && Content && (
+      <>
+        <header class="post-detail__header">
+          <h1 class="post-detail__title" data-pagefind-meta="title">
+            {post.title}
+          </h1>
+          <div data-pagefind-ignore>
+            <PostMeta post={post} lang={lang} />
+          </div>
+          {post.summary && (
+            <p class="post-detail__summary" data-pagefind-meta="summary">
+              {post.summary}
+            </p>
+          )}
+        </header>
+
+        <div class="prose">
+          <Content />
+        </div>
+
+        <div data-pagefind-ignore>
+          <PostPager prev={neighbors.prev} next={neighbors.next} lang={lang} />
+        </div>
+      </>
+    )
+  }
+
+  {
+    !post && fallback && (
+      <>
+        <header class="post-detail__header">
+          <h1 class="post-detail__title">{fallback.title}</h1>
+          <p class="post-detail__summary">{formatDate(fallback.date, otherLang(lang))}</p>
+        </header>
+        <LangMissingNote lang={lang} otherHref={fallbackHref} />
+      </>
+    )
+  }
+</PostLayout>
+
+<style>
+  .post-detail__header {
+    margin-bottom: var(--sp-6);
+    padding-bottom: var(--sp-5);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .post-detail__title {
+    font-size: var(--fs-3xl);
+    margin: 0 0 var(--sp-4);
+    line-height: var(--lh-tight);
+  }
+
+  .post-detail__summary {
+    color: var(--color-fg-muted);
+    font-size: var(--fs-lg);
+    margin: var(--sp-3) 0 0;
+    font-style: italic;
+  }
+</style>

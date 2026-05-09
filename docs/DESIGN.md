@@ -1,6 +1,6 @@
 # 设计文档
 
-> 本文档记录站点的架构、关键决策与扩展方向。读者预期是未来的我自己。
+> 本文档记录站点的 Astro 静态架构、关键决策与扩展方向。读者预期是未来的我自己。
 
 ---
 
@@ -8,144 +8,129 @@
 
 ### 目标
 
-- **写作零摩擦**：用 Markdown 在仓库里写，git 推送即发布
-- **加载快**：首屏 < 200KB gzip，文章页冷启动可即时阅读
-- **离线友好**：纯静态、无运行时依赖外部服务（评论也不要）
-- **可阅读**：Substack / Vercel Blog 风格的窄栏排版，长文为主
-- **双语**：中英两种语言的同一篇文章相互独立，存在则展示
-- **可演进**：避免锁死的"博客框架"魔法，所有逻辑都在源码里
+- **写作零摩擦**：用 Markdown 在仓库里写，git 推送即发布。
+- **加载快**：默认静态 HTML，文章页不依赖 React runtime 才能阅读。
+- **离线友好**：纯静态、无运行时后端服务；评论 / 邮件订阅默认不做。
+- **可阅读**：Substack / Vercel Blog 风格的窄栏排版，长文为主。
+- **双语**：中英两种语言显式 URL 段，文章版本互相独立。
+- **可演进**：站点配置、路由、内容查询、RSS 等逻辑集中在源码里，避免散落硬编码。
 
 ### 不做（Non-goals）
 
-- ❌ 后台 / 编辑器界面（直接改 markdown 文件）
-- ❌ 评论系统（默认无）
-- ❌ 服务端渲染 / SSG 框架（不引入 Next.js / Astro，避免大型工具锁定）
-- ❌ 图床 / 媒体管理（用 `public/images/` 即可）
+- ❌ 后台 / 编辑器界面（直接改 markdown 文件）。
+- ❌ 评论系统 / 邮件订阅。
+- ❌ 兼容旧 HashRouter 链接（`/#/zh/...` 直接走 404）。
+- ❌ 在 Markdown 正文图片上做自动优化（Astro 当前对外部 content 目录有限制）。
 
 ---
 
 ## 2. 架构总览
 
-```
+```txt
 ┌──────────────────────────────────────────────────────┐
 │                  GitHub Repo (main)                  │
-│  ┌────────────┐  ┌───────────┐  ┌────────────────┐   │
-│  │ src/ (TS)  │  │ content/  │  │ workflows/     │   │
-│  │ React app  │  │ *.md      │  │ deploy.yml     │   │
-│  └────────────┘  └───────────┘  └────────────────┘   │
+│  ┌──────────────┐  ┌───────────┐  ┌──────────────┐   │
+│  │ src/ (Astro) │  │ content/  │  │ tests/       │   │
+│  │ pages/lib/ui │  │ *.md      │  │ unit/e2e     │   │
+│  └──────────────┘  └───────────┘  └──────────────┘   │
 └──────────────────────────────────────────────────────┘
-        │ push to main
+        │ push / deploy
         ▼
 ┌──────────────────────────────────────────────────────┐
-│  CI / Cloudflare Build:                              │
-│    npm ci → vite build → tsx scripts/gen-feed.ts     │
-│    → publish dist/ as static assets                  │
+│  Build:                                              │
+│    astro build → pagefind --site dist                │
+│    → rss.xml / rss.en.xml / sitemap-index.xml        │
 └──────────────────────────────────────────────────────┘
         │
         ▼
 ┌──────────────────────────────────────────────────────┐
 │  Cloudflare Workers / Pages CDN                      │
-│    /index.html  +  /assets/*  +  rss.xml / sitemap   │
-│    SPA fallback: unknown routes → index.html         │
+│    static HTML + assets + Pagefind index             │
+│    unknown routes → 404.html                         │
 └──────────────────────────────────────────────────────┘
-        │
-        ▼
-   浏览器：BrowserRouter SPA，文章正文已在 bundle 中
 ```
 
-构建期 Vite 通过 `import.meta.glob('/content/posts/*.md', { query: '?raw', eager: true })`
-把所有 Markdown 内联到 bundle 里。运行时不再发起 IO，所有路由切换都是内存查询。
+内容通过 Astro Content Collections 读取根目录 `content/`，页面通过 `src/pages/` 文件路由静态生成。交互只在搜索、主题切换、语言切换、TOC 等局部使用原生 TypeScript。
 
 ---
 
 ## 3. 关键决策与权衡
 
-### 3.1 选择 Vite + React，而不是 Astro / Next.js
+### 3.1 选择 Astro 静态站点
 
-| 选项 | 利 | 弊 | 决策 |
-|---|---|---|---|
-| **Vite + React (本方案)** | 与 qa-agent-frontend 栈一致；逻辑全在源码里、零魔法；纯 SPA 简单 | 需要自己实现 RSS / sitemap | ✅ |
-| Astro | 默认零 JS、性能极佳、内置 MD/MDX/RSS | 引入新工具栈、更多约定 | ❌ |
-| Next.js (静态导出) | 生态大 | 框架太重，文章本质上不需要 SSR / RSC | ❌ |
+| 选项             | 利                                                                     | 弊                                    | 决策 |
+| ---------------- | ---------------------------------------------------------------------- | ------------------------------------- | ---- |
+| Astro            | 默认少 JS；Markdown / RSS / sitemap 管线成熟；文件路由直接生成静态 URL | 需要迁移 React 组件                   | ✅   |
+| Vite + React SPA | 旧实现熟悉                                                             | 首屏依赖 JS；SEO / 404 / RSS 需要自建 | ❌   |
+| Next.js 静态导出 | 生态大                                                                 | 对个人长文博客偏重                    | ❌   |
 
-文章总量少（个人博客典型规模 < 500 篇），SPA + 全量打包 markdown 已绰绰有余。
+当前原则是重构彻底：不保留无必要的 React、Antd、zustand、Fuse、旧 HashRouter 兼容层。
 
-### 3.2 路由：BrowserRouter
+### 3.2 路由：显式语言段 + Astro 文件路由
 
-当前部署目标是 Cloudflare Workers / Pages，`wrangler.jsonc` 使用
-`not_found_handling: "single-page-application"` 把未知路径回退到 `index.html`。
-因此可以使用标准路径：
+所有可访问内容都有语言段：
 
 ```txt
-/zh/posts/hello-world
-/en/tags/react
+/zh
+/en/posts/hello-world
+/zh/tags/markdown
 ```
 
-章节定位继续使用浏览器标准 hash：
+路由拼接集中在 [`src/lib/routes.ts`](../src/lib/routes.ts)。根路径 `/` 由构建时生成的 `_redirects` 指向默认语言（当前 `/zh`），本地静态兜底页也会重定向。
+
+### 3.3 内容层：Content Collections
+
+文章文件约定为 `<slug>.<lang>.md`。`src/content.config.ts` 用 `glob()` loader 指向：
 
 ```txt
-/zh/posts/hello-world#section-title
+content/posts/**/*.md
+content/pages/**/*.md
 ```
 
-这样 TOC、标题锚点、RSS、sitemap、SEO 都使用同一套标准 URL。旧版 `/#/zh/...`
-链接在根路径入口会被迁移到对应的 BrowserRouter 路径。
+`src/lib/posts.ts` 把 `CollectionEntry<'posts'>` 映射为业务层 `Post`，并提供：
 
-### 3.3 Markdown 加载：`import.meta.glob` 编译期内联
+- `getAllPosts()` / `getPostsByLang()`
+- `getPost()` / `getPostOtherLang()`
+- `getNeighbors()`
+- `getTagCounts()`
+- `getArchive()`
 
-```ts
-const rawModules = import.meta.glob('/content/posts/*.md', {
-  query: '?raw', import: 'default', eager: true,
-});
-```
+纯函数放在 `src/lib/post-helpers.ts`，方便 Vitest 单测。
 
-- ✅ 零运行时 IO
-- ✅ Tree-shaking 不友好但博客体量小（每 100 篇 markdown ≈ 200KB gzip）
-- ❌ 大量文章后会膨胀首屏
+### 3.4 双语策略
 
-未来若文章数 > 200，可改为：路由级 `lazy()` 拆 chunk + 把列表索引（仅 frontmatter）单独抽出。
-当前不做。
+每篇文章两种语言是两个独立 Markdown 文件，slug 绑定同一主题。若当前语言缺失但另一语言存在，详情页渲染缺失提示，而不是复用另一语言正文伪装当前语言。
 
-### 3.4 frontmatter 解析：自实现 30 行
+UI 文案集中在 [`src/i18n/locales.ts`](../src/i18n/locales.ts)，语言列表、默认语言与展示名集中在 [`src/config/site.ts`](../src/config/site.ts)。
 
-`gray-matter` 在浏览器需要 polyfill `Buffer`，引入 30KB 副作用。
-我们的 frontmatter 只用 `string / number / boolean / string[]`，写一个最小解析器（[`src/utils/frontmatter.ts`](../src/utils/frontmatter.ts)）足以覆盖。
+### 3.5 主题：CSS 变量 + 防 FOUC
 
-### 3.5 双语策略：文件名绑定，URL 显式语言段
+颜色、间距、字体等 token 放在 [`src/styles/tokens.css`](../src/styles/tokens.css)。主题切换逻辑为：
 
-每篇文章是两个独立文件 `<slug>.zh.md` / `<slug>.en.md`，slug 串起两种语言版本。
-URL 包含语言段 `/zh/posts/hello`，切换语言时直接替换该段。
+1. `BaseLayout.astro` 在 `<head>` 内注入同步脚本，读取 localStorage，避免首屏闪烁。
+2. `ThemeSwitch.astro` 原生 TS 在 `auto → light → dark → auto` 间循环。
+3. 未显式设置主题时用 `prefers-color-scheme` 跟随系统。
 
-为什么不用 i18n 库（react-intl / i18next）？
-- 我们要翻译的"内容"全是 markdown 整篇，不是分散字符串
-- UI 文案只有几十条，不值得 200KB i18n 运行时
-- → 自己写一个 [`src/i18n/locales.ts`](../src/i18n/locales.ts) + [`useI18n`](../src/hooks/useI18n.ts) hook 即可
+### 3.6 Markdown 渲染
 
-缺失语言版本的处理：详情页检测到当前语言无文章但另一语言有，会展示提示并允许一键切换。
+Astro Markdown 管线配置：
 
-### 3.6 主题：CSS 变量 + Ant Design token 双轨
+- `remark-gfm`：表格、任务列表等。
+- `remark-math` + `rehype-katex`：数学公式。
+- Shiki 双主题：浅色 / 深色代码高亮随 `data-theme` 切换。
 
-Ant Design token 给 antd 组件用，CSS 变量给所有原生 HTML 用。两套同步切换：
-切换主题时，[`App.tsx`](../src/App.tsx) 把对应的 CSS 变量写到 `:root`，并设置 `data-theme` 属性给样式选择器使用。
+KaTeX CSS 只在检测到公式的文章页加载，避免列表页和普通文章引入额外样式。
 
-参考自 qa-agent-frontend 的实践，但简化掉了过渡动画和 meta theme-color 同步逻辑。
+### 3.7 搜索：Pagefind
 
-### 3.7 搜索：客户端 Fuse.js
+`npm run build` 先执行 `astro build`，再执行 `pagefind --site dist`。只有带 `data-pagefind-body` 的页面进入索引；文章页和 About 页按 `lang` 写入 Pagefind filter，搜索框按当前 `<html lang>` 过滤，避免中英串台。
 
-在文章数 < 1000 量级，全量索引（标题 + 标签 + 摘要）<50KB，Fuse.js 模糊匹配 < 5ms。
-不写后端、不接搜索服务，简单可靠。
+### 3.8 RSS / sitemap / 404
 
-不索引正文：
-- 索引体积会爆炸
-- 搜索结果跳到正文中段不如跳到摘要直观
-- 正文搜索更适合 Algolia / Pagefind，这是后续可以接的扩展点
-
-### 3.8 RSS / sitemap：构建后脚本
-
-`scripts/gen-feed.ts` 用 `tsx` 在 Node 端运行，独立读 `content/posts/`，写 `dist/rss.xml`、`dist/rss.<other>.xml`、`dist/sitemap.xml`。
-
-为什么不写成 Vite 插件？纯 Node 脚本最简单、完全独立、好测试。
-
-BrowserRouter 下 sitemap 可以列出标准文章路径；Cloudflare 的 SPA fallback 负责直接访问文章 URL。
+- RSS：`src/pages/rss.xml.ts` 生成默认语言，`src/pages/rss.[lang].xml.ts` 生成非默认语言。
+- sitemap：`@astrojs/sitemap` 基于静态路由生成。
+- robots：`src/pages/robots.txt.ts` 从 `siteConfig.url` 派生 sitemap 地址。
+- 404：Cloudflare Workers Assets 使用 `not_found_handling: "404-page"`。
 
 ---
 
@@ -153,88 +138,79 @@ BrowserRouter 下 sitemap 可以列出标准文章路径；Cloudflare 的 SPA fa
 
 ### 文章渲染路径
 
-```
+```txt
 content/posts/x.zh.md
     │
-    ▼  build time
-import.meta.glob('?raw') → Record<path, string>
+    ▼ build time
+Astro Content Collections
     │
-    ▼  src/utils/posts.ts
-parseFilename + parseFrontmatter → Post[]
+    ▼ src/lib/posts.ts
+CollectionEntry → Post 业务模型
     │
-    ▼  React hook
-usePostList(lang) / useSinglePost(slug, lang) / ...
+    ▼ src/pages/[lang]/posts/[slug].astro
+render(entry) → Content / headings
     │
-    ▼  page component
-PostList / PostDetail
+    ▼ src/layouts/PostLayout.astro
+BaseLayout + article + PostToc
     │
-    ▼  for detail page
-MarkdownRenderer
-  → react-markdown
-  → remark-gfm + rehype-slug + rehype-autolink-headings
-  → rehype-highlight + rehype-sanitize
-  → DOM
+    ▼ HTML + 少量交互脚本
 ```
 
-### 状态
+### 搜索索引路径
 
-只有两个全局 store：
-
-| Store | 字段 | 持久化 |
-|---|---|---|
-| `themeStore` | `mode: 'light' \| 'dark' \| 'auto'`, `currentTheme` | localStorage |
-| `langStore` | `lang: 'zh' \| 'en'` | localStorage（首次根据浏览器） |
-
-文章数据不进 store——它是从源码 import 的常量，全程纯函数访问。
-
-URL 的 `:lang` 段在 [`routes/index.tsx`](../src/routes/index.tsx) 的 `LangSync` 组件里同步到 store。
+```txt
+article[data-pagefind-body]
+    │
+    ▼ pagefind --site dist
+/pagefind/* 静态索引
+    │
+    ▼ SearchBox.astro 动态 import('/pagefind/pagefind.js')
+按 lang filter 搜索当前语言内容
+```
 
 ---
 
 ## 5. 目录与命名规范
 
-- **组件目录**：每个目录配 `index.ts` 做 barrel 导出
-- **样式**：组件级用 inline style（站点小、组件少、无 BEM 复杂度），全局/markdown 用 `src/styles/*.css`
-- **类型**：`src/types/` 集中放跨模块共享类型；只一个组件用的类型放组件文件里
-- **无神奇魔法**：避免 `any`，避免运行时反射，避免大量 HOC
+- **配置集中**：站点名、域名、语言、分页数在 `src/config/site.ts`。
+- **路由集中**：URL 结构只从 `src/lib/routes.ts` 生成。
+- **样式分层**：token 在 `tokens.css`，全局 reset 在 `global.css`，文章排版在 `markdown.css`。
+- **组件扁平**：Astro 组件放在 `src/components/`，页面级骨架放在 `src/layouts/`。
+- **纯逻辑可测**：与 Astro runtime 解耦的函数放在 `src/lib/` 并写 Vitest。
 
 ---
 
 ## 6. 关键文件索引
 
-| 文件 | 作用 |
-|---|---|
-| [`src/utils/posts.ts`](../src/utils/posts.ts) | Markdown 加载、解析、查询入口（最核心） |
-| [`src/utils/frontmatter.ts`](../src/utils/frontmatter.ts) | 自实现 frontmatter 解析器 |
-| [`src/config/site.ts`](../src/config/site.ts) | 所有站点级配置 |
-| [`src/i18n/locales.ts`](../src/i18n/locales.ts) | UI 文案翻译 |
-| [`src/routes/index.tsx`](../src/routes/index.tsx) | 路由树 |
-| [`src/components/Post/MarkdownRenderer.tsx`](../src/components/Post/MarkdownRenderer.tsx) | Markdown → React 渲染管线 |
-| [`src/theme/`](../src/theme) | 浅色 / 深色主题与 CSS 变量 |
-| [`scripts/gen-feed.ts`](../scripts/gen-feed.ts) | RSS / sitemap 生成 |
-| [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) | CI 构建 + 部署 |
-| [`vite.config.ts`](../vite.config.ts) | base 路径、chunk 切分、alias |
+| 文件                                                                  | 作用                                     |
+| --------------------------------------------------------------------- | ---------------------------------------- |
+| [`src/content.config.ts`](../src/content.config.ts)                   | Content Collections loader 与 schema     |
+| [`src/config/site.ts`](../src/config/site.ts)                         | 站点级配置                               |
+| [`src/lib/posts.ts`](../src/lib/posts.ts)                             | 内容查询入口                             |
+| [`src/lib/post-helpers.ts`](../src/lib/post-helpers.ts)               | 内容相关纯函数                           |
+| [`src/lib/routes.ts`](../src/lib/routes.ts)                           | URL 生成与语言前缀处理                   |
+| [`src/layouts/BaseLayout.astro`](../src/layouts/BaseLayout.astro)     | HTML/head/header/footer/theme init       |
+| [`src/layouts/PostLayout.astro`](../src/layouts/PostLayout.astro)     | 文章详情骨架 + TOC 容器                  |
+| [`src/components/SearchBox.astro`](../src/components/SearchBox.astro) | Pagefind 搜索弹窗                        |
+| [`src/components/PostToc.astro`](../src/components/PostToc.astro)     | 桌面 sticky / 窄屏滑入目录               |
+| [`astro.config.mjs`](../astro.config.mjs)                             | Astro、Markdown、sitemap、redirects 配置 |
+| [`wrangler.jsonc`](../wrangler.jsonc)                                 | Cloudflare Workers 静态资源配置          |
 
 ---
 
 ## 7. 扩展点（按优先级）
 
-1. **图片优化**：接入 `vite-imagetools` 自动多尺寸 + AVIF
-2. **数学公式**：在 `MarkdownRenderer` 加 `rehype-katex`
-3. **正文搜索**：用 [Pagefind](https://pagefind.app/)（构建期生成静态索引，CDN 友好）
-4. **草稿预览**：`?draft=1` query 显示 draft 文章
-5. **多作者**：`siteConfig.authors[]` + frontmatter `author` 字段
-6. **OG 图自动生成**：构建期用 satori / resvg 渲染社交卡片
-7. **移动端目录增强**：目录可增加当前章节吸顶提示或底部抽屉入口
-8. **评论**：接 Giscus（基于 GitHub Discussions）
-
-每一项都是局部修改，不会动到现有架构。
+1. **封面图优化**：为 frontmatter `cover` 接入 Astro `<Image />`。
+2. **OG 图自动生成**：构建期用 satori / resvg 生成社交卡片。
+3. **多作者**：`siteConfig.authors[]` + frontmatter `author` 字段。
+4. **草稿预览**：开发环境下用 query 或环境变量显示 draft。
+5. **更丰富搜索 UI**：展示标签、日期和子结果跳转。
 
 ---
 
 ## 8. 已知限制
 
-- **BrowserRouter 依赖 SPA fallback**：部署平台必须把未知路径回退到 `index.html`
-- **首屏体积随文章数增长**：当前所有文章都内联进 bundle；超过 ~200 篇需要按路由分包
-- **代码块语言全量加载**：`rehype-highlight` 默认引入所有语言，bundle ~150KB；可以收紧到常用 5-10 种
-- **没有评论 / 邮件订阅**：需要的话各自接第三方服务
+- **Markdown 正文图片不自动优化**：只对 layout / cover 层面做优化扩展。
+- **Pagefind 仅生产构建可用**：`npm run dev` 下搜索弹窗会提示索引未生成。
+- **语言类型目前是 `zh | en`**：新增语言需要扩展 `Lang` 类型、`siteConfig` 与 UI 文案。
+- **TOC 断点由组件 CSS / TS 共同约定为 1024px**：如要改断点，需要同步调整。

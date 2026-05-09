@@ -5,7 +5,6 @@ tags: [Psychology]
 summary: My macro-level understanding of psychological problems, along with reflections on the issues with psychological theories.
 ---
 
-
 I have been doing a few months of rough research on psychology, with relatively detailed study and reflection on certain areas and disorders. I have some insights, as well as some systematic thinking, and it is time to organize them.
 
 This article mainly contains three major parts:
@@ -40,7 +39,6 @@ This article mainly contains three major parts:
   - Clinical psychology, counseling psychology, and psychiatry
   - How to judge the strength of evidence for a theory
   - Major contemporary integration directions / Recommended learning paths / Key readings / The boundaries of self-study
-
 
 When I have the chance later, I will try to combine theories and case analyses from different bloggers and textbooks, critically analyze the strengths and shortcomings in those cases, compare them with my own systematic understanding, and try to summarize some commonalities, as well as common erroneous conclusions and logical fallacies. But that is not the content of this article.
 
@@ -139,6 +137,7 @@ The two can look identical from the outside: both work hard, both pursue partner
 ###### The second classification axis: source of reward
 
 - **Intrinsic rewards**: from the experience itself — competence, flow, connection, the satisfaction of creating, the clarity of solving a problem. These hold up even without anyone seeing them. Intrinsic rewards can be further divided into:
+
 1. Sensory intrinsic: from the body and sensory experience itself — for example, food, exercise, music, comfort.
 2. Exploratory intrinsic: from curiosity, discovery, and understanding — for example, figuring out a problem or exploring a system.
 3. Mastery intrinsic: from skill improvement, feeling that you are progressing under some standard (mainly one set by yourself).
@@ -146,6 +145,7 @@ The two can look identical from the outside: both work hard, both pursue partner
 5. Coherence intrinsic: from being consistent with your own values — for example, honesty, responsibility, holding boundaries, doing the long-term right thing.
 
 Note that intrinsic and extrinsic are not cleanly separated. Some intrinsic rewards originate externally. For instance, a child might originally just casually ask questions, but if he later encounters:
+
 - stories of scientists;
 - encouragement from teachers or parents about curiosity;
 - a positive social narrative about "exploring the world";
@@ -161,6 +161,7 @@ The key distinction is: if right now no one praises you, no one is watching, no 
 There is something called introjection. It means: external demands seem to have entered my heart, but they are actually still like a built-in overseer.
 
 For example:
+
 - I must have curiosity, otherwise I am vulgar.
 - I must love learning, otherwise I do not deserve respect.
 - I must pursue growth, otherwise I am useless.
@@ -171,17 +172,19 @@ This looks like inner drive because no one is forcing you, but in reality extern
 - **Extrinsic rewards**: from external symbols — being praised, envied, needed, ranked highly, confirmed through money or material things. These can only be cashed in when "someone is present" or "scores are present."
 
 Being driven by external rewards is not in itself a disorder. Humans are social animals, and being seen, affirmed, and responded to are basic needs — in Deci and Ryan's self-determination theory, relational connection is one of the core psychological needs. External rewards can be further divided into several categories:
+
 1. Relational extrinsic
-    For example, being needed by a partner, valued by family, responded to by friends, depended on by children.
-    This is not vanity, but the human need for connection.
+   For example, being needed by a partner, valued by family, responded to by friends, depended on by children.
+   This is not vanity, but the human need for connection.
 2. Evaluative extrinsic
-    For example, wanting to be recognized, respected, envied, or to win against others.
-    This is not inherently problematic, since people live within social evaluation systems, but it more easily becomes entangled with self-esteem compensation and shame defense.
+   For example, wanting to be recognized, respected, envied, or to win against others.
+   This is not inherently problematic, since people live within social evaluation systems, but it more easily becomes entangled with self-esteem compensation and shame defense.
 3. Instrumental extrinsic
-    For example, money, position, resources, opportunities, identity labels.
-    They may be very practical and necessary, and should not be moralized. One must distinguish between wanting and wanting at any cost, between moderate trade-offs and endless wanting.
+   For example, money, position, resources, opportunities, identity labels.
+   They may be very practical and necessary, and should not be moralized. One must distinguish between wanting and wanting at any cost, between moderate trade-offs and endless wanting.
 
 There is also another question: are these external rewards nutrition for me, or transfusion?
+
 - Nutrition: better with it, fine without it; self-worth does not depend on it.
 - Transfusion: collapse without it; must constantly be replenished.
 
@@ -194,6 +197,7 @@ So judging a pursuit is not throwing it into a single quadrant, but estimating t
 Going further, with the help of theory and logic we can analyze: of this pattern, what proportion is determined by genes, what proportion by early relationships, and what proportion by later experiences? It is hard to arrive at a precise answer, but it lets us see the causes more clearly and makes it easier to address the problem.
 
 One more point: although early relationships have significant influence, many people online attribute every behavioral pattern to the so-called "family of origin," and they make two errors:
+
 1. Ignoring other influences and forcibly making it a single attribution — perhaps a limit of cognitive ability or brain capacity;
 2. Acting as if there is no room for change in oneself, dumping all of one's negative emotions onto one's parents.
 
@@ -340,7 +344,6 @@ The meaning of acknowledgment is: no longer using so much "psychic energy" to de
 
 But understanding and acknowledgment are only the beginning, not the end. Real change still has to land in action — which is what the next section discusses.
 
-
 #### "Getting better" is more than understanding and acknowledgment
 
 Understanding and acknowledgment are important, but they cannot automatically change psychological patterns. Often a person is not "failing to grasp the truth"; rather, the body, emotions, and old experiences do not believe this truth.
@@ -429,6 +432,7 @@ This is not to speak up for self-interested people. Looking at it objectively, s
 I have always had procrastination and an attention deficit. I didn't even know about the concept of "attention" before, let alone diagnosis and treatment, and just kept being anxious.
 
 Then in early college I read philosophy books and engaged in philosophical reflection, which let me let go of much avoidance pursuit toward learning, and my anxiety was much reduced — but problems remained, mainly two:
+
 1. Even with things I enjoy doing (driven by intrinsic rewards), the process inevitably has boring parts, and I find it hard to continue at those parts;
 2. My different interests easily switch among one another, but when this happens too easily it is very troublesome.
    For example, I'm interested in physics, and graduate school requires research on solid-state physics, and during this process I found there were parts of relativity I didn't understand, so I spent many days researching that instead of what was more relevant to my research direction. This is not because I had no interest or no inner drive, nor because I cared about external evaluation. I have agonized over this kind of problem many times.
@@ -453,10 +457,12 @@ Let me share how I look dialectically at problems, viewpoints, and theories.
 
 When I encounter a domain that is almost unfamiliar, I divide it into two cases:
 One: I am not very interested. In this case, I try to tell myself:
+
 1. I do not understand, so my view on this is most likely a subjective feeling caused by emotion, values, etc. I will lower my confidence in my own judgment and not rush to form a strong opinion;
 2. If this view does not provide an information source, an argument process, or a boundary of applicability, I will temporarily lower its credibility. Such possibly one-sided takes I will not directly accept, especially when the person putting them forward provides no information source or chain of logical reasoning.
 
 Two: If I have interest in entering this domain, or in evaluating, analyzing, or learning about this information, I will first do two things:
+
 1. Use AI, Wikipedia, and relevant textbooks to cross-compare overviews of the field: theoretical frameworks, history of development, what theories and practices exist, their differences and limitations, and whether they have any logical contradictions with the basic scientific framework or among themselves.
 2. I search for the positive and negative reviews/explanations of the theory or major category behind this information — these can be videos or blogs. I combine the rigor of expression, objectivity, whether there is theoretical support or information sourcing, then cross-compare their views.
    Although they appear to contradict each other, in fact they may differ by perspective and by assumptions, so I might gain a more objective and macro view, rather than seeing one person hyping someone/thing/concept and immediately, with preconceived bias, thinking that person/thing/concept is correct and not to be questioned.
@@ -510,6 +516,7 @@ Just as scientific progress: with old theories, negate the parts that are logica
 ### Is there a "modern version of psychoanalysis" replacing the old psychoanalysis?
 
 No. By analogy with physics:
+
 - Newtonian mechanics is corrected by relativity at high speeds and strong gravity, while still being approximately valid at low speeds and macroscopic scales.
 - Psychoanalysis is not absorbed entirely by some larger theory; rather, it has been disassembled, revised, partially retained, and partially discarded by modern psychology.
 
@@ -529,25 +536,26 @@ Within psychoanalysis, several local modernizations have appeared (object relati
 
 Some theories mainly explain proximate mechanisms — how something happens now; others mainly explain individual development — how it forms over a lifetime. So we can have a division roughly like the following table. Note that the table only divides up modern psychology's many fields and does not cover historical theories.
 
-| Framework | Mechanism: how it happens now | Development: how it forms over a lifetime | Adaptive function: why it is useful | Evolutionary history: where it came from |
-|---|---:|---:|---:|---:|
-| Cognitive psychology | ●●● | ● | ○ | ○ |
-| Learning theory and behavioral science | ●●● | ● | ○ | ○ |
-| Emotion science and emotion regulation | ●●● | ● | ● | ● |
-| Motivation science and goal systems | ●●● | ● | ●● | ○ |
-| Developmental psychology | ●● | ●●● | ● | ○ |
-| Personality psychology | ●● | ●● | ● | ○ |
-| Social psychology | ●●● | ● | ● | ○ |
-| Cultural psychology | ●● | ●● | ● | ● |
-| Evolutionary psychology | ● | ○ | ●●● | ●●● |
-| Stress, trauma, and resilience | ●●● | ●● | ● | ○ |
-| Neuroscience/biological psychology | ●●● | ●● | ● | ○ |
-| Computational psychology and predictive processing | ●●● | ● | ● | ○ |
-| Network psychopathology and dimensional models | ●●● | ○ | ○ | ○ |
-| Evidence-based clinical and transdiagnostic mechanisms | ●●● | ● | ○ | ○ |
-| Modern psychodynamics | ●● | ●● | ○ | ○ |
+| Framework                                              | Mechanism: how it happens now | Development: how it forms over a lifetime | Adaptive function: why it is useful | Evolutionary history: where it came from |
+| ------------------------------------------------------ | ----------------------------: | ----------------------------------------: | ----------------------------------: | ---------------------------------------: |
+| Cognitive psychology                                   |                           ●●● |                                         ● |                                   ○ |                                        ○ |
+| Learning theory and behavioral science                 |                           ●●● |                                         ● |                                   ○ |                                        ○ |
+| Emotion science and emotion regulation                 |                           ●●● |                                         ● |                                   ● |                                        ● |
+| Motivation science and goal systems                    |                           ●●● |                                         ● |                                  ●● |                                        ○ |
+| Developmental psychology                               |                            ●● |                                       ●●● |                                   ● |                                        ○ |
+| Personality psychology                                 |                            ●● |                                        ●● |                                   ● |                                        ○ |
+| Social psychology                                      |                           ●●● |                                         ● |                                   ● |                                        ○ |
+| Cultural psychology                                    |                            ●● |                                        ●● |                                   ● |                                        ● |
+| Evolutionary psychology                                |                             ● |                                         ○ |                                 ●●● |                                      ●●● |
+| Stress, trauma, and resilience                         |                           ●●● |                                        ●● |                                   ● |                                        ○ |
+| Neuroscience/biological psychology                     |                           ●●● |                                        ●● |                                   ● |                                        ○ |
+| Computational psychology and predictive processing     |                           ●●● |                                         ● |                                   ● |                                        ○ |
+| Network psychopathology and dimensional models         |                           ●●● |                                         ○ |                                   ○ |                                        ○ |
+| Evidence-based clinical and transdiagnostic mechanisms |                           ●●● |                                         ● |                                   ○ |                                        ○ |
+| Modern psychodynamics                                  |                            ●● |                                        ●● |                                   ○ |                                        ○ |
 
 Symbol definitions:
+
 - ●●●: primary explanatory scope
 - ●●: important explanatory scope
 - ●: connectable, but not core
@@ -560,7 +568,6 @@ Symbol definitions:
 Psychology is not a single theory, nor does it only study psychotherapy, psychoanalysis, personality testing, or "reading other people." More accurately, psychology is a group of empirical sciences studying mental processes, behavior, development, individual differences, social relationships, and abnormal psychology.
 
 A useful overview must avoid two extremes: one is reducing all psychological phenomena to neurons and genes; the other is detaching from biology, statistical evidence, and experimental methods, explaining everything only through narrative. The truly difficult thing about psychology is precisely that it must simultaneously handle multiple levels — biological, cognitive, emotional, personality, relational, sociocultural, and developmental-historical.
-
 
 ### What psychology studies
 
@@ -577,14 +584,14 @@ A useful overview must avoid two extremes: one is reducing all psychological phe
 
 Psychological phenomena can be understood at different explanatory levels. Different levels do not replace one another; they each explain different problems.
 
-| Level | Concerned questions | Typical disciplines/methods |
-| --- | --- | --- |
-| Biological level | How genes, the nervous system, hormones, brain regions, and neurotransmitters affect mind and behavior | Biological psychology, neuroscience, behavioral genetics, psychiatry |
-| Cognitive level | How people perceive, attend, remember, predict, reason, and decide | Cognitive psychology, cognitive science, experimental psychology, computational modeling |
-| Emotion/motivation level | Why people fear, anger, become addicted, procrastinate, pursue goals, or avoid failure | Emotion psychology, motivation psychology, affective neuroscience |
-| Individual development level | How early experience, attachment, education, peers, trauma, and growth change individuals | Developmental psychology, personality psychology, attachment research |
-| Sociocultural level | How others, groups, institutions, class, culture, and language shape mind | Social psychology, cultural psychology, cross-cultural research |
-| Clinical application level | How symptoms form, are maintained, assessed, and intervened upon | Clinical psychology, counseling psychology, psychiatry, psychotherapy |
+| Level                        | Concerned questions                                                                                    | Typical disciplines/methods                                                              |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| Biological level             | How genes, the nervous system, hormones, brain regions, and neurotransmitters affect mind and behavior | Biological psychology, neuroscience, behavioral genetics, psychiatry                     |
+| Cognitive level              | How people perceive, attend, remember, predict, reason, and decide                                     | Cognitive psychology, cognitive science, experimental psychology, computational modeling |
+| Emotion/motivation level     | Why people fear, anger, become addicted, procrastinate, pursue goals, or avoid failure                 | Emotion psychology, motivation psychology, affective neuroscience                        |
+| Individual development level | How early experience, attachment, education, peers, trauma, and growth change individuals              | Developmental psychology, personality psychology, attachment research                    |
+| Sociocultural level          | How others, groups, institutions, class, culture, and language shape mind                              | Social psychology, cultural psychology, cross-cultural research                          |
+| Clinical application level   | How symptoms form, are maintained, assessed, and intervened upon                                       | Clinical psychology, counseling psychology, psychiatry, psychotherapy                    |
 
 The most error-prone place in learning is using a theory at one level to explain problems at all levels. For example, explaining everything by childhood experience ignores genetics and current environment; explaining everything by neurotransmitters ignores meaning, relationships, and learning history; explaining everything by personality labels ignores situation and behavioral plasticity.
 
@@ -610,24 +617,24 @@ The history of psychology is not a list of names, but an evolving sense of the q
 
 ### Core branches
 
-| Branch | Core question | Entry-point keywords |
-| --- | --- | --- |
-| Research methods and psychometrics | How psychological phenomena are defined, measured, and validated | Experimental design, validity, reliability, statistics, scales, meta-analysis |
-| Biological psychology / neuroscience | How brain, nervous system, and body support mental activity | Neurons, brain regions, neurotransmitters, hormones, plasticity |
-| Perception and attention | How people extract information from the environment and selectively process it | Vision, hearing, attention, consciousness, illusions |
-| Learning and memory | How behaviors, habits, knowledge, and skills form and change | Reinforcement, conditioning, working memory, long-term memory |
-| Cognitive psychology | How people understand, reason, imagine, judge, and solve problems | Representation, language, concepts, decision-making, cognitive bias |
-| Emotion and motivation | How emotion and goals drive behavior | Emotion regulation, stress, reward, fear, achievement motivation |
-| Developmental psychology | How the mind changes from birth to old age | Attachment, cognitive development, socialization, adolescence, aging |
-| Personality and individual differences | Why people stably differ from one another | Big Five personality, temperament, intelligence, personality disorders, heritability |
-| Social psychology | How others and groups influence the individual | Attribution, attitudes, conformity, prejudice, groups, intimate relationships |
-| Cultural psychology | How culture shapes cognition, emotion, self, and relationships | Individualism/collectivism, cultural scripts, cross-cultural differences |
-| Abnormal psychology | How psychological disorders are described, classified, formed, and maintained | DSM, ICD, symptoms, course, comorbidity, risk factors |
-| Clinical / counseling psychology | How to assess and intervene on psychological pain and functional impairment | Assessment, therapeutic alliance, CBT, dynamic therapy, family therapy |
-| Health psychology | How psychological factors affect physical health and disease management | Stress, sleep, pain, adherence, behavioral medicine |
-| Educational psychology | How learning, teaching, and growth occur | Motivation, feedback, learning strategies, developmental differences |
-| Industrial and organizational psychology | Human behavior in organizations and at work | Recruitment, performance, leadership, teams, burnout |
-| Human factors and engineering psychology | How to design systems that better fit human cognitive limits | Usability, attentional load, errors, human-computer interaction |
+| Branch                                   | Core question                                                                  | Entry-point keywords                                                                 |
+| ---------------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| Research methods and psychometrics       | How psychological phenomena are defined, measured, and validated               | Experimental design, validity, reliability, statistics, scales, meta-analysis        |
+| Biological psychology / neuroscience     | How brain, nervous system, and body support mental activity                    | Neurons, brain regions, neurotransmitters, hormones, plasticity                      |
+| Perception and attention                 | How people extract information from the environment and selectively process it | Vision, hearing, attention, consciousness, illusions                                 |
+| Learning and memory                      | How behaviors, habits, knowledge, and skills form and change                   | Reinforcement, conditioning, working memory, long-term memory                        |
+| Cognitive psychology                     | How people understand, reason, imagine, judge, and solve problems              | Representation, language, concepts, decision-making, cognitive bias                  |
+| Emotion and motivation                   | How emotion and goals drive behavior                                           | Emotion regulation, stress, reward, fear, achievement motivation                     |
+| Developmental psychology                 | How the mind changes from birth to old age                                     | Attachment, cognitive development, socialization, adolescence, aging                 |
+| Personality and individual differences   | Why people stably differ from one another                                      | Big Five personality, temperament, intelligence, personality disorders, heritability |
+| Social psychology                        | How others and groups influence the individual                                 | Attribution, attitudes, conformity, prejudice, groups, intimate relationships        |
+| Cultural psychology                      | How culture shapes cognition, emotion, self, and relationships                 | Individualism/collectivism, cultural scripts, cross-cultural differences             |
+| Abnormal psychology                      | How psychological disorders are described, classified, formed, and maintained  | DSM, ICD, symptoms, course, comorbidity, risk factors                                |
+| Clinical / counseling psychology         | How to assess and intervene on psychological pain and functional impairment    | Assessment, therapeutic alliance, CBT, dynamic therapy, family therapy               |
+| Health psychology                        | How psychological factors affect physical health and disease management        | Stress, sleep, pain, adherence, behavioral medicine                                  |
+| Educational psychology                   | How learning, teaching, and growth occur                                       | Motivation, feedback, learning strategies, developmental differences                 |
+| Industrial and organizational psychology | Human behavior in organizations and at work                                    | Recruitment, performance, leadership, teams, burnout                                 |
+| Human factors and engineering psychology | How to design systems that better fit human cognitive limits                   | Usability, attentional load, errors, human-computer interaction                      |
 
 ### Clinical psychology, counseling psychology, and psychiatry
 
@@ -644,15 +651,15 @@ DSM and ICD are clinical diagnostic classification systems; RDoC and HiTOP are m
 
 When studying psychology, do not only ask "does this explanation make sense"; also ask "what evidence does it use to support itself."
 
-| Type of evidence | Approximate strength | Things to note |
-| --- | --- | --- |
-| Systematic reviews, meta-analyses, multi-center studies | Relatively strong | Still need to look at study quality, publication bias, and effect size |
-| Randomized controlled trials, longitudinal studies | Relatively strong | For clinical research, look at sample, control group, and follow-up |
-| Reproducible experimental research | Medium to strong | Lab effects do not always generalize to reality |
-| Large-sample correlational research | Medium | Correlation does not equal causation |
-| Case studies, clinical experience | Suggestive but relatively weak | Good for generating hypotheses, not for directly proving theories |
-| Pure theory, philosophical interpretation, symbolic interpretation | Intellectual value does not equal empirical evidence | Beware of post hoc explanations and unfalsifiability |
-| Mass-market tests, short videos, label-style personality classifications | Usually weak | Useful for self-reflection, but avoid treating them as diagnoses |
+| Type of evidence                                                         | Approximate strength                                 | Things to note                                                         |
+| ------------------------------------------------------------------------ | ---------------------------------------------------- | ---------------------------------------------------------------------- |
+| Systematic reviews, meta-analyses, multi-center studies                  | Relatively strong                                    | Still need to look at study quality, publication bias, and effect size |
+| Randomized controlled trials, longitudinal studies                       | Relatively strong                                    | For clinical research, look at sample, control group, and follow-up    |
+| Reproducible experimental research                                       | Medium to strong                                     | Lab effects do not always generalize to reality                        |
+| Large-sample correlational research                                      | Medium                                               | Correlation does not equal causation                                   |
+| Case studies, clinical experience                                        | Suggestive but relatively weak                       | Good for generating hypotheses, not for directly proving theories      |
+| Pure theory, philosophical interpretation, symbolic interpretation       | Intellectual value does not equal empirical evidence | Beware of post hoc explanations and unfalsifiability                   |
+| Mass-market tests, short videos, label-style personality classifications | Usually weak                                         | Useful for self-reflection, but avoid treating them as diagnoses       |
 
 The more a theory tries to explain "everything," the more cautious one should be. A good psychological theory should usually be able to specify its scope of applicability, boundary conditions, testable predictions, and counter-examples.
 

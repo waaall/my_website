@@ -1,0 +1,20 @@
+---
+// 根路径兜底：线上主要靠构建生成的 _redirects，这里提供静态 HTML fallback
+import { siteConfig } from '@/config/site';
+
+const target = `/${siteConfig.defaultLang}`;
+---
+
+<!doctype html>
+<html lang={siteConfig.defaultLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={target} />
+    <title>Redirecting…</title>
+  </head>
+  <body>
+    <a href={target}>Redirecting to {target}</a>
+  </body>
+</html>

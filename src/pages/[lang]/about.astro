@@ -1,0 +1,55 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getEntry, render } from 'astro:content';
+import type { Lang } from '@/types/post';
+import { siteConfig } from '@/config/site';
+import { messages } from '@/i18n/locales';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import '@/styles/markdown.css';
+
+export const getStaticPaths: GetStaticPaths = () =>
+  siteConfig.supportedLangs.map((lang) => ({ params: { lang } }));
+
+const lang = Astro.params.lang as Lang;
+const t = messages[lang];
+
+// 约定：content/pages/about.<lang>.md
+const entry = await getEntry('pages', `about.${lang}`);
+if (!entry) throw new Error(`Missing about page for ${lang}: content/pages/about.${lang}.md`);
+const { Content } = await render(entry);
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${entry.data.title} · ${siteConfig.name[lang]}`}
+  description={entry.data.summary ?? t.nav.about}
+  indexable
+>
+  <section
+    class="container container--prose about"
+    data-pagefind-body
+    data-pagefind-filter={`lang:${lang}`}
+  >
+    <header class="about__header">
+      <h1 data-pagefind-meta="title">{entry.data.title}</h1>
+    </header>
+    <article class="prose">
+      <Content />
+    </article>
+  </section>
+</BaseLayout>
+
+<style>
+  .about {
+    padding: var(--sp-10) 0;
+  }
+
+  .about__header {
+    margin-bottom: var(--sp-6);
+  }
+
+  .about__header h1 {
+    font-size: var(--fs-3xl);
+    margin: 0;
+  }
+</style>

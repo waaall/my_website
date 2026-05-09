@@ -1,0 +1,123 @@
+---
+import type { Lang, Post } from '@/types/post';
+import { messages } from '@/i18n/locales';
+import { routePaths } from '@/lib/routes';
+import { formatDate } from '@/lib/format';
+import { slugifyTag } from '@/lib/post-helpers';
+
+interface Props {
+  post: Post;
+  lang: Lang;
+  // 是否在卡片内显示 tags（tag 详情页可关）
+  showTags?: boolean;
+}
+
+const { post, lang, showTags = true } = Astro.props;
+const t = messages[lang];
+---
+
+<article class="post-card">
+  <header class="post-card__header">
+    <h2 class="post-card__title">
+      <a href={routePaths.post(lang, post.slug)}>{post.title}</a>
+    </h2>
+    <p class="post-card__meta">
+      <time datetime={post.date.toISOString()}>{formatDate(post.date, lang)}</time>
+      <span class="post-card__sep">·</span>
+      <span>{t.common.readingTime(post.readingTime)}</span>
+    </p>
+  </header>
+
+  {post.summary && <p class="post-card__summary">{post.summary}</p>}
+
+  {
+    showTags && post.tags.length > 0 && (
+      <ul class="post-card__tags">
+        {post.tags.map((tag) => (
+          <li>
+            <a href={routePaths.tag(lang, slugifyTag(tag))}>#{tag}</a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</article>
+
+<style>
+  .post-card {
+    padding: var(--sp-5) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .post-card:last-child {
+    border-bottom: 0;
+  }
+
+  .post-card__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .post-card__title {
+    font-size: var(--fs-xl);
+    margin: 0;
+  }
+
+  .post-card__title a {
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+
+  .post-card__title a:hover {
+    color: var(--color-link);
+  }
+
+  .post-card__meta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    color: var(--color-fg-muted);
+    font-size: var(--fs-sm);
+    margin: 0;
+  }
+
+  .post-card__sep {
+    color: var(--color-border-strong);
+  }
+
+  .post-card__summary {
+    margin: var(--sp-3) 0 0;
+    color: var(--color-fg-muted);
+    line-height: var(--lh-normal);
+  }
+
+  .post-card__tags {
+    list-style: none;
+    padding: 0;
+    margin: var(--sp-3) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+  }
+
+  .post-card__tags a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 var(--sp-2);
+    height: 1.5rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-subtle);
+    color: var(--color-fg-muted);
+    font-size: var(--fs-xs);
+    text-decoration: none;
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  .post-card__tags a:hover {
+    background: var(--color-border);
+    color: var(--color-fg);
+  }
+</style>

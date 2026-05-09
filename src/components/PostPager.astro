@@ -1,0 +1,103 @@
+---
+import type { Lang, Post } from '@/types/post';
+import { messages } from '@/i18n/locales';
+import { routePaths } from '@/lib/routes';
+
+interface Props {
+  prev?: Post;
+  next?: Post;
+  lang: Lang;
+}
+
+const { prev, next, lang } = Astro.props;
+const t = messages[lang];
+---
+
+{
+  (prev || next) && (
+    <nav class="post-pager" aria-label="post navigation">
+      <div class="post-pager__cell">
+        {prev && (
+          <a
+            class="post-pager__link post-pager__link--prev"
+            href={routePaths.post(lang, prev.slug)}
+          >
+            <span class="post-pager__label">← {t.common.previous}</span>
+            <span class="post-pager__title">{prev.title}</span>
+          </a>
+        )}
+      </div>
+      <div class="post-pager__cell post-pager__cell--right">
+        {next && (
+          <a
+            class="post-pager__link post-pager__link--next"
+            href={routePaths.post(lang, next.slug)}
+          >
+            <span class="post-pager__label">{t.common.next} →</span>
+            <span class="post-pager__title">{next.title}</span>
+          </a>
+        )}
+      </div>
+    </nav>
+  )
+}
+
+<style>
+  .post-pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-3);
+    margin-top: var(--sp-10);
+    padding-top: var(--sp-6);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .post-pager__cell--right {
+    text-align: right;
+  }
+
+  .post-pager__link {
+    display: inline-flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+    padding: var(--sp-3) var(--sp-4);
+    border-radius: var(--radius-md);
+    color: var(--color-fg);
+    text-decoration: none;
+    transition: background-color var(--transition-fast);
+  }
+
+  .post-pager__link:hover {
+    background: var(--color-bg-subtle);
+    text-decoration: none;
+  }
+
+  .post-pager__link--next {
+    align-items: flex-end;
+  }
+
+  .post-pager__label {
+    color: var(--color-fg-subtle);
+    font-size: var(--fs-sm);
+  }
+
+  .post-pager__title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-lg);
+    line-height: var(--lh-tight);
+  }
+
+  @media (max-width: 640px) {
+    .post-pager {
+      grid-template-columns: 1fr;
+    }
+
+    .post-pager__cell--right {
+      text-align: left;
+    }
+
+    .post-pager__link--next {
+      align-items: flex-start;
+    }
+  }
+</style>

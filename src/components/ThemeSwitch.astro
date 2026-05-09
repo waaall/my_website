@@ -1,0 +1,126 @@
+---
+import { THEME_MODES, THEME_STORAGE_KEY } from '@/lib/theme';
+
+interface Props {
+  labels: { light: string; dark: string; auto: string; toggle: string };
+}
+
+const { labels } = Astro.props;
+---
+
+<button
+  type="button"
+  class="theme-switch"
+  aria-label={labels.toggle}
+  data-storage-key={THEME_STORAGE_KEY}
+  data-modes={THEME_MODES.join(',')}
+>
+  <span class="theme-switch__icon" data-mode="light" title={labels.light}>
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="4"></circle>
+      <path
+        d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+      ></path>
+    </svg>
+  </span>
+  <span class="theme-switch__icon" data-mode="dark" title={labels.dark}>
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </span>
+  <span class="theme-switch__icon" data-mode="auto" title={labels.auto}>
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"></path>
+    </svg>
+  </span>
+</button>
+
+<style>
+  .theme-switch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-md);
+    color: var(--color-fg-muted);
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  .theme-switch:hover {
+    background: var(--color-bg-subtle);
+    color: var(--color-fg);
+  }
+
+  .theme-switch__icon {
+    display: none;
+    line-height: 0;
+  }
+
+  /* 显式设置 light/dark 时显示对应图标；未设置时显示 auto 图标 */
+  :root[data-theme='light'] .theme-switch__icon[data-mode='light'],
+  :root[data-theme='dark'] .theme-switch__icon[data-mode='dark'],
+  :root:not([data-theme]) .theme-switch__icon[data-mode='auto'] {
+    display: inline-flex;
+  }
+</style>
+
+<script>
+  import { THEME_STORAGE_KEY, THEME_MODES, type ThemeMode } from '@/lib/theme';
+
+  // 三态切换：auto → light → dark → auto
+  const cycle = (mode: ThemeMode): ThemeMode => {
+    const idx = THEME_MODES.indexOf(mode);
+    return THEME_MODES[(idx + 1) % THEME_MODES.length];
+  };
+
+  const apply = (mode: ThemeMode) => {
+    if (mode === 'auto') {
+      document.documentElement.removeAttribute('data-theme');
+    } else {
+      document.documentElement.setAttribute('data-theme', mode);
+    }
+  };
+
+  document.querySelectorAll<HTMLButtonElement>('.theme-switch').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const current = (localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode) ?? 'auto';
+      const next = cycle(current);
+      localStorage.setItem(THEME_STORAGE_KEY, next);
+      apply(next);
+    });
+  });
+</script>

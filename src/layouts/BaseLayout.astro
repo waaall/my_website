@@ -1,0 +1,75 @@
+---
+import '@/styles/global.css';
+import type { Lang } from '@/types/post';
+import { siteConfig } from '@/config/site';
+import { THEME_STORAGE_KEY } from '@/lib/theme';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description?: string;
+  // 该页是否提供给 Pagefind 索引（默认 false：列表、归档、标签等不进搜索）
+  indexable?: boolean;
+}
+
+const { lang, title, description, indexable = false } = Astro.props;
+const desc = description ?? siteConfig.description[lang];
+const pathname = Astro.url.pathname;
+const canonical = new URL(pathname, siteConfig.url).toString();
+
+// 防 FOUC：在 <body> 渲染前同步读取 localStorage 设置 data-theme
+// 注：这段脚本被作为字符串注入，不能引用模块，常量来自 server-side import 后 inline
+const themeInitScript = `
+(function () {
+  try {
+    var key = ${JSON.stringify(THEME_STORAGE_KEY)};
+    var saved = localStorage.getItem(key);
+    if (saved === 'light' || saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+  } catch (e) {}
+})();
+`;
+---
+
+<!doctype html>
+<html lang={lang} data-pagefind-ignore={indexable ? undefined : 'all'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={canonical} />
+    <title>{title}</title>
+    <meta name="description" content={desc} />
+    <meta name="author" content={siteConfig.author} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={siteConfig.name[lang]} />
+    <meta property="og:locale" content={lang === 'zh' ? 'zh_CN' : 'en_US'} />
+
+    <meta name="twitter:card" content="summary" />
+
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${siteConfig.name[lang]} RSS`}
+      href={`/rss${lang === siteConfig.defaultLang ? '' : `.${lang}`}.xml`}
+    />
+    <slot name="head" />
+
+    <script is:inline set:html={themeInitScript} />
+  </head>
+  <body>
+    <Header lang={lang} pathname={pathname} />
+    <main class="site-main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+  </body>
+</html>

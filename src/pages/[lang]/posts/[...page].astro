@@ -1,0 +1,64 @@
+---
+import type { GetStaticPaths } from 'astro';
+import type { Lang, Post } from '@/types/post';
+import { siteConfig } from '@/config/site';
+import { messages } from '@/i18n/locales';
+import { getPostsByLang } from '@/lib/posts';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import PostCard from '@/components/PostCard.astro';
+import Pagination from '@/components/Pagination.astro';
+
+// 双语 × 分页：每种语言生成一组分页路径
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+  const groups = await Promise.all(
+    siteConfig.supportedLangs.map(async (lang) => {
+      const posts = await getPostsByLang(lang);
+      return paginate(posts, {
+        params: { lang },
+        pageSize: siteConfig.postsPerPage,
+      });
+    }),
+  );
+  return groups.flat();
+};
+
+type Props = { page: import('astro').Page<Post> };
+
+const { page } = Astro.props as Props;
+const lang = Astro.params.lang as Lang;
+const t = messages[lang];
+---
+
+<BaseLayout lang={lang} title={`${t.nav.posts} · ${siteConfig.name[lang]}`}>
+  <section class="container container--content posts">
+    <PageHeader title={t.nav.posts} subtitle={t.common.pageOf(page.currentPage, page.lastPage)} />
+
+    {
+      page.data.length === 0 ? (
+        <p class="posts__empty">{t.common.empty}</p>
+      ) : (
+        page.data.map((post) => <PostCard post={post} lang={lang} />)
+      )
+    }
+
+    <Pagination
+      lang={lang}
+      currentPage={page.currentPage}
+      lastPage={page.lastPage}
+      prevUrl={page.url.prev}
+      nextUrl={page.url.next}
+    />
+  </section>
+</BaseLayout>
+
+<style>
+  .posts {
+    padding-bottom: var(--sp-10);
+  }
+
+  .posts__empty {
+    color: var(--color-fg-subtle);
+    padding: var(--sp-6) 0;
+  }
+</style>

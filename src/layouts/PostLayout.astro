@@ -1,0 +1,74 @@
+---
+import type { MarkdownHeading } from 'astro';
+import type { Lang } from '@/types/post';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PostToc from '@/components/PostToc.astro';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description?: string;
+  indexable?: boolean;
+  headings?: MarkdownHeading[];
+  pagefindDate?: string;
+  katexCssHref?: string;
+}
+
+const {
+  lang,
+  title,
+  description,
+  indexable = false,
+  headings = [],
+  pagefindDate,
+  katexCssHref,
+} = Astro.props;
+
+const hasToc = indexable && headings.length > 0;
+---
+
+<BaseLayout lang={lang} title={title} description={description} indexable={indexable}>
+  {katexCssHref && <link slot="head" rel="stylesheet" href={katexCssHref} />}
+
+  <div class="container container--wide post-detail" data-has-toc={hasToc}>
+    <article
+      class="post-detail__article"
+      data-post-article
+      data-pagefind-body={indexable ? true : undefined}
+      data-pagefind-filter={indexable ? `lang:${lang}` : undefined}
+      data-pagefind-meta={pagefindDate ? `date:${pagefindDate}` : undefined}
+    >
+      <slot />
+    </article>
+
+    {hasToc && <PostToc lang={lang} headings={headings} />}
+  </div>
+</BaseLayout>
+
+<style>
+  .post-detail {
+    padding-top: var(--sp-8);
+    padding-bottom: var(--sp-10);
+  }
+
+  /* 桌面双栏：article + TOC */
+  @media (min-width: 1024px) {
+    .post-detail[data-has-toc='true'] {
+      display: grid;
+      grid-template-columns: minmax(0, var(--width-prose)) var(--sp-6) 14rem;
+      grid-template-areas: 'article gutter toc';
+      justify-content: center;
+    }
+
+    .post-detail[data-has-toc='true'] .post-detail__article {
+      grid-area: article;
+    }
+  }
+
+  /* 单栏（窄屏 + 无 TOC 文章）：内容居中 */
+  .post-detail__article {
+    max-width: var(--width-prose);
+    margin: 0 auto;
+    width: 100%;
+  }
+</style>

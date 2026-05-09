@@ -1,5 +1,6 @@
 node_modules
 dist
+.astro
 .DS_Store
 *.log
 .env.local
@@ -9,3 +10,8 @@ coverage
 .wrangler/
 .vscode/*
 !.vscode/extensions.json
+.claude/
+.migration-tmp/
+test-results/
+playwright-report/
+public/icon.heic

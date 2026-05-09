@@ -1,0 +1,84 @@
+---
+import type { GetStaticPaths } from 'astro';
+import type { Lang } from '@/types/post';
+import { siteConfig } from '@/config/site';
+import { messages } from '@/i18n/locales';
+import { routePaths } from '@/lib/routes';
+import { getPostsByLang } from '@/lib/posts';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PostCard from '@/components/PostCard.astro';
+
+export const getStaticPaths: GetStaticPaths = () =>
+  siteConfig.supportedLangs.map((lang) => ({ params: { lang } }));
+
+const lang = Astro.params.lang as Lang;
+const t = messages[lang];
+
+// 首页只展示最近 N 篇（N 由 siteConfig.postsPerPage 决定，与列表页一致）
+const recent = (await getPostsByLang(lang)).slice(0, siteConfig.postsPerPage);
+---
+
+<BaseLayout lang={lang} title={siteConfig.name[lang]} description={siteConfig.description[lang]}>
+  <section class="container container--content home">
+    <header class="home__intro">
+      <h1 class="home__title">{siteConfig.name[lang]}</h1>
+      <p class="home__desc">{siteConfig.description[lang]}</p>
+    </header>
+
+    <section class="home__list" aria-label={t.home.latest}>
+      <h2 class="home__list-title">{t.home.latest}</h2>
+      {
+        recent.length === 0 ? (
+          <p class="home__empty">{t.common.empty}</p>
+        ) : (
+          recent.map((post) => <PostCard post={post} lang={lang} />)
+        )
+      }
+    </section>
+
+    <p class="home__more">
+      <a href={routePaths.posts(lang)}>{t.home.viewAll}</a>
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .home {
+    padding-top: var(--sp-10);
+    padding-bottom: var(--sp-10);
+  }
+
+  .home__intro {
+    padding-bottom: var(--sp-8);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--sp-6);
+  }
+
+  .home__title {
+    font-size: var(--fs-3xl);
+    margin: 0 0 var(--sp-3);
+  }
+
+  .home__desc {
+    color: var(--color-fg-muted);
+    font-size: var(--fs-lg);
+    margin: 0;
+  }
+
+  .home__list-title {
+    font-size: var(--fs-xl);
+    margin: 0 0 var(--sp-2);
+    color: var(--color-fg-muted);
+    font-weight: 500;
+  }
+
+  .home__empty {
+    color: var(--color-fg-subtle);
+  }
+
+  .home__more {
+    margin-top: var(--sp-6);
+    text-align: right;
+    font-size: var(--fs-sm);
+  }
+</style>

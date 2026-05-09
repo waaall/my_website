@@ -52,6 +52,7 @@ T / F also isn't "rational vs. irrational." It's about whether, when making judg
 #### My Take
 
 ##### The First Difference
+
 A frequently cited explanation goes: N and S describe how you take in information; T and F describe how you process it. That framing is too crude and easily misleads people. Because we humans all have roughly the same sensors, and we take in information in similar ways — vision, hearing, touch... There may be differences, but that's not really the issue here. In fact, both pairs describe processing of information; the difference with S/N is more about what aspects of information you focus on and how you organize it.
 
 - N and S belong to "passive" modes (tendencies) of processing information.
@@ -59,7 +60,7 @@ A frequently cited explanation goes: N and S describe how you take in informatio
 
 What does "passive" mean? I used to find this very hard to grasp.
 
-Until AI (LLMs)! An LLM has inputs and outputs, but we don't *understand* how internally it converts the input into the output (note I'm saying we don't understand, not we don't know — humans, especially people in the field, of course know what tensor operations and nonlinear computations the LLM's input goes through to produce the output, but we don't really *get* it, don't comprehend, don't grasp why this should produce that output). Before LLMs, though, traditional algorithms could be understood. Some people might fail to learn them, but someone always could — we break the problem down step by step, this way and that, and then solve it. That's something that can be understood.
+Until AI (LLMs)! An LLM has inputs and outputs, but we don't _understand_ how internally it converts the input into the output (note I'm saying we don't understand, not we don't know — humans, especially people in the field, of course know what tensor operations and nonlinear computations the LLM's input goes through to produce the output, but we don't really _get_ it, don't comprehend, don't grasp why this should produce that output). Before LLMs, though, traditional algorithms could be understood. Some people might fail to learn them, but someone always could — we break the problem down step by step, this way and that, and then solve it. That's something that can be understood.
 
 Even though the human brain is like a giant nonlinear LLM, somehow we have a kind of thinking that operates "actively," more like a traditional algorithm. The classic way to distinguish it is by asking questions: e.g., someone asks me, what do you think about MBTI? This article is my answer — that's my active thinking, a process with a traceable path that can be output as human language. And there's another kind of thinking, which we can think of as more like how an LLM operates. In fact, most subsystems of the brain run this way. For example: after meeting someone once, we can recognize them from a photo. How? Because they had double eyelids? A big nose? Dark skin? No — none of that even crossed our mind, we just recognized them! You can think of it as a dedicated VLM that gets trained while we sleep and does inference during the day, handing the recognition result over to the brain's "traditional algorithm" computation module for later analysis.
 
@@ -73,7 +74,6 @@ An example will make it obvious: if you've met someone just once and have some i
 
 In other words: more S-leaning people are more likely to remember concrete features — looks, clothing, speaking habits; more N-leaning people are more likely to remember an overall impression — the vibe a person gives off, their thinking style, their expressive style.
 
-
 ##### The Second Difference
 
 - N and S represent abstract vs. concrete, and the "concrete" can be either people or things, just as the abstract can be people or things.
@@ -82,7 +82,6 @@ In other words: more S-leaning people are more likely to remember concrete featu
 Which means the example in the previous section wasn't quite accurate. More precisely: holding N constant, NF types may more easily notice things like a person's character, sense of relationship, emotional state — abstract content that's people-related; NT types may more easily notice things like a person's reasoning, structure of opinions, mode of analysis — abstract content that's more about how things work. Similarly, holding S constant, SF types tend to more easily notice concrete, people-related content, e.g. someone's tone of voice, politeness, expression, whether they make others feel comfortable; ST types more easily notice concrete, thing-related content, e.g. whether someone is dressed appropriately, whether they're expressing themselves clearly, whether they're efficient at getting things done, whether the details are reliable.
 
 Combining the two big differences above, you can see that N/S and T/F are fundamentally quite different from each other, right? So the various combinations of these are completely different.
-
 
 ### P/J
 
@@ -95,7 +94,6 @@ P types tend to keep observing, preserve flexibility, and defer conclusions. It'
 
 So J/P isn't about ability level; it's about preference for "certainty" vs. "openness." J types can procrastinate too, and P types can be highly efficient; it's just that the former usually find it more uncomfortable to leave things hanging, while the latter usually find it more uncomfortable to be locked in too early.
 
-
 ### Why Does I/E Have to Pair With the Others?
 
 If S/N is more about "what you tend to pay attention to," and T/F is more about "what standard/preference you tend to judge by," then I/E is about: where these mental activities are mainly directed.
@@ -103,7 +101,6 @@ If S/N is more about "what you tend to pay attention to," and T/F is more about 
 Because even among N types, some are more about constantly seeing new possibilities in external information, while others are more about constantly generating associations and overall pictures internally. Same with F: some care more about external relationships and the vibe of interactions; others care more about their own inner sense of values.
 
 In other words, S/N and T/F only answer "which mode of processing do you lean toward," and I/E adds in "is this processing mainly directed inward or outward." So the eight basic "modes of brain activity" — Cognitive Functions — are Ni, Ne, Si, Se, Ti, Te, Fi, Fe, and then P/J plus the balance principle below determine each person's priority ordering of these eight.
-
 
 ### Why Balance?
 
@@ -117,12 +114,10 @@ If you're an I, your dominant is i and your auxiliary is e. Why aren't both domi
 - If you're an E, this "outward-facing function" is the dominant function.
 - If you're an I, this "outward-facing function" is the auxiliary function, and the dominant is the inward-leaning version of the other middle letter.
 
-
 #### The S/N and T/F Balance
 
 - If the dominant is always S/N, the person keeps taking in information and has trouble converging;
 - If the dominant is always T/F, the person keeps making judgments and has trouble updating their input. So the auxiliary has to fill in the other category.
-
 
 ## Test Results Are Unstable?
 
@@ -137,11 +132,9 @@ The first three points show up in many psychological measurements. Just because 
 
 But the fourth point happens to be one of MBTI's core controversies. Because it's not a small fluctuation in a continuous score — it can flip you to an entirely different type.
 
-
 Even at a top-tier hospital, the misdiagnosis rate for many illnesses is fairly high. Does that mean modern medicine is pseudoscience? No. On the other hand, people change too — for example, my resting heart rate this year might be 42, next year 48. Does that mean heart-rate measurement isn't science? So "things change" by itself isn't enough to invalidate all psychological measurement; but "type often changes upon retesting" does indeed weaken MBTI's credibility as a typology tool. We have to honestly acknowledge this.
 
 That said, when it comes to psychology, there aren't that many theories that hold up to scrutiny. The Big Five? Honestly, I think that's pretty bogus too.
-
 
 ## Does the Theory Hold Up Under Scrutiny?
 
@@ -155,13 +148,11 @@ Of course, this kind of phenomenon isn't very common, purely because the bar for
 
 MBTI's rigor really is a lot lower than physics's or computing's, but measuring psychology by the rigor of physics and computing is itself a stupid-or-malicious dunking move. Because human research into the workings of the human brain is so insufficient, there's a huge theoretical gap between the phenomena of the brain and its physical structure. But how can we tell different phenomena of the brain apart? At the moment, probably the only way is to summarize them through classification and induction. In any case, I can't think of a better method.
 
-
 ### Does the Theory Make Sense?
 
 The section "Understanding MBTI's Classification Scheme" already showed that it's actually fairly reasonable — it does capture some common differences in attention, information preference, and judgment style.
 
 But "seems to make sense" and "has been rigorously verified" are two different things. Compared to physics, math, and computing — fields with a much higher level of formalization — MBTI's foundations, rigor of reasoning, and testability are all much weaker. The more appropriate stance is neither to deify it nor to lump it in with astrology, but to acknowledge that it can be illuminating, while its limits are also obvious.
-
 
 ## What Use Is MBTI for Yourself?
 

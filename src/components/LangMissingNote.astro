@@ -1,0 +1,59 @@
+---
+import type { Lang } from '@/types/post';
+import { messages } from '@/i18n/locales';
+import { otherLang } from '@/config/site';
+
+interface Props {
+  lang: Lang;
+  // 另一语言版本的 URL（必有，调用方只在另一语言存在时渲染本组件）
+  otherHref: string;
+}
+
+const { lang, otherHref } = Astro.props;
+const t = messages[lang];
+const target = otherLang(lang);
+---
+
+<aside class="lang-missing">
+  <p class="lang-missing__msg">{t.common.langMissing}</p>
+  <a class="lang-missing__btn" href={otherHref} hreflang={target}>
+    {t.common.langSwitchTo}
+  </a>
+</aside>
+
+<style>
+  .lang-missing {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    align-items: flex-start;
+    padding: var(--sp-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-subtle);
+    margin: var(--sp-6) 0;
+  }
+
+  .lang-missing__msg {
+    margin: 0;
+    color: var(--color-fg);
+  }
+
+  .lang-missing__btn {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--sp-2) var(--sp-4);
+    border-radius: var(--radius-sm);
+    background: var(--color-accent);
+    color: var(--color-bg);
+    font-size: var(--fs-sm);
+    text-decoration: none;
+    transition: opacity var(--transition-fast);
+  }
+
+  .lang-missing__btn:hover {
+    color: var(--color-bg);
+    text-decoration: none;
+    opacity: 0.85;
+  }
+</style>

@@ -1,0 +1,76 @@
+---
+import type { Lang } from '@/types/post';
+import { messages } from '@/i18n/locales';
+
+// 通用分页组件：URL 由调用方决定，组件本身只渲染上一页/下一页/页码
+interface Props {
+  lang: Lang;
+  currentPage: number;
+  lastPage: number;
+  prevUrl?: string;
+  nextUrl?: string;
+}
+
+const { lang, currentPage, lastPage, prevUrl, nextUrl } = Astro.props;
+const t = messages[lang];
+---
+
+{
+  lastPage > 1 && (
+    <nav class="pagination" aria-label="pagination">
+      <a
+        class:list={['pagination__btn', { 'is-disabled': !prevUrl }]}
+        href={prevUrl}
+        aria-disabled={!prevUrl}
+      >
+        ← {t.common.previous}
+      </a>
+      <span class="pagination__info">{t.common.pageOf(currentPage, lastPage)}</span>
+      <a
+        class:list={['pagination__btn', { 'is-disabled': !nextUrl }]}
+        href={nextUrl}
+        aria-disabled={!nextUrl}
+      >
+        {t.common.next} →
+      </a>
+    </nav>
+  )
+}
+
+<style>
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-3);
+    margin-top: var(--sp-8);
+    padding-top: var(--sp-5);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--fs-sm);
+  }
+
+  .pagination__btn {
+    padding: var(--sp-2) var(--sp-3);
+    border-radius: var(--radius-md);
+    color: var(--color-fg-muted);
+    text-decoration: none;
+    transition:
+      color var(--transition-fast),
+      background-color var(--transition-fast);
+  }
+
+  .pagination__btn:hover {
+    background: var(--color-bg-subtle);
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+
+  .pagination__btn.is-disabled {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  .pagination__info {
+    color: var(--color-fg-subtle);
+  }
+</style>

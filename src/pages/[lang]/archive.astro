@@ -1,0 +1,107 @@
+---
+import type { GetStaticPaths } from 'astro';
+import type { Lang } from '@/types/post';
+import { siteConfig } from '@/config/site';
+import { messages } from '@/i18n/locales';
+import { routePaths } from '@/lib/routes';
+import { getArchive, getPostsByLang } from '@/lib/posts';
+import { formatDate } from '@/lib/format';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+
+export const getStaticPaths: GetStaticPaths = () =>
+  siteConfig.supportedLangs.map((lang) => ({ params: { lang } }));
+
+const lang = Astro.params.lang as Lang;
+const t = messages[lang];
+const archive = await getArchive(lang);
+const total = (await getPostsByLang(lang)).length;
+---
+
+<BaseLayout lang={lang} title={`${t.nav.archive} · ${siteConfig.name[lang]}`}>
+  <section class="container container--content archive">
+    <PageHeader title={t.nav.archive} subtitle={t.archive.total(total)} />
+
+    {
+      archive.length === 0 ? (
+        <p class="archive__empty">{t.common.empty}</p>
+      ) : (
+        archive.map((group) => (
+          <section class="archive__group">
+            <h2 class="archive__year">{group.year}</h2>
+            <ul class="archive__list">
+              {group.posts.map((post) => (
+                <li class="archive__item">
+                  <time class="archive__date" datetime={post.date.toISOString()}>
+                    {formatDate(post.date, lang)}
+                  </time>
+                  <a class="archive__link" href={routePaths.post(lang, post.slug)}>
+                    {post.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      )
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .archive {
+    padding-bottom: var(--sp-10);
+  }
+
+  .archive__group {
+    margin-top: var(--sp-6);
+  }
+
+  .archive__year {
+    font-size: var(--fs-xl);
+    margin: 0 0 var(--sp-3);
+    color: var(--color-fg-muted);
+  }
+
+  .archive__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .archive__item {
+    display: flex;
+    gap: var(--sp-4);
+    padding: var(--sp-3) 0;
+    border-bottom: 1px solid var(--color-border);
+    align-items: baseline;
+  }
+
+  .archive__date {
+    flex: 0 0 auto;
+    color: var(--color-fg-subtle);
+    font-size: var(--fs-sm);
+    font-variant-numeric: tabular-nums;
+    min-width: 9rem;
+  }
+
+  .archive__link {
+    color: var(--color-fg);
+    text-decoration: none;
+    flex: 1 1 auto;
+  }
+
+  .archive__link:hover {
+    color: var(--color-link);
+  }
+
+  @media (max-width: 640px) {
+    .archive__item {
+      flex-direction: column;
+      gap: var(--sp-1);
+    }
+    .archive__date {
+      min-width: 0;
+    }
+  }
+</style>

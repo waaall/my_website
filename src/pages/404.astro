@@ -1,0 +1,43 @@
+---
+import { siteConfig } from '@/config/site';
+import { messages } from '@/i18n/locales';
+import { routePaths } from '@/lib/routes';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+// 404 页面用默认语言渲染（CF Workers 兜底，无法预知用户语言）
+const lang = siteConfig.defaultLang;
+const t = messages[lang];
+---
+
+<BaseLayout lang={lang} title={`${t.notFound.title} · ${siteConfig.name[lang]}`}>
+  <section class="container container--prose not-found">
+    <h1 class="not-found__title">{t.notFound.title}</h1>
+    <p class="not-found__desc">{t.notFound.desc}</p>
+    <p class="not-found__home">
+      <a href={routePaths.langHome(lang)}>← {t.common.goHome}</a>
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding: var(--sp-12) 0;
+    text-align: center;
+  }
+
+  .not-found__title {
+    font-size: 5rem;
+    margin: 0;
+    font-family: var(--font-serif);
+    color: var(--color-fg-muted);
+  }
+
+  .not-found__desc {
+    color: var(--color-fg-muted);
+    margin: var(--sp-3) 0 var(--sp-6);
+  }
+
+  .not-found__home a {
+    font-size: var(--fs-sm);
+  }
+</style>

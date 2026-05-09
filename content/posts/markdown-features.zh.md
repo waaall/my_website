@@ -19,6 +19,7 @@ H2、H3 会被自动收集进侧栏目录，并支持锚点直链。
 - 支持嵌套
   - 第二层
   - 第二层
+
 1. 有序列表
 2. 第二项
 
@@ -42,12 +43,12 @@ npm run dev
 
 ## 表格
 
-| 功能       | 库                  | 备注           |
-| ---------- | ------------------- | -------------- |
-| 解析       | react-markdown      | AST 渲染       |
-| GFM 支持   | remark-gfm          | 表格、删除线等 |
-| 高亮       | rehype-highlight    | highlight.js   |
-| 标题锚点   | rehype-slug         | id 自动生成    |
+| 功能     | 库               | 备注           |
+| -------- | ---------------- | -------------- |
+| 解析     | react-markdown   | AST 渲染       |
+| GFM 支持 | remark-gfm       | 表格、删除线等 |
+| 高亮     | rehype-highlight | highlight.js   |
+| 标题锚点 | rehype-slug      | id 自动生成    |
 
 ## 引用
 
