@@ -2,6 +2,8 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 // 站点根路径：本地开发用 /，部署到 GitHub Pages 项目仓库需要 /<repo>/
 // 通过 VITE_BASE 环境变量覆盖（CI 中由 workflow 注入）
 export default defineConfig(({ mode }) => {
@@ -10,7 +12,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     base,
-    plugins: [react({ jsxRuntime: 'automatic' })],
+    plugins: [react({ jsxRuntime: 'automatic' }), cloudflare()],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
