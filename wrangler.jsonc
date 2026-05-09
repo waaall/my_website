@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "zxll-website",
+  // Cloudflare Workers 兼容日期：按当前部署日期固定，避免未来平台默认行为变化
+  "compatibility_date": "2026-05-09",
+  "workers_dev": true,
+  "preview_urls": true,
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    // Vite 构建产物目录；wrangler deploy 会把这里的静态资源上传到 Workers
+    "directory": "./dist",
+    // HashRouter/SPA 兜底：直接访问任意前端路由时返回 index.html
+    "not_found_handling": "single-page-application"
+  }
+}

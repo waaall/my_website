@@ -2,11 +2,11 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
-// 站点根路径：本地开发用 /，部署到 GitHub Pages 项目仓库需要 /<repo>/
-// 通过 VITE_BASE 环境变量覆盖（CI 中由 workflow 注入）
+// 站点根路径：默认使用 /，适配 Cloudflare Pages / Workers / Vercel / Netlify 等根路径部署
+// 如未来部署到子路径，可通过 VITE_BASE 环境变量覆盖
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const base = env.VITE_BASE || (mode === 'production' ? '/my_website/' : '/');
+  const base = env.VITE_BASE || '/';
 
   return {
     base,

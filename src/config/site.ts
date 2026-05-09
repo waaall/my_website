@@ -11,8 +11,8 @@ export const siteConfig: SiteConfig = {
     en: 'Notes on engineering, reading, and everyday thinking.',
   },
   author: 'waaall',
-  // 部署后请改成真实地址，用于 RSS / sitemap 的绝对链接
-  url: 'https://waaall.github.io/my_website',
+  // Cloudflare 部署后的完整地址，用于 RSS / sitemap 的绝对链接
+  url: 'https://zxll-website.wallphysics.workers.dev',
   github: 'https://github.com/waaall/my_website',
   defaultLang: 'zh',
   postsPerPage: 10,

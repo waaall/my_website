@@ -6,5 +6,6 @@ dist
 .env.*.local
 coverage
 *.tsbuildinfo
+.wrangler/
 .vscode/*
 !.vscode/extensions.json

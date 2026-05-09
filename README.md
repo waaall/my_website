@@ -1,11 +1,11 @@
 # my_website
 
-个人博客 / Personal Blog · Vite + React 19 + TypeScript，纯静态托管在 GitHub Pages。
+个人博客 / Personal Blog · Vite + React 19 + TypeScript，纯静态托管在 Cloudflare Workers / Pages。
 
 支持双语文章（中 / 英）、Markdown 写作、暗色模式、客户端搜索、RSS、归档、标签云。
 排版风格参考 Substack / Vercel Blog：单列窄栏、衬线标题、克制配色。
 
-> Bilingual personal blog generated as a single-page app, hosted on GitHub Pages.
+> Bilingual personal blog generated as a single-page app, hosted on Cloudflare.
 > Substack/Vercel-style typography, dark mode, client-side search, and RSS.
 
 ---
@@ -70,7 +70,7 @@ export const siteConfig: SiteConfig = {
   name: { zh: '我的博客', en: 'My Blog' },
   description: { zh: '...', en: '...' },
   author: 'waaall',
-  url: 'https://waaall.github.io/my_website', // 部署后改成真实地址
+  url: 'https://zxll-website.wallphysics.workers.dev', // 部署后改成真实地址
   github: 'https://github.com/waaall/my_website',
   defaultLang: 'zh',
   postsPerPage: 10,
@@ -79,19 +79,29 @@ export const siteConfig: SiteConfig = {
 
 ---
 
-## 部署到 GitHub Pages
+## 部署到 Cloudflare Pages / Workers
 
-1. **新建仓库**（项目仓库即可，名字默认与本目录同名 `my_website`）
-2. **Push 代码到 `main`**
-3. **打开仓库 Settings → Pages → Source 选 `GitHub Actions`**
-4. 第一次推送后，[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) 会自动构建并发布
-5. 几十秒后访问 `https://<user>.github.io/<repo>/`
+项目默认按根路径 `/` 构建，适合 Cloudflare Pages / Workers、Vercel、Netlify 等平台。
 
-### 子路径 / 自定义域名
+### Cloudflare Pages 推荐配置
 
-- **项目仓库**默认部署到 `/<repo>/` 路径，workflow 已通过 `VITE_BASE` 自动注入
-- **`<user>.github.io` 仓库**部署在根路径，把 workflow 里的 `VITE_BASE` 改成 `/`，或在 `vite.config.ts` 默认值里改
-- **自定义域名**：在 `public/CNAME` 写入域名，并在仓库 DNS 配置 CNAME 记录
+| 配置项 | 值 |
+|---|---|
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+| Deploy command | 留空（Pages 项目不需要手写 `wrangler deploy`） |
+| Environment variable | `VITE_BASE=/`（可选，项目默认就是 `/`） |
+
+### Cloudflare Workers 静态资源部署
+
+如果使用 Workers 静态资源部署，仓库已包含 [`wrangler.jsonc`](wrangler.jsonc)，Cloudflare 构建设置可使用：
+
+| 配置项 | 值 |
+|---|---|
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+| Deploy command | `npx wrangler deploy` |
+| Environment variable | `VITE_BASE=/`（可选） |
 
 ---
 
@@ -99,7 +109,7 @@ export const siteConfig: SiteConfig = {
 
 ```
 my_website/
-├── .github/workflows/deploy.yml   # GH Pages 自动部署
+├── wrangler.jsonc                 # Cloudflare Workers 静态资源部署配置
 ├── content/
 │   ├── posts/                     # 文章源（双语 markdown）
 │   └── pages/                     # 静态页（about 等）
