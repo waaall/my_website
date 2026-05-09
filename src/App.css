@@ -1,0 +1,22 @@
+/* 应用级样式：响应式 / 详情页双栏 -> 单栏 */
+
+.post-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 48px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .post-grid {
+    grid-template-columns: 1fr;
+  }
+  .post-aside {
+    display: none;
+  }
+}
+
+/* 主题切换瞬间避免闪烁 */
+.app-container.theme-transitioning * {
+  transition: none !important;
+}
