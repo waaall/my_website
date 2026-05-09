@@ -1,0 +1,66 @@
+/* 文章详情布局：把正文宽度、TOC 宽度、断点集中在组件样式里 */
+
+.post-article-shell {
+  --post-content-max: var(--content-max);
+  --post-toc-width: 220px;
+  --post-column-gap: 48px;
+  --post-layout-max: calc(
+    var(--post-content-max) + var(--post-toc-width) + var(--post-column-gap)
+  );
+
+  width: 100%;
+  max-width: calc(var(--post-layout-max) + var(--side-pad) + var(--side-pad));
+  margin: 0 auto;
+  padding: 0 var(--side-pad);
+}
+
+.post-article-layout {
+  width: 100%;
+  display: grid;
+  align-items: start;
+}
+
+.post-article-layout--with-aside {
+  grid-template-columns: minmax(0, var(--post-content-max)) var(--post-toc-width);
+  gap: var(--post-column-gap);
+}
+
+.post-article-layout--single {
+  grid-template-columns: minmax(0, var(--post-content-max));
+  justify-content: center;
+}
+
+.post-article-main {
+  min-width: 0;
+  width: 100%;
+}
+
+.post-article-aside {
+  min-width: 0;
+}
+
+.post-article-mobile-aside {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .post-article-shell {
+    max-width: calc(var(--post-content-max) + var(--side-pad) + var(--side-pad));
+  }
+
+  .post-article-layout,
+  .post-article-layout--with-aside,
+  .post-article-layout--single {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .post-article-aside {
+    display: none;
+  }
+
+  .post-article-mobile-aside {
+    display: block;
+    margin: 0 0 24px;
+  }
+}

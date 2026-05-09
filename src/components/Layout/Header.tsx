@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { siteConfig } from '@/config/site';
 import { useI18n } from '@/hooks/useI18n';
+import { routePaths } from '@/utils/routes';
 import { Container } from './Container';
 import { ThemeSwitch } from './ThemeSwitch';
 import { LangSwitch } from './LangSwitch';
@@ -11,11 +12,11 @@ export const Header: React.FC = () => {
   const location = useLocation();
 
   const navItems = [
-    { to: `/${lang}`, label: t.nav.home, exact: true },
-    { to: `/${lang}/posts`, label: t.nav.posts },
-    { to: `/${lang}/tags`, label: t.nav.tags },
-    { to: `/${lang}/archive`, label: t.nav.archive },
-    { to: `/${lang}/about`, label: t.nav.about },
+    { to: routePaths.langHome(lang), label: t.nav.home, exact: true },
+    { to: routePaths.posts(lang), label: t.nav.posts },
+    { to: routePaths.tags(lang), label: t.nav.tags },
+    { to: routePaths.archive(lang), label: t.nav.archive },
+    { to: routePaths.about(lang), label: t.nav.about },
   ];
 
   const isActive = (to: string, exact?: boolean) => {
@@ -45,7 +46,7 @@ export const Header: React.FC = () => {
           }}
         >
           <Link
-            to={`/${lang}`}
+            to={routePaths.langHome(lang)}
             style={{
               fontFamily: 'Charter, Georgia, serif',
               fontSize: 20,

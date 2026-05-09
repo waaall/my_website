@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { SearchOutlined } from '@ant-design/icons';
 import { useSearch } from '@/hooks/useSearch';
 import { useI18n } from '@/hooks/useI18n';
+import { routePaths } from '@/utils/routes';
 
 // 站内搜索：输入框 + 即时结果列表
 export const SearchBox: React.FC = () => {
@@ -58,7 +59,7 @@ export const SearchBox: React.FC = () => {
             results.slice(0, 8).map((post) => (
               <li key={post.slug} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
                 <Link
-                  to={`/${lang}/posts/${post.slug}`}
+                  to={routePaths.post(lang, post.slug)}
                   onClick={() => setQuery('')}
                   style={{
                     display: 'block',

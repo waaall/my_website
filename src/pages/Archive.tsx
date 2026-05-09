@@ -6,6 +6,7 @@ import { useArchive } from '@/hooks/usePosts';
 import { useI18n } from '@/hooks/useI18n';
 import { formatDate } from '@/utils/format';
 import { siteConfig } from '@/config/site';
+import { routePaths } from '@/utils/routes';
 
 // 归档：按年份分组、按日期降序
 export const Archive: React.FC = () => {
@@ -68,7 +69,7 @@ export const Archive: React.FC = () => {
                   {formatDate(post.date, lang)}
                 </span>
                 <Link
-                  to={`/${lang}/posts/${post.slug}`}
+                  to={routePaths.post(lang, post.slug)}
                   style={{ color: 'var(--fg)', textDecoration: 'none', flex: 1 }}
                 >
                   {post.title}

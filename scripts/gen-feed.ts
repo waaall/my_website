@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 import { siteConfig } from '../src/config/site.js';
 import { parseFrontmatter } from '../src/utils/frontmatter.js';
+import { createAbsoluteUrl, routePaths } from '../src/utils/routes.js';
 import type { Lang } from '../src/types/post.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -51,8 +52,8 @@ const loadPosts = (): FeedPost[] => {
       title: (data.title as string) ?? slug,
       date: (data.date as string) ?? '1970-01-01',
       summary: (data.summary as string) ?? '',
-      // HashRouter：直链锚点形如 /#/zh/posts/slug
-      url: `${siteConfig.url}/#/${lang}/posts/${slug}`,
+      // BrowserRouter：直链使用标准路径，章节锚点可继续使用 #hash
+      url: createAbsoluteUrl(siteConfig.url, routePaths.post(lang as Lang, slug)),
       draft: false,
     });
   }
@@ -88,9 +89,14 @@ ${items}
 `;
 };
 
-// 生成 sitemap.xml（HashRouter 下大多数搜索引擎不索引 hash 路径，仅给出主页 + 语言入口作为 hint）
-const buildSitemap = (): string => {
-  const urls = [`${siteConfig.url}/`, `${siteConfig.url}/#/zh`, `${siteConfig.url}/#/en`];
+// 生成 sitemap.xml：BrowserRouter + SPA fallback 下可列出标准路径
+const buildSitemap = (posts: FeedPost[]): string => {
+  const urls = [
+    createAbsoluteUrl(siteConfig.url, routePaths.root),
+    createAbsoluteUrl(siteConfig.url, routePaths.langHome('zh')),
+    createAbsoluteUrl(siteConfig.url, routePaths.langHome('en')),
+    ...posts.map((post) => post.url),
+  ];
   const today = new Date().toISOString().split('T')[0];
   const body = urls
     .map(
@@ -120,7 +126,7 @@ const main = (): void => {
 
   writeFileSync(join(DIST_DIR, 'rss.xml'), buildRss(posts, defaultLang));
   writeFileSync(join(DIST_DIR, `rss.${otherLang}.xml`), buildRss(posts, otherLang));
-  writeFileSync(join(DIST_DIR, 'sitemap.xml'), buildSitemap());
+  writeFileSync(join(DIST_DIR, 'sitemap.xml'), buildSitemap(posts));
 
   console.log(`[gen-feed] 生成 ${posts.length} 篇 → rss.xml / rss.${otherLang}.xml / sitemap.xml`);
 };

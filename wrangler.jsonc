@@ -11,7 +11,7 @@
   "assets": {
     // Vite 构建产物目录；wrangler deploy 会把这里的静态资源上传到 Workers
     "directory": "./dist",
-    // HashRouter/SPA 兜底：直接访问任意前端路由时返回 index.html
+    // BrowserRouter/SPA 兜底：直接访问任意前端路由时返回 index.html
     "not_found_handling": "single-page-application"
   }
 }

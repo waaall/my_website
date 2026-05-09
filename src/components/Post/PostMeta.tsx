@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import type { Post } from '@/types/post';
 import { formatDate } from '@/utils/format';
 import { useI18n } from '@/hooks/useI18n';
+import { routePaths } from '@/utils/routes';
 
 interface Props {
   post: Post;
@@ -34,7 +35,7 @@ export const PostMeta: React.FC<Props> = ({ post, showTags = true }) => {
             {post.tags.map((tag) => (
               <Link
                 key={tag}
-                to={`/${lang}/tags/${encodeURIComponent(tag)}`}
+                to={routePaths.tag(lang, tag)}
                 style={{
                   color: 'var(--fg-muted)',
                   fontSize: 13,

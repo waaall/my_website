@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import type { Post } from '@/types/post';
 import { formatDate } from '@/utils/format';
 import { useI18n } from '@/hooks/useI18n';
+import { routePaths } from '@/utils/routes';
 
 interface Props {
   post: Post;
@@ -14,7 +15,7 @@ export const PostCard: React.FC<Props> = ({ post }) => {
   return (
     <article style={{ padding: '24px 0', borderBottom: '1px solid var(--border-subtle)' }}>
       <Link
-        to={`/${lang}/posts/${post.slug}`}
+        to={routePaths.post(lang, post.slug)}
         style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
       >
         <h2

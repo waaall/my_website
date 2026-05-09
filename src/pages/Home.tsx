@@ -6,6 +6,7 @@ import { PostCard } from '@/components/Post';
 import { usePostList } from '@/hooks/usePosts';
 import { useI18n } from '@/hooks/useI18n';
 import { siteConfig } from '@/config/site';
+import { routePaths } from '@/utils/routes';
 
 // 首页：站点介绍 + 最近 N 篇
 const HOME_LIMIT = 5;
@@ -54,7 +55,7 @@ export const Home: React.FC = () => {
           >
             {t.home.latest}
           </h2>
-          <Link to={`/${lang}/posts`} style={{ fontSize: 14, color: 'var(--fg-muted)' }}>
+          <Link to={routePaths.posts(lang)} style={{ fontSize: 14, color: 'var(--fg-muted)' }}>
             {t.home.viewAll}
           </Link>
         </div>

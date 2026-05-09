@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Seo } from '@/components/Common/Seo';
 import { Container } from '@/components/Layout';
 import { useI18n } from '@/hooks/useI18n';
+import { routePaths } from '@/utils/routes';
 
 export const NotFound: React.FC = () => {
   const { t, lang } = useI18n();
@@ -23,7 +24,7 @@ export const NotFound: React.FC = () => {
         </h1>
         <p style={{ color: 'var(--fg-muted)', marginTop: 12 }}>{t.notFound.desc}</p>
         <Link
-          to={`/${lang}`}
+          to={routePaths.langHome(lang)}
           style={{
             display: 'inline-block',
             marginTop: 24,

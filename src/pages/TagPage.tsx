@@ -5,6 +5,7 @@ import { Container } from '@/components/Layout';
 import { useTagCounts } from '@/hooks/usePosts';
 import { useI18n } from '@/hooks/useI18n';
 import { siteConfig } from '@/config/site';
+import { routePaths } from '@/utils/routes';
 
 // 标签云：按文章数降序
 export const TagPage: React.FC = () => {
@@ -34,7 +35,7 @@ export const TagPage: React.FC = () => {
           {tags.map(([tag, count]) => (
             <Link
               key={tag}
-              to={`/${lang}/tags/${encodeURIComponent(tag)}`}
+              to={routePaths.tag(lang, tag)}
               style={{
                 padding: '6px 12px',
                 border: '1px solid var(--border)',

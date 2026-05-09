@@ -6,6 +6,9 @@ import { Container } from './Container';
 export const Footer: React.FC = () => {
   const { t } = useI18n();
   const year = new Date().getFullYear();
+  // BrowserRouter 下资源链接必须基于 Vite base，避免在 /zh/posts/x 内被解析为相对路径
+  const rssHref = `${import.meta.env.BASE_URL}rss.xml`;
+
   return (
     <footer
       style={{
@@ -30,7 +33,7 @@ export const Footer: React.FC = () => {
             © {year} {siteConfig.author}
           </span>
           <span style={{ display: 'flex', gap: 16 }}>
-            <a href="./rss.xml" target="_blank" rel="noreferrer">
+            <a href={rssHref} target="_blank" rel="noreferrer">
               RSS
             </a>
             <a href={siteConfig.github} target="_blank" rel="noreferrer">

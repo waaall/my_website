@@ -123,6 +123,35 @@
   border-radius: 6px;
 }
 
+/* 标题锚点：BrowserRouter 下使用标准 #hash，不再与路由状态冲突 */
+.markdown-body .heading-anchor {
+  margin-left: 0.35em;
+  color: var(--fg-subtle);
+  font-family: Inter, sans-serif;
+  font-size: 0.75em;
+  opacity: 0;
+  text-decoration: none;
+  transition:
+    color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.markdown-body :is(h1, h2, h3, h4):hover .heading-anchor,
+.markdown-body .heading-anchor:focus {
+  opacity: 1;
+}
+
+.markdown-body .heading-anchor:hover {
+  color: var(--fg);
+  text-decoration: none;
+}
+
+@media (hover: none) {
+  .markdown-body .heading-anchor {
+    opacity: 1;
+  }
+}
+
 /* 锚点跳转预留顶部空间，避免被 header 遮住 */
 .markdown-body :is(h1, h2, h3, h4)[id] {
   scroll-margin-top: 80px;

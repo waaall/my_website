@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useLangStore } from '@/stores/langStore';
 import type { Lang } from '@/types/post';
+import { routePaths } from '@/utils/routes';
 
 // 切换语言时同步替换 URL 中的 :lang 段
 export const LangSwitch: React.FC = () => {
@@ -17,9 +18,9 @@ export const LangSwitch: React.FC = () => {
     const currentLangInPath = params.lang as Lang | undefined;
     if (currentLangInPath && (currentLangInPath === 'zh' || currentLangInPath === 'en')) {
       const newPath = location.pathname.replace(/^\/(zh|en)/, `/${next}`);
-      navigate(newPath + location.search, { replace: true });
+      navigate(newPath + location.search + location.hash, { replace: true });
     } else {
-      navigate(`/${next}`);
+      navigate(routePaths.langHome(next));
     }
   };
 

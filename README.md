@@ -82,6 +82,7 @@ export const siteConfig: SiteConfig = {
 ## 部署到 Cloudflare Pages / Workers
 
 项目默认按根路径 `/` 构建，适合 Cloudflare Pages / Workers、Vercel、Netlify 等平台。
+路由使用 `BrowserRouter`，请确保托管平台把未知路径回退到 `index.html`。
 
 ### Cloudflare Pages 推荐配置
 
@@ -119,7 +120,7 @@ my_website/
 ├── src/
 │   ├── components/                # Layout / Post / Common
 │   ├── config/site.ts             # 站点级配置
-│   ├── hooks/                     # usePosts / useSearch / useToc / useI18n
+│   ├── hooks/                     # usePosts / useSearch / useArticleToc / useI18n
 │   ├── i18n/locales.ts            # UI 文案
 │   ├── pages/                     # 页面组件
 │   ├── routes/                    # 路由
@@ -143,7 +144,7 @@ my_website/
 |---|---|
 | 构建 | Vite 7 |
 | 框架 | React 19 + TypeScript |
-| 路由 | react-router-dom 6（HashRouter） |
+| 路由 | react-router-dom 6（BrowserRouter） |
 | UI 基础 | Ant Design 6（仅做主题 token + 图标） |
 | 状态 | zustand |
 | Markdown | react-markdown + remark-gfm + rehype-highlight + rehype-slug + rehype-autolink-headings + rehype-sanitize |
