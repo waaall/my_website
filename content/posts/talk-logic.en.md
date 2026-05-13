@@ -2,7 +2,7 @@
 title: Three Questions on Logic
 date: 2025-04-04
 tags: [Miscellany, Logic]
-summary: Three Questions on Logic: What is right? What is logic? Why the lack of logical ability?
+summary: "Three Questions on Logic: What is right? What is logic? Why the lack of logical ability?"
 ---
 
 ## Question 1: What is right?
