@@ -1,7 +1,7 @@
 ---
 title: 'Asking Why Down to Bedrock and Building a Knowledge Tree: My Way of Thinking'
 date: 2026-03-02
-tags: [Essays]
+tags: [Miscellany]
 summary: 'An understanding-oriented way of thinking: build knowledge into a tree, and chase the key questions all the way down to the mechanism layer.'
 ---
 

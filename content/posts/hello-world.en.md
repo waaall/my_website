@@ -1,7 +1,7 @@
 ---
 title: Hello, World
 date: 2026-05-09
-tags: [meta, intro]
+tags: [Miscellany, intro]
 summary: The first post — what this blog is about.
 ---
 
