@@ -8,6 +8,7 @@ export const messages = {
       posts: '文章',
       tags: '标签',
       archive: '归档',
+      portfolio: '作品集',
       about: '关于',
     },
     common: {
@@ -40,6 +41,16 @@ export const messages = {
     archive: {
       total: (n: number) => `共 ${n} 篇`,
     },
+    portfolio: {
+      title: '作品集',
+      subtitle: '软件开发相关项目方向与经验整理。',
+      viewDetails: '查看详情',
+      overview: '概览',
+      myWork: '我的工作',
+      techStack: '技术栈',
+      contact: '联系邮箱',
+      back: '返回作品集',
+    },
     notFound: {
       title: '404',
       desc: '页面不存在或已被移除。',
@@ -60,6 +71,7 @@ export const messages = {
       posts: 'Posts',
       tags: 'Tags',
       archive: 'Archive',
+      portfolio: 'Portfolio',
       about: 'About',
     },
     common: {
@@ -91,6 +103,16 @@ export const messages = {
     },
     archive: {
       total: (n: number) => `${n} posts`,
+    },
+    portfolio: {
+      title: 'Portfolio',
+      subtitle: 'Selected software development directions and experience.',
+      viewDetails: 'View details',
+      overview: 'Overview',
+      myWork: 'My work',
+      techStack: 'Tech stack',
+      contact: 'Contact email',
+      back: 'Back to portfolio',
     },
     notFound: {
       title: '404',

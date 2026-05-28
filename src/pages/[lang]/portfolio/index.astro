@@ -1,0 +1,132 @@
+---
+import type { GetStaticPaths } from 'astro';
+import type { Lang } from '@/types/post';
+import { siteConfig } from '@/config/site';
+import { portfolioContact, portfolioItems } from '@/config/portfolio';
+import { messages } from '@/i18n/locales';
+import { routePaths } from '@/lib/routes';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+
+// 作品集总览页：按语言生成静态路由，具体作品数据来自集中配置
+export const getStaticPaths: GetStaticPaths = () =>
+  siteConfig.supportedLangs.map((lang) => ({ params: { lang } }));
+
+const lang = Astro.params.lang as Lang;
+const t = messages[lang];
+const contactHref = `mailto:${portfolioContact.email}`;
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${t.portfolio.title} · ${siteConfig.name[lang]}`}
+  description={t.portfolio.subtitle}
+>
+  <section class="container container--content portfolio">
+    <PageHeader title={t.portfolio.title} subtitle={t.portfolio.subtitle} />
+
+    <div class="portfolio__grid">
+      {
+        portfolioItems.map((item) => (
+          <article class="portfolio-card">
+            <h2 class="portfolio-card__title">
+              <a href={routePaths.portfolioItem(lang, item.slug)}>{item.title[lang]}</a>
+            </h2>
+            <p class="portfolio-card__summary">{item.summary[lang]}</p>
+            <ul class="portfolio-card__tags" aria-label={t.portfolio.techStack}>
+              {item.techStack.map((tech) => (
+                <li>{tech}</li>
+              ))}
+            </ul>
+            <a class="portfolio-card__link" href={routePaths.portfolioItem(lang, item.slug)}>
+              {t.portfolio.viewDetails} →
+            </a>
+          </article>
+        ))
+      }
+    </div>
+
+    <footer class="portfolio__contact">
+      <h2>{t.portfolio.contact}</h2>
+      <a href={contactHref}>{portfolioContact.email}</a>
+    </footer>
+  </section>
+</BaseLayout>
+
+<style>
+  .portfolio {
+    padding-bottom: var(--sp-10);
+  }
+
+  .portfolio__grid {
+    display: grid;
+    gap: var(--sp-5);
+    padding-top: var(--sp-5);
+  }
+
+  .portfolio-card {
+    padding: var(--sp-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-elevated);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .portfolio-card__title {
+    font-size: var(--fs-xl);
+    margin: 0 0 var(--sp-3);
+  }
+
+  .portfolio-card__title a {
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+
+  .portfolio-card__title a:hover {
+    color: var(--color-link);
+  }
+
+  .portfolio-card__summary {
+    color: var(--color-fg-muted);
+    margin: 0 0 var(--sp-4);
+  }
+
+  .portfolio-card__tags {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--sp-4);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+  }
+
+  .portfolio-card__tags li {
+    padding: 0.2rem 0.55rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    color: var(--color-fg-muted);
+    background: var(--color-bg-subtle);
+    font-size: var(--fs-xs);
+  }
+
+  .portfolio-card__link {
+    font-size: var(--fs-sm);
+  }
+
+  .portfolio__contact {
+    margin-top: var(--sp-8);
+    padding-top: var(--sp-5);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .portfolio__contact h2 {
+    font-size: var(--fs-lg);
+    margin: 0 0 var(--sp-2);
+  }
+
+  @media (min-width: 760px) {
+    .portfolio__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

@@ -12,6 +12,9 @@ export const routePaths = {
   tags: (lang: Lang): string => `/${lang}/tags`,
   tag: (lang: Lang, tag: string): string => `/${lang}/tags/${encodePathSegment(tag)}`,
   archive: (lang: Lang): string => `/${lang}/archive`,
+  portfolio: (lang: Lang): string => `/${lang}/portfolio`,
+  portfolioItem: (lang: Lang, slug: string): string =>
+    `/${lang}/portfolio/${encodePathSegment(slug)}`,
   about: (lang: Lang): string => `/${lang}/about`,
   notFound: (lang: Lang): string => `/${lang}/404`,
 } as const;

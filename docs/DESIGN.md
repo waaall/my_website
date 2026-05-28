@@ -97,6 +97,8 @@ content/pages/**/*.md
 
 纯函数放在 `src/lib/post-helpers.ts`，方便 Vitest 单测。
 
+作品集（Portfolio）刻意不走 Content Collections：它是字段化的双语数据（标题 / 摘要 / 概览 / 工作项 / 技术栈），放在类型化配置 [`src/config/portfolio.ts`](../src/config/portfolio.ts) 里更易做类型校验，页面直接读取并静态生成 `/[lang]/portfolio` 总览与 `/[lang]/portfolio/[slug]` 详情。约定：Markdown 管长文正文，强结构小数据集用 typed config。
+
 ### 3.4 双语策略
 
 每篇文章两种语言是两个独立 Markdown 文件，slug 绑定同一主题。若当前语言缺失但另一语言存在，详情页渲染缺失提示，而不是复用另一语言正文伪装当前语言。
@@ -123,7 +125,7 @@ KaTeX CSS 只在检测到公式的文章页加载，避免列表页和普通文�
 
 ### 3.7 搜索：Pagefind
 
-`npm run build` 先执行 `astro build`，再执行 `pagefind --site dist`。只有带 `data-pagefind-body` 的页面进入索引；文章页和 About 页按 `lang` 写入 Pagefind filter，搜索框按当前 `<html lang>` 过滤，避免中英串台。
+`npm run build` 先执行 `astro build`，再执行 `pagefind --site dist`。只有带 `data-pagefind-body` 的页面进入索引；文章页、About 页和作品集详情页按 `lang` 写入 Pagefind filter，搜索框按当前 `<html lang>` 过滤，避免中英串台。作品集总览页是列表性质，与归档 / 标签一致不进索引，避免与详情页重复命中。
 
 ### 3.8 RSS / sitemap / 404
 
@@ -172,7 +174,36 @@ article[data-pagefind-body]
 
 ## 5. 目录与命名规范
 
-- **配置集中**：站点名、域名、语言、分页数在 `src/config/site.ts`。
+```txt
+my_website/
+├── content/
+│   ├── posts/                     # 文章源（双语 markdown）
+│   └── pages/                     # 静态页（about 等）
+├── public/                        # 静态资源（favicon 等）
+├── src/
+│   ├── components/                # Astro 组件（Header / Footer / SearchBox / PostToc 等）
+│   ├── config/                    # 集中配置：site / nav / portfolio
+│   ├── content.config.ts          # Content Collections loader 与 schema
+│   ├── i18n/locales.ts            # UI 文案（中 / 英）
+│   ├── layouts/                   # BaseLayout / PostLayout
+│   ├── lib/                       # posts / post-helpers / routes / rss / format / theme 等纯逻辑
+│   ├── pages/                     # Astro 文件路由（[lang]/posts、tags、portfolio…）
+│   ├── styles/                    # tokens / global / markdown 样式
+│   └── types/                     # 共享类型
+├── tests/
+│   ├── unit/                      # Vitest 单测
+│   └── e2e/                       # Playwright 关键路径
+├── astro.config.mjs
+├── eslint.config.js
+├── playwright.config.ts
+├── vitest.config.ts
+├── wrangler.jsonc
+└── package.json
+```
+
+约定：
+
+- **配置集中**：站点名 / 域名 / 语言 / 分页数在 `src/config/site.ts`；主导航在 `nav.ts`，作品集分类数据在 `portfolio.ts`。
 - **路由集中**：URL 结构只从 `src/lib/routes.ts` 生成。
 - **样式分层**：token 在 `tokens.css`，全局 reset 在 `global.css`，文章排版在 `markdown.css`。
 - **组件扁平**：Astro 组件放在 `src/components/`，页面级骨架放在 `src/layouts/`。
@@ -186,6 +217,7 @@ article[data-pagefind-body]
 | --------------------------------------------------------------------- | ---------------------------------------- |
 | [`src/content.config.ts`](../src/content.config.ts)                   | Content Collections loader 与 schema     |
 | [`src/config/site.ts`](../src/config/site.ts)                         | 站点级配置                               |
+| [`src/config/portfolio.ts`](../src/config/portfolio.ts)               | 作品集分类 / 文案 / 联系方式集中配置     |
 | [`src/lib/posts.ts`](../src/lib/posts.ts)                             | 内容查询入口                             |
 | [`src/lib/post-helpers.ts`](../src/lib/post-helpers.ts)               | 内容相关纯函数                           |
 | [`src/lib/routes.ts`](../src/lib/routes.ts)                           | URL 生成与语言前缀处理                   |

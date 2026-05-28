@@ -14,5 +14,6 @@ export const mainNav: NavItem[] = [
   { key: 'posts', href: (l) => routePaths.posts(l) },
   { key: 'tags', href: (l) => routePaths.tags(l) },
   { key: 'archive', href: (l) => routePaths.archive(l) },
+  { key: 'portfolio', href: (l) => routePaths.portfolio(l) },
   { key: 'about', href: (l) => routePaths.about(l) },
 ];
