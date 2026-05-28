@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import { writeFile } from 'node:fs/promises';
 import sitemap from '@astrojs/sitemap';
+import mdx from '@astrojs/mdx';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -29,7 +30,8 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
-  integrations: [sitemap(), redirectsIntegration()],
+  // mdx() 默认 extendMarkdownConfig:true，继承下方 markdown 配置（gfm/math/katex/shiki）
+  integrations: [sitemap(), mdx(), redirectsIntegration()],
   markdown: {
     remarkPlugins: [remarkGfm, remarkMath],
     rehypePlugins: [rehypeKatex],

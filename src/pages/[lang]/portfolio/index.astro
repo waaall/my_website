@@ -2,18 +2,20 @@
 import type { GetStaticPaths } from 'astro';
 import type { Lang } from '@/types/post';
 import { siteConfig } from '@/config/site';
-import { portfolioContact, portfolioItems } from '@/config/portfolio';
+import { portfolioContact } from '@/config/portfolio';
+import { getPortfolioByLang } from '@/lib/portfolio';
 import { messages } from '@/i18n/locales';
 import { routePaths } from '@/lib/routes';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
 
-// 作品集总览页：按语言生成静态路由，具体作品数据来自集中配置
+// 作品集总览页：按语言生成静态路由，作品数据来自 portfolio 内容集合
 export const getStaticPaths: GetStaticPaths = () =>
   siteConfig.supportedLangs.map((lang) => ({ params: { lang } }));
 
 const lang = Astro.params.lang as Lang;
 const t = messages[lang];
+const items = await getPortfolioByLang(lang);
 const contactHref = `mailto:${portfolioContact.email}`;
 ---
 
@@ -27,12 +29,12 @@ const contactHref = `mailto:${portfolioContact.email}`;
 
     <div class="portfolio__grid">
       {
-        portfolioItems.map((item) => (
+        items.map((item) => (
           <article class="portfolio-card">
             <h2 class="portfolio-card__title">
-              <a href={routePaths.portfolioItem(lang, item.slug)}>{item.title[lang]}</a>
+              <a href={routePaths.portfolioItem(lang, item.slug)}>{item.title}</a>
             </h2>
-            <p class="portfolio-card__summary">{item.summary[lang]}</p>
+            <p class="portfolio-card__summary">{item.summary}</p>
             <ul class="portfolio-card__tags" aria-label={t.portfolio.techStack}>
               {item.techStack.map((tech) => (
                 <li>{tech}</li>

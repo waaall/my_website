@@ -1,28 +1,30 @@
 ---
 import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
 import type { Lang } from '@/types/post';
 import { siteConfig } from '@/config/site';
-import { getPortfolioPaths, type PortfolioItem } from '@/config/portfolio';
+import { getPortfolioPaths, type PortfolioEntry } from '@/lib/portfolio';
 import { messages } from '@/i18n/locales';
 import { routePaths } from '@/lib/routes';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import '@/styles/markdown.css';
 
-// 作品集详情页：静态生成每个语言下的三类作品方向
-export const getStaticPaths: GetStaticPaths = () => getPortfolioPaths(siteConfig.supportedLangs);
+// 作品集详情页：每个 mdx 文件对应一个 (lang, slug) 静态路由，正文用 render() 渲染
+export const getStaticPaths: GetStaticPaths = () => getPortfolioPaths();
 
-type Props = {
-  item: PortfolioItem;
-};
+type Props = { entry: PortfolioEntry };
 
 const lang = Astro.params.lang as Lang;
 const t = messages[lang];
-const { item } = Astro.props as Props;
+const { entry } = Astro.props as Props;
+const { Content } = await render(entry);
+const { title, summary, techStack } = entry.data;
 ---
 
 <BaseLayout
   lang={lang}
-  title={`${item.title[lang]} · ${t.portfolio.title} · ${siteConfig.name[lang]}`}
-  description={item.summary[lang]}
+  title={`${title} · ${t.portfolio.title} · ${siteConfig.name[lang]}`}
+  description={summary}
   indexable
 >
   <article
@@ -35,26 +37,18 @@ const { item } = Astro.props as Props;
     </a>
 
     <header class="portfolio-detail__header">
-      <h1 data-pagefind-meta="title">{item.title[lang]}</h1>
-      <p data-pagefind-meta="summary">{item.summary[lang]}</p>
+      <h1 data-pagefind-meta="title">{title}</h1>
+      <p data-pagefind-meta="summary">{summary}</p>
     </header>
 
-    <section class="portfolio-detail__section">
-      <h2>{t.portfolio.overview}</h2>
-      <p>{item.overview[lang]}</p>
-    </section>
+    <div class="prose">
+      <Content />
+    </div>
 
-    <section class="portfolio-detail__section">
-      <h2>{t.portfolio.myWork}</h2>
-      <ul>
-        {item.work[lang].map((work) => <li>{work}</li>)}
-      </ul>
-    </section>
-
-    <section class="portfolio-detail__section">
+    <section class="portfolio-detail__tech">
       <h2>{t.portfolio.techStack}</h2>
       <ul class="portfolio-detail__tags">
-        {item.techStack.map((tech) => <li>{tech}</li>)}
+        {techStack.map((tech) => <li>{tech}</li>)}
       </ul>
     </section>
   </article>
@@ -90,32 +84,19 @@ const { item } = Astro.props as Props;
     margin: 0;
   }
 
-  .portfolio-detail__section {
+  .portfolio-detail__tech {
     margin-top: var(--sp-6);
   }
 
-  .portfolio-detail__section h2 {
+  .portfolio-detail__tech h2 {
     font-size: var(--fs-xl);
     margin: 0 0 var(--sp-3);
-  }
-
-  .portfolio-detail__section p,
-  .portfolio-detail__section li {
-    color: var(--color-fg-muted);
-  }
-
-  .portfolio-detail__section ul {
-    padding-left: var(--sp-5);
-    margin: 0;
-  }
-
-  .portfolio-detail__section li + li {
-    margin-top: var(--sp-2);
   }
 
   .portfolio-detail__tags {
     list-style: none;
     padding-left: 0;
+    margin: 0;
     display: flex;
     flex-wrap: wrap;
     gap: var(--sp-2);
