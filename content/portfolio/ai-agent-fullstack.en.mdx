@@ -1,17 +1,38 @@
 ---
-title: AI Agent Full-stack Projects
-summary: Server setup, Python FastAPI server, frontend pages, and cross-platform apps.
-techStack: [Python, FastAPI, Frontend, Cross-platform App, Server Deployment]
+title: AI Agent Application System
+summary: An Agent backend and cross-platform client for power plant knowledge Q&A and analytical report generation.
+techStack: [Python, FastAPI, LangChain, RAG, Flutter, Docker]
 order: 1
 ---
 
 ## Overview
 
-Reserved for an overview of AI Agent full-stack projects, including server environment, backend service, frontend pages, and cross-platform apps.
+The project consists of an Agent backend and a cross-platform client for power plant knowledge queries, database searches, and analytical report generation. My work covers Agent capabilities, application APIs, client interactions, service deployment, and system integration.
 
-## My work
+## Agent Backend
 
-- Server infrastructure setup
-- Python FastAPI Server
-- Frontend page presentation
-- Cross-platform App
+The backend brings knowledge documents, business data, and databases into a unified question-answering workflow while supporting multi-turn conversations and report generation.
+
+My main responsibilities included:
+
+- Building question-answering and session management capabilities that select knowledge retrieval or business data queries based on the question.
+- Organizing knowledge indexing and hybrid retrieval to improve the recall of technical documents and equipment information.
+- Normalizing results from different data sources so the Agent can combine domain knowledge with operational data when answering questions.
+- Implementing asynchronous report tasks with status tracking, supporting evidence, result artifacts, cancellation, and retry.
+- Managing environment configuration, containerized deployment, and service operation, with tests covering the main application workflows.
+
+## Cross-platform Client
+
+The client provides a unified entry point for question answering, reports, and voice interaction across desktop, mobile, and web platforms.
+
+My main responsibilities included:
+
+- Implementing multi-turn conversations, session history, and Markdown content rendering.
+- Building a report workspace for creating tasks, reviewing progress and results, and canceling or retrying tasks.
+- Integrating speech-to-text and text-to-speech services to support voice interaction.
+- Configuring the Agent, speech recognition, and speech synthesis services separately while handling connection status, errors, and local settings consistently.
+- Separating data models, service calls, state management, and UI components by responsibility to maintain consistent functionality across platforms.
+
+## Project Scope
+
+The system is designed as a knowledge query and analysis assistant for a professional domain. It does not directly control production equipment or replace human operational decisions. Its answers and reports remain dependent on knowledge coverage, data quality, and model capabilities, so the design emphasizes source attribution, process records, and result traceability.

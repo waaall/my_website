@@ -1,15 +1,33 @@
 ---
 title: Embedded Software
-summary: Embedded software experience in pacemaker and PMU projects.
-techStack: [C, C++, Embedded System, Communication, Debugging]
+summary: Design, implementation, and system integration experience covering pacemaker device software and its companion programmer.
+techStack: [C, STM32, Embedded Systems, Real-Time Control, Communication, Debugging]
 order: 2
 ---
 
 ## Overview
 
-Reserved for embedded software experience, mainly covering software development in pacemaker and PMU projects.
+This section uses pacemaker software as a representative project and focuses on my work in real-time device control, signal sensing, parameter management, programmer communication, and system integration.
 
-## My work
+## Pacemaker Software
 
-- Pacemaker project embedded software
-- PMU project embedded software
+The project centers on embedded software for the pacemaker device and includes a companion programmer for parameter configuration and system integration. The work primarily covers real-time control, signal sensing, parameter management, and device communication.
+
+### Device Software
+
+The software separates application logic from hardware drivers. The application layer manages pacing, sensing, operating modes, and communication, while the driver layer encapsulates timers, signal acquisition, and other hardware interfaces to keep the critical control logic clear.
+
+My main responsibilities included:
+
+- Implementing basic pacing modes, mode switching, and the associated timing logic.
+- Integrating cardiac-signal sensing and adjusting pacing behavior in response to sensing events.
+- Managing pacing parameters, device status, and data exchange with the programmer.
+- Using flowcharts, sequence diagrams, and test records to validate critical control flows and diagnose integration issues.
+
+### Programmer and System Integration
+
+The programmer connects to the device, reads operating information, and modifies supported parameters. As a companion tool for development and validation, it is used to verify parameter exchange, communication states, and error-recovery flows rather than being presented as a separate portfolio project.
+
+### Project Scope
+
+This project demonstrates real-time control on a resource-constrained device, hardware abstraction, and system integration. Its scope is limited to research, development, and prototype validation; it does not make claims about clinical effectiveness, product certification, or mass production.
