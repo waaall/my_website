@@ -127,6 +127,8 @@ KaTeX CSS 只在检测到公式的文章页加载，避免列表页和普通文�
 
 `npm run build` 先执行 `astro build`，再执行 `pagefind --site dist`。只有带 `data-pagefind-body` 的页面进入索引；文章页、About 页和作品集详情页按 `lang` 写入 Pagefind filter，搜索框按当前 `<html lang>` 过滤，避免中英串台。作品集总览页是列表性质，与归档 / 标签一致不进索引，避免与详情页重复命中。
 
+搜索结果先使用 Pagefind 相关性，再对候选结果进行稳定的标题命中提升；同一优先级继续保持 Pagefind 原顺序。客户端使用 Pagefind 防抖搜索与查询序号共同保证只有最新输入可以更新结果，初始化 Promise 也会复用，避免连续输入时重复加载索引。
+
 ### 3.8 RSS / sitemap / 404
 
 - RSS：`src/pages/rss.xml.ts` 生成默认语言，`src/pages/rss.[lang].xml.ts` 生成非默认语言。

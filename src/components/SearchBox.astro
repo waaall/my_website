@@ -218,6 +218,9 @@ const labels = {
 </style>
 
 <script>
+  import { searchConfig } from '@/config/search';
+  import { rerankSearchResults, type SearchResultData } from '@/lib/search';
+
   // Pagefind 客户端搜索：仅生产构建后可用（dist/pagefind 由 build 脚本生成）
   // 这里用纯 TS + 动态 import，避免引入框架运行时
 
@@ -231,19 +234,24 @@ const labels = {
 
   type PagefindResult = {
     id: string;
-    data: () => Promise<{
-      url: string;
-      excerpt: string;
-      meta: { title?: string };
-      filters?: Record<string, string[]>;
-    }>;
+    data: () => Promise<SearchResultData>;
+  };
+
+  type PagefindSearchResponse = {
+    results: PagefindResult[];
   };
 
   type PagefindAPI = {
     search: (
       term: string,
       opts?: { filters?: Record<string, string> },
-    ) => Promise<{ results: PagefindResult[] }>;
+    ) => Promise<PagefindSearchResponse>;
+    debouncedSearch?: (
+      term: string,
+      opts?: { filters?: Record<string, string> },
+      debounceMs?: number,
+    ) => Promise<PagefindSearchResponse | null>;
+    options?: (options: { ranking?: { metaWeights?: Record<string, number> } }) => Promise<void>;
     init?: () => Promise<void>;
   };
 
@@ -254,14 +262,6 @@ const labels = {
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
-
-  const debounce = <T extends unknown[]>(fn: (...args: T) => void, ms: number) => {
-    let timer: ReturnType<typeof setTimeout>;
-    return (...args: T) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => fn(...args), ms);
-    };
-  };
 
   const initSearch = () => {
     const trigger = document.querySelector<HTMLButtonElement>('[data-search-trigger]');
@@ -274,7 +274,9 @@ const labels = {
     const form = dialog.querySelector<HTMLFormElement>('[data-search-form]');
     const labels: Labels = JSON.parse(dialog.dataset.labels ?? '{}');
 
-    let pagefind: PagefindAPI | null | 'unavailable' = null;
+    // 缓存初始化 Promise，避免连续输入时重复 import 或 init
+    let pagefindPromise: Promise<PagefindAPI | null> | null = null;
+    let latestSearchId = 0;
 
     const renderState = (html: string) => {
       if (results) results.innerHTML = html;
@@ -292,59 +294,89 @@ const labels = {
       renderState(`<p class="search-dialog__placeholder">${escapeHtml(labels.loading)}</p>`);
     };
 
-    const ensurePagefind = async (): Promise<PagefindAPI | null> => {
-      if (pagefind === 'unavailable') return null;
-      if (pagefind) return pagefind;
-      try {
-        // 仅在生产构建后存在；用变量 url 绕过 TS 静态分析
-        const url = '/pagefind/pagefind.js';
-        const mod = (await import(/* @vite-ignore */ url)) as PagefindAPI;
-        if (mod.init) await mod.init();
-        pagefind = mod;
-        return mod;
-      } catch {
-        pagefind = 'unavailable';
-        return null;
-      }
+    const ensurePagefind = (): Promise<PagefindAPI | null> => {
+      if (pagefindPromise) return pagefindPromise;
+
+      pagefindPromise = (async () => {
+        try {
+          // 仅在生产构建后存在；用变量 url 绕过 TS 静态分析
+          const url = '/pagefind/pagefind.js';
+          const api = (await import(/* @vite-ignore */ url)) as PagefindAPI;
+          await api.options?.({
+            ranking: {
+              metaWeights: { ...searchConfig.ranking.metaWeights },
+            },
+          });
+          await api.init?.();
+          return api;
+        } catch {
+          return null;
+        }
+      })();
+
+      return pagefindPromise;
     };
 
     const lang = document.documentElement.lang || 'zh';
 
     const runSearch = async (term: string) => {
-      if (!term.trim()) {
+      // 每次输入都使旧查询失效；所有异步阶段完成后只允许最新查询更新页面
+      const searchId = ++latestSearchId;
+      const normalizedTerm = term.trim();
+
+      if (!normalizedTerm) {
         showPlaceholder();
         return;
       }
-      showLoading();
-      const api = await ensurePagefind();
-      if (!api) {
-        showUnavailable();
-        return;
-      }
-      const { results: list } = await api.search(term, { filters: { lang } });
-      if (list.length === 0) {
-        renderState(`<p class="search-dialog__placeholder">${escapeHtml(labels.noResults)}</p>`);
-        return;
-      }
-      // 取前 10 条详情
-      const data = await Promise.all(list.slice(0, 10).map((r) => r.data()));
-      renderState(
-        data
-          .map((d) => {
-            const title = d.meta.title ?? d.url;
-            // Pagefind 的 excerpt 已含 <mark> 标签
-            return `<a class="search-result" href="${d.url}">
-              <p class="search-result__title">${escapeHtml(title)}</p>
-              <p class="search-result__excerpt">${d.excerpt}</p>
-            </a>`;
-          })
-          .join(''),
-      );
-    };
 
-    const debouncedSearch = debounce((term: string) => {
-      void runSearch(term);
-    }, 180);
+      showLoading();
+
+      try {
+        const api = await ensurePagefind();
+        if (searchId !== latestSearchId) return;
+        if (!api) {
+          showUnavailable();
+          return;
+        }
+
+        const searchOptions = { filters: { lang } };
+        const response = api.debouncedSearch
+          ? await api.debouncedSearch(normalizedTerm, searchOptions, searchConfig.debounceMs)
+          : await api.search(normalizedTerm, searchOptions);
+
+        if (response === null || searchId !== latestSearchId) return;
+
+        const list = response.results;
+        if (list.length === 0) {
+          renderState(`<p class="search-dialog__placeholder">${escapeHtml(labels.noResults)}</p>`);
+          return;
+        }
+
+        const data = await Promise.all(
+          list.slice(0, searchConfig.candidateLimit).map((result) => result.data()),
+        );
+        if (searchId !== latestSearchId) return;
+
+        const ranked = rerankSearchResults(data, normalizedTerm, lang).slice(
+          0,
+          searchConfig.resultLimit,
+        );
+        renderState(
+          ranked
+            .map((result) => {
+              const title = result.meta.title ?? result.url;
+              // Pagefind 的 excerpt 已含 <mark> 标签
+              return `<a class="search-result" href="${result.url}">
+                <p class="search-result__title">${escapeHtml(title)}</p>
+                <p class="search-result__excerpt">${result.excerpt}</p>
+              </a>`;
+            })
+            .join(''),
+        );
+      } catch {
+        if (searchId === latestSearchId) showUnavailable();
+      }
+    };
 
     const open = () => {
       if (!dialog.open) dialog.showModal();
@@ -361,7 +393,7 @@ const labels = {
     form?.addEventListener('submit', (e) => e.preventDefault());
 
     input?.addEventListener('input', () => {
-      debouncedSearch(input.value);
+      void runSearch(input.value);
     });
 
     // 点击结果后关闭

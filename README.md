@@ -66,7 +66,7 @@ All site-level (project-specific) parameters are centralized in [`src/config/sit
 
 ```ts
 export const siteConfig: SiteConfig = {
-  name: { zh: '我的博客', en: 'My Blog' },
+  name: { zh: 'ZX博客', en: 'ZX Blog' },
   description: { zh: '...', en: '...' },
   author: 'waaall',
   url: 'https://zxll-website.wallphysics.workers.dev',

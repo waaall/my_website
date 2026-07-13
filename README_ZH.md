@@ -69,7 +69,7 @@ About 页内容来自 `content/pages/about.zh.md` 和 `content/pages/about.en.md
 
 ```ts
 export const siteConfig: SiteConfig = {
-  name: { zh: '我的博客', en: 'My Blog' },
+  name: { zh: 'ZX博客', en: 'ZX Blog' },
   description: { zh: '...', en: '...' },
   author: 'waaall',
   url: 'https://zxll-website.wallphysics.workers.dev',
