@@ -13,6 +13,9 @@ export const messages = {
     },
     common: {
       search: '搜索',
+      menu: '导航菜单',
+      openMenu: '打开导航菜单',
+      closeMenu: '关闭导航菜单',
       searchPlaceholder: '搜索文章…',
       searchEmpty: '输入关键词以搜索',
       searchUnavailable: '搜索索引未生成（仅生产构建后可用）',
@@ -74,6 +77,9 @@ export const messages = {
     },
     common: {
       search: 'Search',
+      menu: 'Navigation menu',
+      openMenu: 'Open navigation menu',
+      closeMenu: 'Close navigation menu',
       searchPlaceholder: 'Search posts…',
       searchEmpty: 'Type to search',
       searchUnavailable: 'Search index not built (only available after production build)',

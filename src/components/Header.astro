@@ -38,12 +38,16 @@ const themeLabels = {
       {siteConfig.name[lang]}
     </a>
 
-    <nav class="site-header__nav" aria-label="primary">
+    <nav class="site-header__nav" aria-label={t.common.menu}>
       {
         mainNav.map((item) => {
           const href = item.href(lang);
           return (
-            <a href={href} class:list={['site-header__link', { 'is-active': isActive(href) }]}>
+            <a
+              href={href}
+              class:list={['site-header__link', { 'is-active': isActive(href) }]}
+              aria-current={isActive(href) ? 'page' : undefined}
+            >
               {t.nav[item.key]}
             </a>
           );
@@ -54,9 +58,82 @@ const themeLabels = {
     <div class="site-header__tools">
       <SearchBox lang={lang} />
       <ThemeSwitch labels={themeLabels} />
-      <LangSwitch lang={lang} pathWithoutLang={pathWithoutLang} />
+      <span class="site-header__lang-desktop">
+        <LangSwitch lang={lang} pathWithoutLang={pathWithoutLang} />
+      </span>
+      <button
+        type="button"
+        class="site-header__menu-trigger"
+        aria-label={t.common.openMenu}
+        aria-expanded="false"
+        aria-controls="mobile-navigation"
+        data-menu-trigger
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <line x1="4" y1="7" x2="20" y2="7"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="17" x2="20" y2="17"></line>
+        </svg>
+      </button>
     </div>
   </div>
+
+  <dialog id="mobile-navigation" class="mobile-menu" aria-label={t.common.menu} data-mobile-menu>
+    <div class="mobile-menu__header">
+      <span class="mobile-menu__title">{t.common.menu}</span>
+      <button
+        type="button"
+        class="mobile-menu__close"
+        aria-label={t.common.closeMenu}
+        data-menu-close
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="mobile-menu__nav" aria-label={t.common.menu}>
+      {
+        mainNav.map((item) => {
+          const href = item.href(lang);
+          return (
+            <a
+              href={href}
+              class:list={['mobile-menu__link', { 'is-active': isActive(href) }]}
+              aria-current={isActive(href) ? 'page' : undefined}
+              data-menu-link
+            >
+              {t.nav[item.key]}
+            </a>
+          );
+        })
+      }
+    </nav>
+
+    <div class="mobile-menu__lang">
+      <LangSwitch lang={lang} pathWithoutLang={pathWithoutLang} />
+    </div>
+  </dialog>
 </header>
 
 <style>
@@ -131,11 +208,172 @@ const themeLabels = {
     display: inline-flex;
     align-items: center;
     gap: var(--sp-2);
+    flex: 0 0 auto;
+    margin-left: auto;
   }
 
-  @media (max-width: 640px) {
+  .site-header__lang-desktop {
+    display: inline-flex;
+  }
+
+  .site-header__menu-trigger,
+  .mobile-menu {
+    display: none;
+  }
+
+  .site-header__menu-trigger,
+  .mobile-menu__close {
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-md);
+    color: var(--color-fg-muted);
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  .site-header__menu-trigger:hover,
+  .mobile-menu__close:hover {
+    background: var(--color-bg-subtle);
+    color: var(--color-fg);
+  }
+
+  /* 横向空间不足时收起主导航，保留品牌、搜索和主题工具 */
+  @media (max-width: 767.98px) {
     .site-header__brand {
       font-size: var(--fs-base);
     }
+
+    .site-header__inner {
+      gap: var(--sp-2);
+    }
+
+    .site-header__nav,
+    .site-header__lang-desktop {
+      display: none;
+    }
+
+    .site-header__menu-trigger {
+      display: inline-flex;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      inset: 0 0 0 auto;
+      width: min(82vw, 20rem);
+      max-width: none;
+      height: 100dvh;
+      max-height: none;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      border-left: 1px solid var(--color-border);
+      background: var(--color-bg);
+      color: var(--color-fg);
+      box-shadow: var(--shadow-md);
+    }
+
+    .mobile-menu[open] {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mobile-menu::backdrop {
+      background: rgba(0, 0, 0, 0.42);
+    }
+
+    .mobile-menu__header {
+      min-height: var(--header-height);
+      padding: 0 var(--sp-4);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .mobile-menu__title {
+      font-family: var(--font-serif);
+      font-size: var(--fs-lg);
+      font-weight: 600;
+    }
+
+    .mobile-menu__close {
+      display: inline-flex;
+    }
+
+    .mobile-menu__nav {
+      display: flex;
+      flex-direction: column;
+      padding: var(--sp-3);
+    }
+
+    .mobile-menu__link {
+      padding: var(--sp-3) var(--sp-4);
+      border-radius: var(--radius-md);
+      color: var(--color-fg-muted);
+      font-size: var(--fs-base);
+      text-decoration: none;
+    }
+
+    .mobile-menu__link:hover,
+    .mobile-menu__link.is-active {
+      background: var(--color-bg-subtle);
+      color: var(--color-fg);
+      text-decoration: none;
+    }
+
+    .mobile-menu__lang {
+      margin-top: auto;
+      padding: var(--sp-4);
+      border-top: 1px solid var(--color-border);
+    }
   }
 </style>
+
+<script>
+  // 移动端导航：使用原生 dialog 管理焦点，并在链接点击或进入宽屏时自动关闭
+  const trigger = document.querySelector<HTMLButtonElement>('[data-menu-trigger]');
+  const menu = document.querySelector<HTMLDialogElement>('[data-mobile-menu]');
+  const closeButton = menu?.querySelector<HTMLButtonElement>('[data-menu-close]');
+  const menuLinks = menu?.querySelectorAll<HTMLAnchorElement>('[data-menu-link]');
+  const wideScreen = window.matchMedia('(min-width: 768px)');
+
+  const syncMenuState = () => {
+    trigger?.setAttribute('aria-expanded', menu?.open ? 'true' : 'false');
+  };
+
+  const closeMenu = () => {
+    if (!menu?.open) return;
+    menu.close();
+    syncMenuState();
+  };
+
+  trigger?.addEventListener('click', () => {
+    if (!menu?.open) {
+      menu?.showModal();
+      syncMenuState();
+    }
+  });
+
+  closeButton?.addEventListener('click', closeMenu);
+  menuLinks?.forEach((link) => link.addEventListener('click', closeMenu));
+  wideScreen.addEventListener('change', (event) => {
+    if (event.matches) closeMenu();
+  });
+
+  menu?.addEventListener('close', syncMenuState);
+
+  // 点击抽屉外的原生 backdrop 时关闭
+  menu?.addEventListener('click', (event) => {
+    if (event.target !== menu) return;
+    const rect = menu.getBoundingClientRect();
+    const outsidePanel =
+      event.clientX < rect.left ||
+      event.clientX > rect.right ||
+      event.clientY < rect.top ||
+      event.clientY > rect.bottom;
+    if (outsidePanel) closeMenu();
+  });
+</script>

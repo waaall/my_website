@@ -39,6 +39,25 @@ test.describe('Astro blog critical paths', () => {
     await expect(toc).toHaveAttribute('data-open', 'false');
   });
 
+  test('窄屏导航折叠为汉堡菜单', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/zh');
+
+    const trigger = page.locator('[data-menu-trigger]');
+    const menu = page.locator('[data-mobile-menu]');
+    await expect(trigger).toBeVisible();
+    await expect(page.locator('.site-header__nav')).toBeHidden();
+
+    await trigger.click();
+    await expect(menu).toBeVisible();
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await expect(menu.getByRole('link', { name: '作品集' })).toBeVisible();
+
+    await page.keyboard.press('Escape');
+    await expect(menu).not.toBeVisible();
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  });
+
   test('Pagefind 搜索按当前语言返回结果', async ({ page }) => {
     await page.goto('/zh');
     await page.locator('[data-search-trigger]').click();
