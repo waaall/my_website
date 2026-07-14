@@ -147,6 +147,22 @@
   margin: 0 auto;
 }
 
+/* 透明单色图在暗色主题中反相，避免为同一图维护两套资源。 */
+.prose .theme-adaptive-diagram {
+  filter: none;
+  transition: filter var(--transition-base);
+}
+
+:root[data-theme='dark'] .prose .theme-adaptive-diagram {
+  filter: invert(1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .prose .theme-adaptive-diagram {
+    filter: invert(1);
+  }
+}
+
 /* 标题锚点（rehype-autolink-headings 之后会加，未启用则无副作用） */
 .prose .heading-anchor {
   margin-left: var(--sp-2);

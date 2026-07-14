@@ -1,0 +1,122 @@
+<!-- 样本均值分布示意图：说明样本均值围绕总体均值波动，标准差为 σ/√n。 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="560" viewBox="0 0 1080 560" role="img" aria-labelledby="title desc">
+  <title id="title">样本均值的正态分布曲线</title>
+  <desc id="desc">样本均值服从均值为 μ、方差为 σ²/n 的正态分布。曲线以 μ 为中心，标准差为 σ 除以根号 n。</desc>
+
+  <style>
+    .axis,
+    .tick,
+    .curve,
+    .measure {
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .axis {
+      stroke-width: 2.5;
+    }
+
+    .tick {
+      stroke-width: 1.5;
+    }
+
+    .curve {
+      stroke-width: 4;
+    }
+
+    .guide {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-dasharray: 7 8;
+      opacity: 0.48;
+    }
+
+    .measure {
+      stroke-width: 1.8;
+      opacity: 0.72;
+    }
+
+    text {
+      fill: currentColor;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: 24px;
+    }
+
+    .axis-label {
+      font-size: 27px;
+      font-weight: 500;
+    }
+
+    .math-label {
+      font-family: "Times New Roman", serif;
+      font-size: 29px;
+      font-style: italic;
+    }
+
+    .formula-label {
+      font-family: "Times New Roman", serif;
+      font-size: 30px;
+    }
+
+    .tick-label {
+      font-family: "Times New Roman", serif;
+      font-size: 23px;
+    }
+
+    .note-label {
+      font-size: 21px;
+      font-weight: 500;
+    }
+  </style>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="currentColor" />
+    </marker>
+
+    <marker id="measure-arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse" markerUnits="strokeWidth">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="currentColor" />
+    </marker>
+  </defs>
+
+  <!-- 坐标轴表示样本均值的所有可能取值及对应的概率密度。 -->
+  <path class="axis" d="M 92 451 H 1020" marker-end="url(#arrow)" />
+  <path class="axis" d="M 100 505 V 54" marker-end="url(#arrow)" />
+
+  <text class="axis-label" x="1012" y="540" text-anchor="end">样本均值</text>
+  <text class="math-label" x="1023" y="540">x̄</text>
+  <text class="axis-label" x="58" y="52">概率密度</text>
+
+  <!-- 正态曲线以总体均值 μ 为对称中心。 -->
+  <path
+    class="curve"
+    d="M 112 443
+       C 264 443, 338 430, 407 366
+       C 476 301, 512 128, 605 94
+       C 698 128, 734 301, 803 366
+       C 872 430, 946 443, 1005 443"
+  />
+
+  <path class="guide" d="M 605 451 V 94" />
+  <text class="math-label" x="745" y="170">f<tspan baseline-shift="sub" font-size="20">X̄</tspan>(x̄)</text>
+
+  <!-- 三个刻度突出中心位置与左右各一个标准误。 -->
+  <g aria-hidden="true">
+    <path class="tick" d="M 455 451 V 464" />
+    <path class="tick" d="M 605 451 V 466" />
+    <path class="tick" d="M 755 451 V 464" />
+
+    <text class="tick-label" x="455" y="494" text-anchor="middle">μ − σ/√n</text>
+    <text class="tick-label" x="605" y="494" text-anchor="middle">μ</text>
+    <text class="tick-label" x="755" y="494" text-anchor="middle">μ + σ/√n</text>
+  </g>
+
+  <path class="measure" d="M 610 405 H 750" marker-start="url(#measure-arrow)" marker-end="url(#measure-arrow)" />
+  <text class="note-label" x="680" y="392" text-anchor="middle">标准差 σ/√n</text>
+
+  <text class="formula-label" x="980" y="90" text-anchor="end">X̄ ~ N(μ, σ²/n)</text>
+  <text class="note-label" x="605" y="535" text-anchor="middle">E(X̄) = μ</text>
+</svg>

@@ -1,0 +1,142 @@
+<!-- 概率密度示意图：用身高分布说明区间概率等于密度曲线下的面积。 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="560" viewBox="0 0 1080 560" role="img" aria-labelledby="title desc">
+  <title id="title">身高的概率密度曲线</title>
+  <desc id="desc">横轴为身高，纵轴为概率密度。曲线在170厘米附近最高，150到151厘米之间的曲线下面积被标出。</desc>
+
+  <style>
+    .axis,
+    .tick,
+    .curve {
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .axis {
+      stroke-width: 2.5;
+    }
+
+    .tick {
+      stroke-width: 1.5;
+    }
+
+    .curve {
+      stroke-width: 4;
+    }
+
+    .guide {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-dasharray: 7 8;
+      opacity: 0.48;
+    }
+
+    .area {
+      fill: currentColor;
+      fill-opacity: 0.18;
+      stroke: currentColor;
+      stroke-width: 2;
+    }
+
+    .annotation-line {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
+
+    text {
+      fill: currentColor;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: 24px;
+    }
+
+    .axis-label {
+      font-size: 27px;
+      font-weight: 500;
+    }
+
+    .curve-label {
+      font-family: "Times New Roman", serif;
+      font-size: 31px;
+      font-style: italic;
+    }
+
+    .tick-label {
+      font-size: 21px;
+    }
+
+    .area-label {
+      fill: currentColor;
+      font-size: 22px;
+      font-weight: 500;
+    }
+  </style>
+
+  <defs>
+    <!-- 阴影严格限制在150至151厘米的窄区间内。 -->
+    <clipPath id="interval-150-151">
+      <rect x="403" y="0" width="12" height="451" />
+    </clipPath>
+
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="currentColor" />
+    </marker>
+  </defs>
+
+  <!-- 坐标轴与主要刻度。 -->
+  <path class="axis" d="M 92 451 H 1020" marker-end="url(#arrow)" />
+  <path class="axis" d="M 100 505 V 54" marker-end="url(#arrow)" />
+
+  <g aria-hidden="true">
+    <path class="tick" d="M 302 451 V 463" />
+    <path class="tick" d="M 403 451 V 465" />
+    <path class="tick" d="M 415 451 V 465" />
+    <path class="tick" d="M 605 451 V 463" />
+    <path class="tick" d="M 908 451 V 463" />
+
+    <text class="tick-label" x="302" y="492" text-anchor="middle">140</text>
+    <text class="tick-label" x="397" y="492" text-anchor="end">150</text>
+    <text class="tick-label" x="421" y="492" text-anchor="start">151</text>
+    <text class="tick-label" x="605" y="492" text-anchor="middle">170</text>
+    <text class="tick-label" x="908" y="492" text-anchor="middle">200</text>
+  </g>
+
+  <text class="axis-label" x="1010" y="540" text-anchor="end">身高 x（cm）</text>
+  <text class="axis-label" x="60" y="52">概率密度</text>
+
+  <!-- 平滑曲线仅用于解释概率密度，不代表真实人口统计参数。 -->
+  <path
+    id="density-curve"
+    class="curve"
+    d="M 112 443
+       C 190 443, 248 425, 306 385
+       C 365 344, 408 277, 470 202
+       C 520 141, 566 99, 605 94
+       C 651 96, 698 129, 745 191
+       C 805 270, 848 348, 910 395
+       C 951 426, 982 439, 1005 440"
+  />
+
+  <path class="guide" d="M 605 451 V 94" />
+  <text class="curve-label" x="726" y="140">f(x)</text>
+
+  <!-- 复用曲线轮廓填充指定区间下方的面积。 -->
+  <path
+    class="area"
+    clip-path="url(#interval-150-151)"
+    d="M 112 443
+       C 190 443, 248 425, 306 385
+       C 365 344, 408 277, 470 202
+       C 520 141, 566 99, 605 94
+       C 651 96, 698 129, 745 191
+       C 805 270, 848 348, 910 395
+       C 951 426, 982 439, 1005 440
+       L 1005 451 H 112 Z"
+  />
+
+  <path class="annotation-line" d="M 410 327 C 430 291, 453 273, 480 260" />
+  <text class="area-label" x="492" y="258">P(150 ≤ X ≤ 151)</text>
+</svg>
