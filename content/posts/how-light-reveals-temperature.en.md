@@ -501,7 +501,6 @@ With multiple spectral bands, viewing angles, and physical constraints, we can g
 
 <img class="theme-adaptive-diagram" src="/images/posts/how-light-reveals-temperature/temperature-inference-chain.en.svg" alt="Five-step evidence chain for optical temperature measurement: define the temperature, identify emission and propagation mechanisms, calibrate the camera and complete optical path, infer temperature from a model, and validate the result with independent data" />
 
-The Sun is far away, while a candle is right in front of us. But distance is not what determines the difficulty of temperature measurement. What really determines whether we can “know the temperature” is whether the relationship between the observation and temperature is clear enough, and whether the entire chain of evidence can withstand validation.
 
 ## References
 

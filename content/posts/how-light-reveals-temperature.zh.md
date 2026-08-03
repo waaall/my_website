@@ -502,7 +502,6 @@ $$
 
 <img class="theme-adaptive-diagram" src="/images/posts/how-light-reveals-temperature/temperature-inference-chain.zh.svg" alt="通过光测温的五步证据链：定义温度、明确发光和传播机制、标定相机与完整光路、根据模型反推温度、用独立数据验证结果" />
 
-太阳离我们很远，蜡烛就在眼前。但距离并不是测温难度的决定因素。真正决定我们能否“知道温度”的，是观测量与温度之间的关系是否足够清楚，以及整条证据链能不能经得住验证。
 
 ## 参考资料
 
