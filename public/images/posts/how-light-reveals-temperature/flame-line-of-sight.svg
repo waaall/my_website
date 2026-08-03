@@ -1,7 +1,7 @@
 <!-- 火焰视线路径示意：一个像素混合不同深度的发光及衰减后的背景。 -->
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="740" viewBox="0 0 1200 740" role="img" aria-labelledby="title desc">
-  <title id="title">火焰中的视线路径积分</title>
-  <desc id="desc">相机位于左侧，视线从相机穿过近处、中部和远处火焰到达背景。不同深度的局部发光以及衰减后的背景进入同一个像素。</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="510" viewBox="0 85 1200 510" role="img" aria-labelledby="title desc">
+  <title id="title">Line-of-sight integration through a flame</title>
+  <desc id="desc">A camera views the background through near, middle, and far regions of a flame. Emission from different depths contributes to the same pixel.</desc>
 
   <style>
     .line,
@@ -90,38 +90,36 @@
     </marker>
   </defs>
 
-  <text class="title" x="600" y="50" text-anchor="middle">一个像素，混合了整条视线上的贡献</text>
-
   <!-- 左侧相机及其单个接收像素。 -->
-  <g aria-label="相机">
+  <g aria-label="Camera">
     <path class="shape soft-fill line" d="M 65 254 H 190 L 235 289 V 391 L 190 426 H 65 Z" />
     <circle class="shape line" cx="211" cy="340" r="31" />
     <rect class="shape line" x="91" y="285" width="30" height="110" rx="6" />
-    <text class="label" x="142" y="475" text-anchor="middle">相机</text>
-    <text class="note" x="142" y="507" text-anchor="middle">同一个像素</text>
+    <text class="label" x="142" y="475" text-anchor="middle">Camera</text>
+    <text class="note" x="142" y="507" text-anchor="middle">one pixel</text>
   </g>
 
   <!-- 三层半透明介质只表示不同深度，不表示火焰存在清晰边界。 -->
-  <g aria-label="火焰的不同深度">
+  <g aria-label="Depths within the flame">
     <path class="shape soft-fill layer-near line" d="M 350 512 C 301 436, 324 347, 369 287 C 402 243, 389 181, 432 125 C 493 198, 516 272, 488 334 C 545 405, 510 470, 469 512 Z" />
     <path class="shape soft-fill layer-middle line" d="M 520 512 C 471 433, 502 352, 539 291 C 566 247, 559 192, 603 143 C 657 209, 676 277, 650 337 C 705 411, 678 472, 639 512 Z" />
     <path class="shape soft-fill layer-far line" d="M 690 512 C 647 436, 673 359, 711 301 C 738 260, 731 211, 772 166 C 824 227, 842 289, 817 346 C 865 415, 846 474, 811 512 Z" />
 
-    <text class="label" x="422" y="563" text-anchor="middle">近处</text>
-    <text class="label" x="595" y="563" text-anchor="middle">中部</text>
-    <text class="label" x="765" y="563" text-anchor="middle">远处</text>
+    <text class="label" x="422" y="563" text-anchor="middle">Near</text>
+    <text class="label" x="595" y="563" text-anchor="middle">Middle</text>
+    <text class="label" x="765" y="563" text-anchor="middle">Far</text>
   </g>
 
   <!-- 右侧背景也可能沿同一视线进入相机。 -->
-  <g aria-label="背景">
+  <g aria-label="Background">
     <rect class="shape soft-fill line" x="970" y="205" width="145" height="270" rx="8" />
     <path class="line thin" d="M 991 235 H 1094 M 991 270 H 1094 M 991 305 H 1094 M 991 340 H 1094 M 991 375 H 1094 M 991 410 H 1094 M 991 445 H 1094" />
-    <text class="label" x="1043" y="521" text-anchor="middle">背景</text>
+    <text class="label" x="1043" y="521" text-anchor="middle">Background</text>
   </g>
 
   <!-- 同一条视线上的辐射朝相机传播，越远的贡献通常经历越多衰减。 -->
   <path class="line thin" d="M 1117 340 H 242" marker-end="url(#arrow-left)" />
-  <text class="note" x="677" y="320" text-anchor="middle">相机视线</text>
+  <text class="note" x="900" y="320" text-anchor="middle">Line of sight</text>
 
   <path class="line ray attenuated segment-far" d="M 1040 340 H 755" />
   <path class="line ray attenuated segment-middle" d="M 755 340 H 585" />
@@ -131,15 +129,7 @@
   <circle cx="410" cy="340" r="7" fill="currentColor" />
   <circle cx="585" cy="340" r="7" fill="currentColor" />
   <circle cx="755" cy="340" r="7" fill="currentColor" />
-  <text class="note" x="410" y="302" text-anchor="middle">局部发光</text>
-  <text class="note" x="585" y="302" text-anchor="middle">局部发光</text>
-  <text class="note" x="755" y="302" text-anchor="middle">局部发光</text>
-
-  <!-- 底部概括同一像素所混合的四类贡献。 -->
-  <rect class="shape soft-fill thin" x="87" y="610" width="1026" height="82" rx="16" />
-  <text class="sum" x="600" y="646" text-anchor="middle">
-    一个像素 = 近处发光 + 衰减后的中部发光 + 更多衰减后的远处发光
-  </text>
-  <text class="sum" x="600" y="678" text-anchor="middle">+ 经过整条路径衰减的背景光</text>
-  <text class="note" x="600" y="724" text-anchor="middle">介质的边界并不真实存在，分层只是为了说明不同深度的贡献。</text>
+  <text class="note" x="410" y="302" text-anchor="middle">j(s₁)</text>
+  <text class="note" x="585" y="302" text-anchor="middle">j(s₂)</text>
+  <text class="note" x="755" y="302" text-anchor="middle">j(s₃)</text>
 </svg>

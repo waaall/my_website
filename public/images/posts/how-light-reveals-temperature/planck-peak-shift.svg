@@ -1,7 +1,7 @@
 <!-- 黑体峰值移动示意：各温度曲线分别归一化，只比较按波长表示的谱形与峰位。 -->
-<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="680" viewBox="0 0 1120 680" role="img" aria-labelledby="title desc">
-  <title id="title">温度升高时黑体辐射峰值向短波移动</title>
-  <desc id="desc">按波长表示并分别归一化的1000开尔文、2000开尔文和5800开尔文黑体辐射曲线。峰值波长依次约为2.90微米、1.45微米和0.50微米。</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="585" viewBox="0 65 1120 585" role="img" aria-labelledby="title desc">
+  <title id="title">Peak shift in blackbody spectra</title>
+  <desc id="desc">Individually normalized blackbody spectra at 1000, 2000, and 5800 kelvin. Their peak wavelengths are approximately 2.90, 1.45, and 0.50 micrometres.</desc>
 
   <style>
     .axis,
@@ -85,12 +85,10 @@
     </marker>
   </defs>
 
-  <text class="title" x="560" y="46" text-anchor="middle">温度越高，黑体辐射的峰值波长越短</text>
-
   <!-- 可见光仅占横轴左侧的一小段，其余主要是红外波段。 -->
   <rect class="visible-band" x="135.3" y="105" width="62.7" height="435" />
-  <text class="note" x="166.5" y="91" text-anchor="middle">可见光</text>
-  <text class="note" x="602" y="91" text-anchor="middle">红外</text>
+  <text class="note" x="166.5" y="91" text-anchor="middle">Visible</text>
+  <text class="note" x="602" y="91" text-anchor="middle">Infrared</text>
 
   <path class="axis" d="M 115 540 H 1045" marker-end="url(#arrow)" />
   <path class="axis" d="M 115 570 V 79" marker-end="url(#arrow)" />
@@ -112,8 +110,8 @@
     <text x="1015" y="579" text-anchor="middle">6</text>
   </g>
 
-  <text class="axis-label" x="1008" y="626" text-anchor="end">波长 λ（μm）</text>
-  <text class="axis-label" x="42" y="325" text-anchor="middle" transform="rotate(-90 42 325)">归一化谱辐射亮度</text>
+  <text class="axis-label" x="1008" y="626" text-anchor="end">Wavelength λ (μm)</text>
+  <text class="axis-label" x="42" y="325" text-anchor="middle" transform="rotate(-90 42 325)">Normalized spectral radiance</text>
 
   <!-- 曲线点由 Planck 定律按固定波长间隔计算，再分别除以各自最大值。 -->
   <g clip-path="url(#plot-area)">
@@ -139,8 +137,7 @@
   <circle class="peak" cx="302.7" cy="105" r="6" />
   <circle class="peak" cx="529.4" cy="105" r="6" />
 
-  <text class="curve-label" x="225" y="136">5800 K：0.50 μm</text>
-  <text class="curve-label" x="337" y="185">2000 K：1.45 μm</text>
-  <text class="curve-label" x="571" y="136">1000 K：2.90 μm</text>
-  <text class="note" x="560" y="662" text-anchor="middle">三条曲线分别归一化；真实黑体的总辐射功率还会随温度显著增加。</text>
+  <text class="curve-label" x="225" y="136">5800 K · 0.50 μm</text>
+  <text class="curve-label" x="337" y="185">2000 K · 1.45 μm</text>
+  <text class="curve-label" x="571" y="136">1000 K · 2.90 μm</text>
 </svg>

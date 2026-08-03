@@ -1,0 +1,144 @@
+<!-- RGB 光谱响应示意：展示宽波段响应及通道之间的重叠，不对应具体相机型号。 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="540" viewBox="0 65 1120 540" role="img" aria-labelledby="title desc">
+  <title id="title">Typical RGB spectral responses</title>
+  <desc id="desc">Individually normalized red, green, and blue channel responses. Each channel covers a broad wavelength range, and the responses overlap.</desc>
+
+  <style>
+    .axis,
+    .tick,
+    .grid,
+    .curve {
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .axis {
+      stroke-width: 2.8;
+    }
+
+    .tick {
+      stroke-width: 1.8;
+    }
+
+    .grid {
+      stroke-width: 1.3;
+      stroke-dasharray: 5 8;
+      opacity: 0.22;
+    }
+
+    .curve {
+      stroke-width: 4.5;
+    }
+
+    .curve-green {
+      stroke-dasharray: 14 8;
+    }
+
+    .curve-blue {
+      stroke-dasharray: 3 10;
+    }
+
+    .response-area {
+      fill: currentColor;
+      fill-opacity: 0.035;
+      stroke: none;
+    }
+
+    text {
+      fill: currentColor;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: 21px;
+    }
+
+    .title {
+      font-size: 31px;
+      font-weight: 650;
+    }
+
+    .axis-label {
+      font-size: 25px;
+      font-weight: 550;
+    }
+
+    .channel-label {
+      font-size: 25px;
+      font-weight: 700;
+    }
+
+    .note {
+      font-size: 20px;
+      opacity: 0.76;
+    }
+  </style>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="currentColor" />
+    </marker>
+  </defs>
+
+  <!-- 辅助网格只帮助比较波段范围，不表示统一的相机标定标准。 -->
+  <g aria-hidden="true">
+    <path class="grid" d="M 105 302.5 H 1025" />
+    <path class="grid" d="M 105 105 H 1025" />
+    <path class="grid" d="M 159.1 105 V 500" />
+    <path class="grid" d="M 294.4 105 V 500" />
+    <path class="grid" d="M 429.7 105 V 500" />
+    <path class="grid" d="M 565.0 105 V 500" />
+    <path class="grid" d="M 700.3 105 V 500" />
+    <path class="grid" d="M 835.6 105 V 500" />
+    <path class="grid" d="M 970.9 105 V 500" />
+  </g>
+
+  <path class="axis" d="M 105 500 H 1055" marker-end="url(#arrow)" />
+  <path class="axis" d="M 105 530 V 78" marker-end="url(#arrow)" />
+
+  <g aria-hidden="true">
+    <path class="tick" d="M 159.1 500 V 512" />
+    <path class="tick" d="M 294.4 500 V 512" />
+    <path class="tick" d="M 429.7 500 V 512" />
+    <path class="tick" d="M 565.0 500 V 512" />
+    <path class="tick" d="M 700.3 500 V 512" />
+    <path class="tick" d="M 835.6 500 V 512" />
+    <path class="tick" d="M 970.9 500 V 512" />
+    <text x="159.1" y="541" text-anchor="middle">400</text>
+    <text x="294.4" y="541" text-anchor="middle">450</text>
+    <text x="429.7" y="541" text-anchor="middle">500</text>
+    <text x="565.0" y="541" text-anchor="middle">550</text>
+    <text x="700.3" y="541" text-anchor="middle">600</text>
+    <text x="835.6" y="541" text-anchor="middle">650</text>
+    <text x="970.9" y="541" text-anchor="middle">700</text>
+
+    <path class="tick" d="M 93 500 H 105" />
+    <path class="tick" d="M 93 302.5 H 105" />
+    <path class="tick" d="M 93 105 H 105" />
+    <text x="78" y="507" text-anchor="end">0</text>
+    <text x="78" y="309.5" text-anchor="end">0.5</text>
+    <text x="78" y="112" text-anchor="end">1.0</text>
+  </g>
+
+  <text class="axis-label" x="1023" y="590" text-anchor="end">Wavelength λ (nm)</text>
+  <text class="axis-label" x="35" y="310" text-anchor="middle" transform="rotate(-90 35 310)">Relative spectral response</text>
+
+  <!-- 三条钟形曲线用于说明宽波段与重叠，参数不取自特定传感器。 -->
+  <polyline
+    class="curve curve-blue"
+    points="105.0,475.2 118.5,465.3 132.1,452.6 145.6,436.5 159.1,416.8 172.6,393.2 186.2,366.0 199.7,335.5 213.2,302.3 226.8,267.5 240.3,232.4 253.8,198.6 267.4,167.8 280.9,141.6 294.4,121.7 307.9,109.2 321.5,105.0 335.0,109.2 348.5,121.7 362.1,141.6 375.6,167.8 389.1,198.6 402.6,232.4 416.2,267.5 429.7,302.3 443.2,335.5 456.8,366.0 470.3,393.2 483.8,416.8 497.4,436.5 510.9,452.6 524.4,465.3 537.9,475.2 551.5,482.6 565.0,488.1 578.5,492.0 592.1,494.8 605.6,496.6 619.1,497.9 632.6,498.7 646.2,499.2 659.7,499.5 673.2,499.7 686.8,499.9 700.3,499.9 713.8,500.0 727.4,500.0 740.9,500.0 754.4,500.0 767.9,500.0 781.5,500.0 795.0,500.0 808.5,500.0 822.1,500.0 835.6,500.0 849.1,500.0 862.6,500.0 876.2,500.0 889.7,500.0 903.2,500.0 916.8,500.0 930.3,500.0 943.8,500.0 957.4,500.0 970.9,500.0 984.4,500.0 997.9,500.0 1011.5,500.0 1025.0,500.0"
+  />
+  <polyline
+    class="curve curve-green"
+    points="105.0,499.4 118.5,499.1 132.1,498.7 145.6,498.0 159.1,497.1 172.6,495.9 186.2,494.2 199.7,492.0 213.2,488.9 226.8,485.0 240.3,480.0 253.8,473.6 267.4,465.6 280.9,455.8 294.4,444.0 307.9,430.0 321.5,413.7 335.0,395.0 348.5,374.0 362.1,350.8 375.6,325.7 389.1,299.1 402.6,271.6 416.2,243.7 429.7,216.4 443.2,190.3 456.8,166.4 470.3,145.5 483.8,128.3 497.4,115.5 510.9,107.7 524.4,105.0 537.9,107.7 551.5,115.5 565.0,128.3 578.5,145.5 592.1,166.4 605.6,190.3 619.1,216.4 632.6,243.7 646.2,271.6 659.7,299.1 673.2,325.7 686.8,350.8 700.3,374.0 713.8,395.0 727.4,413.7 740.9,430.0 754.4,444.0 767.9,455.8 781.5,465.6 795.0,473.6 808.5,480.0 822.1,485.0 835.6,488.9 849.1,492.0 862.6,494.2 876.2,495.9 889.7,497.1 903.2,498.0 916.8,498.7 930.3,499.1 943.8,499.4 957.4,499.6 970.9,499.7 984.4,499.8 997.9,499.9 1011.5,499.9 1025.0,500.0"
+  />
+  <polyline
+    class="curve"
+    points="105.0,500.0 118.5,500.0 132.1,500.0 145.6,500.0 159.1,500.0 172.6,500.0 186.2,499.9 199.7,499.9 213.2,499.8 226.8,499.8 240.3,499.7 253.8,499.5 267.4,499.3 280.9,498.9 294.4,498.5 307.9,497.9 321.5,497.0 335.0,495.9 348.5,494.4 362.1,492.4 375.6,489.9 389.1,486.7 402.6,482.6 416.2,477.6 429.7,471.4 443.2,463.9 456.8,454.9 470.3,444.3 483.8,431.9 497.4,417.7 510.9,401.5 524.4,383.5 537.9,363.6 551.5,342.1 565.0,319.2 578.5,295.1 592.1,270.4 605.6,245.5 619.1,220.9 632.6,197.2 646.2,175.1 659.7,155.1 673.2,137.8 686.8,123.8 700.3,113.5 713.8,107.1 727.4,105.0 740.9,107.1 754.4,113.5 767.9,123.8 781.5,137.8 795.0,155.1 808.5,175.1 822.1,197.2 835.6,220.9 849.1,245.5 862.6,270.4 876.2,295.1 889.7,319.2 903.2,342.1 916.8,363.6 930.3,383.5 943.8,401.5 957.4,417.7 970.9,431.9 984.4,444.3 997.9,454.9 1011.5,463.9 1025.0,471.4"
+  />
+
+  <!-- 线型与标签共同区分通道，使图在明暗主题和单色打印下都可读。 -->
+  <text class="channel-label" x="321.5" y="88" text-anchor="middle">B</text>
+  <text class="channel-label" x="524.4" y="88" text-anchor="middle">G</text>
+  <text class="channel-label" x="727.4" y="88" text-anchor="middle">R</text>
+
+</svg>

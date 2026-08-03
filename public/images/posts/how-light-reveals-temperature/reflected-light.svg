@@ -1,7 +1,7 @@
 <!-- 日常可见光成像示意：区分物体反射的环境光与自身的热辐射。 -->
-<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="590" viewBox="0 0 1080 590" role="img" aria-labelledby="title desc">
-  <title id="title">看见桌面不等于看见它的温度</title>
-  <desc id="desc">灯或太阳发出的可见光照到桌面，经过选择性吸收和反射后进入眼睛或相机。桌面自身也有热辐射，但在室温下主要位于红外波段。</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="410" viewBox="0 90 1080 410" role="img" aria-labelledby="title desc">
+  <title id="title">Reflected-light imaging</title>
+  <desc id="desc">Visible light travels from a lamp or the Sun to an object, then reaches an eye or camera after reflection.</desc>
 
   <style>
     .line,
@@ -57,40 +57,32 @@
     </marker>
   </defs>
 
-  <text class="title" x="540" y="50" text-anchor="middle">日常看见的颜色，通常来自反射光</text>
-
   <!-- 左侧光源。 -->
-  <g aria-label="灯或太阳">
+  <g aria-label="Lamp or Sun">
     <circle class="shape soft-fill line" cx="145" cy="238" r="60" />
     <path class="line" d="M 145 145 V 118 M 145 358 V 331 M 52 238 H 25 M 265 238 H 238 M 79 172 L 59 152 M 231 324 L 211 304 M 79 304 L 59 324 M 231 152 L 211 172" />
-    <text class="label" x="145" y="405" text-anchor="middle">灯或太阳</text>
+    <text class="label" x="145" y="405" text-anchor="middle">Lamp / Sun</text>
   </g>
 
   <!-- 中部物体，斜面表示桌面。 -->
-  <g aria-label="桌面">
+  <g aria-label="Object">
     <path class="shape soft-fill line" d="M 398 284 L 625 284 L 701 348 L 323 348 Z" />
     <path class="line" d="M 359 348 V 431 M 664 348 V 431" />
-    <text class="label" x="512" y="474" text-anchor="middle">有温度的桌面</text>
-    <text class="note" x="512" y="508" text-anchor="middle">选择性吸收和反射不同波长</text>
+    <text class="label" x="512" y="474" text-anchor="middle">Object</text>
   </g>
 
   <!-- 右侧用镜头和传感器表示观察者。 -->
-  <g aria-label="眼睛或相机">
+  <g aria-label="Eye or camera">
     <rect class="shape soft-fill line" x="848" y="208" width="160" height="112" rx="16" />
     <circle class="shape line" cx="898" cy="264" r="31" />
     <path class="line thin" d="M 950 235 H 980 M 950 264 H 980 M 950 293 H 980" />
-    <text class="label" x="928" y="369" text-anchor="middle">眼睛或相机</text>
+    <text class="label" x="928" y="369" text-anchor="middle">Eye / Camera</text>
   </g>
 
   <!-- 实线箭头表示进入可见光相机的主要路径。 -->
   <path class="line" d="M 222 242 C 300 238, 337 252, 414 292" marker-end="url(#arrow)" />
-  <text x="319" y="214" text-anchor="middle">入射可见光</text>
+  <text x="319" y="214" text-anchor="middle">Incident light</text>
 
   <path class="line" d="M 604 287 C 689 240, 758 231, 841 254" marker-end="url(#arrow)" />
-  <text x="727" y="205" text-anchor="middle">反射的可见光</text>
-
-  <!-- 虚线表示物体自身存在、但普通相机通常看不到的红外辐射。 -->
-  <path class="line dashed" d="M 492 353 C 492 399, 470 418, 470 443" marker-end="url(#arrow)" />
-  <path class="line dashed" d="M 532 353 C 532 399, 554 418, 554 443" marker-end="url(#arrow)" />
-  <text class="note" x="512" y="558" text-anchor="middle">室温热辐射仍然存在，但主要位于红外波段</text>
+  <text x="727" y="205" text-anchor="middle">Reflected light</text>
 </svg>

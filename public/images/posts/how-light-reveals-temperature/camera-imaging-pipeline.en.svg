@@ -1,7 +1,7 @@
 <!-- 相机成像链示意：从场景辐射到可分享图像，标出各阶段对测量值的影响。 -->
-<svg xmlns="http://www.w3.org/2000/svg" width="980" height="1040" viewBox="0 0 980 1040" role="img" aria-labelledby="title desc">
-  <title id="title">相机从光到图像的处理链</title>
-  <desc id="desc">场景辐射依次经过光学系统、传感器、采集与模数转换以及计算摄影处理，得到RAW数据或JPEG、HEIF图像。</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="970" viewBox="0 70 980 970" role="img" aria-labelledby="title desc">
+  <title id="title">Camera imaging pipeline</title>
+  <desc id="desc">Scene radiance passes through the optics, sensor, acquisition electronics, and computational photography pipeline to produce RAW data or a JPEG or HEIF image.</desc>
 
   <style>
     .card,
@@ -60,37 +60,35 @@
     </marker>
   </defs>
 
-  <text class="title" x="490" y="50" text-anchor="middle">相机记录的像素，是整条成像链的产物</text>
-
   <!-- 主链路使用统一卡片，便于继续增减具体相机环节。 -->
-  <g aria-label="场景辐射">
+  <g aria-label="Scene radiance">
     <rect class="card" x="220" y="85" width="540" height="105" rx="18" />
-    <text class="stage" x="490" y="130" text-anchor="middle">场景辐射</text>
-    <text class="detail" x="490" y="164" text-anchor="middle">热辐射、反射、透射、散射与非热发光</text>
+    <text class="stage" x="490" y="130" text-anchor="middle">Scene radiance</text>
+    <text class="detail" x="490" y="164" text-anchor="middle">Emission · reflection · transmission · scattering</text>
   </g>
 
   <path class="line" d="M 490 190 V 236" marker-end="url(#arrow)" />
 
-  <g aria-label="光学系统">
+  <g aria-label="Optics">
     <rect class="card" x="220" y="245" width="540" height="116" rx="18" />
-    <text class="stage" x="490" y="292" text-anchor="middle">光学系统</text>
-    <text class="detail" x="490" y="327" text-anchor="middle">镜头 · 光圈 · 滤光片 · 保护窗口</text>
+    <text class="stage" x="490" y="292" text-anchor="middle">Optics</text>
+    <text class="detail" x="490" y="327" text-anchor="middle">Lens · aperture · filters · cover window</text>
   </g>
 
   <path class="line" d="M 490 361 V 407" marker-end="url(#arrow)" />
 
-  <g aria-label="图像传感器">
+  <g aria-label="Image sensor">
     <rect class="card" x="220" y="416" width="540" height="116" rx="18" />
-    <text class="stage" x="490" y="463" text-anchor="middle">图像传感器</text>
-    <text class="detail" x="490" y="498" text-anchor="middle">彩色滤光阵列 · 像素光谱响应 · 光电转换</text>
+    <text class="stage" x="490" y="463" text-anchor="middle">Image sensor</text>
+    <text class="detail" x="490" y="498" text-anchor="middle">CFA · spectral response · photoelectric conversion</text>
   </g>
 
   <path class="line" d="M 490 532 V 578" marker-end="url(#arrow)" />
 
-  <g aria-label="采集和转换">
+  <g aria-label="Acquisition and conversion">
     <rect class="card" x="220" y="587" width="540" height="116" rx="18" />
-    <text class="stage" x="490" y="634" text-anchor="middle">采集与转换</text>
-    <text class="detail" x="490" y="669" text-anchor="middle">曝光 · 模拟增益 · 读出电路 · ADC</text>
+    <text class="stage" x="490" y="634" text-anchor="middle">Acquisition &amp; conversion</text>
+    <text class="detail" x="490" y="669" text-anchor="middle">Exposure · analog gain · readout · ADC</text>
   </g>
 
   <!-- RAW 是处理中途可保留的输出，不等于未经任何仪器响应。 -->
@@ -100,11 +98,11 @@
 
   <path class="line" d="M 490 703 V 749" marker-end="url(#arrow)" />
 
-  <g aria-label="计算摄影和编码">
+  <g aria-label="Computational photography and encoding">
     <rect class="card" x="140" y="758" width="700" height="142" rx="18" />
-    <text class="stage" x="490" y="805" text-anchor="middle">计算摄影与编码</text>
-    <text class="detail" x="490" y="840" text-anchor="middle">去马赛克 · 白平衡 · 颜色矩阵 · 降噪 · 锐化</text>
-    <text class="detail" x="490" y="873" text-anchor="middle">传递函数 · Tone Mapping · HDR · 压缩</text>
+    <text class="stage" x="490" y="805" text-anchor="middle">Computational photography &amp; encoding</text>
+    <text class="detail" x="490" y="840" text-anchor="middle">Demosaicing · white balance · color correction</text>
+    <text class="detail" x="490" y="873" text-anchor="middle">Denoising · sharpening · tone mapping · HDR · compression</text>
   </g>
 
   <path class="line" d="M 490 900 V 946" marker-end="url(#arrow)" />
