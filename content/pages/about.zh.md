@@ -4,6 +4,8 @@ title: 关于
 
 这里是我个人的笔记和长文存档。
 
+<img src="/虚拟形象.png" alt="作者的虚拟形象" width="640" height="427" loading="lazy" decoding="async" />
+
 ## 联系
 
 - GitHub: [@waaall](https://github.com/waaall)
