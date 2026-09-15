@@ -45,10 +45,17 @@ const themeLabels = {
           return (
             <a
               href={href}
+              target={item.external ? '_blank' : undefined}
+              rel={item.external ? 'noopener noreferrer' : undefined}
+              aria-label={
+                item.external ? `${t.nav[item.key]} (${t.common.opensInNewTab})` : undefined
+              }
+              title={item.external ? t.common.opensInNewTab : undefined}
               class:list={['site-header__link', { 'is-active': isActive(href) }]}
               aria-current={isActive(href) ? 'page' : undefined}
             >
               {t.nav[item.key]}
+              {item.external && <span aria-hidden="true"> ↗</span>}
             </a>
           );
         })
@@ -119,11 +126,18 @@ const themeLabels = {
           return (
             <a
               href={href}
+              target={item.external ? '_blank' : undefined}
+              rel={item.external ? 'noopener noreferrer' : undefined}
+              aria-label={
+                item.external ? `${t.nav[item.key]} (${t.common.opensInNewTab})` : undefined
+              }
+              title={item.external ? t.common.opensInNewTab : undefined}
               class:list={['mobile-menu__link', { 'is-active': isActive(href) }]}
               aria-current={isActive(href) ? 'page' : undefined}
               data-menu-link
             >
               {t.nav[item.key]}
+              {item.external && <span aria-hidden="true"> ↗</span>}
             </a>
           );
         })

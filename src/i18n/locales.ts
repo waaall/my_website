@@ -9,10 +9,12 @@ export const messages = {
       tags: '标签',
       archive: '归档',
       portfolio: '作品集',
+      physics: '物理',
       about: '关于',
     },
     common: {
       search: '搜索',
+      opensInNewTab: '在新标签页打开',
       menu: '导航菜单',
       openMenu: '打开导航菜单',
       closeMenu: '关闭导航菜单',
@@ -39,6 +41,9 @@ export const messages = {
     },
     home: {
       latest: '最近文章',
+      physicsTitle: '物理学习',
+      physicsDescription: '我的物理学习网站，集中整理物理相关的学习内容。',
+      physicsLink: '进入物理站',
       viewAll: '查看全部 →',
     },
     archive: {
@@ -73,10 +78,12 @@ export const messages = {
       tags: 'Tags',
       archive: 'Archive',
       portfolio: 'Portfolio',
+      physics: 'Physics',
       about: 'About',
     },
     common: {
       search: 'Search',
+      opensInNewTab: 'Opens in a new tab',
       menu: 'Navigation menu',
       openMenu: 'Open navigation menu',
       closeMenu: 'Close navigation menu',
@@ -103,6 +110,9 @@ export const messages = {
     },
     home: {
       latest: 'Latest posts',
+      physicsTitle: 'Physics',
+      physicsDescription: 'Explore my dedicated website for learning physics.',
+      physicsLink: 'Explore Physics',
       viewAll: 'View all →',
     },
     archive: {

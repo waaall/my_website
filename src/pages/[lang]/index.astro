@@ -2,6 +2,7 @@
 import type { GetStaticPaths } from 'astro';
 import type { Lang } from '@/types/post';
 import { siteConfig } from '@/config/site';
+import { physicsUrl } from '@/config/physics';
 import { messages } from '@/i18n/locales';
 import { routePaths } from '@/lib/routes';
 import { getPostsByLang } from '@/lib/posts';
@@ -24,6 +25,24 @@ const recent = (await getPostsByLang(lang)).slice(0, siteConfig.postsPerPage);
       <h1 class="home__title">{siteConfig.name[lang]}</h1>
       <p class="home__desc">{siteConfig.description[lang]}</p>
     </header>
+
+    <aside class="physics-card" aria-labelledby="physics-title">
+      <div>
+        <h2 id="physics-title" class="physics-card__title">{t.home.physicsTitle}</h2>
+        <p class="physics-card__description">{t.home.physicsDescription}</p>
+      </div>
+      <a
+        class="physics-card__link"
+        href={physicsUrl(lang)}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${t.home.physicsLink} (${t.common.opensInNewTab})`}
+        title={t.common.opensInNewTab}
+      >
+        {t.home.physicsLink}
+        <span aria-hidden="true">↗</span>
+      </a>
+    </aside>
 
     <section class="home__list" aria-label={t.home.latest}>
       <h2 class="home__list-title">{t.home.latest}</h2>
@@ -70,6 +89,35 @@ const recent = (await getPostsByLang(lang)).slice(0, siteConfig.postsPerPage);
     margin: 0 0 var(--sp-2);
     color: var(--color-fg-muted);
     font-weight: 500;
+  }
+
+  .physics-card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4) var(--sp-5);
+    margin-bottom: var(--sp-6);
+    padding: var(--sp-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-subtle);
+  }
+
+  .physics-card__title {
+    font-size: var(--fs-lg);
+    margin-bottom: var(--sp-2);
+  }
+
+  .physics-card__description {
+    margin: 0;
+    font-size: var(--fs-sm);
+    color: var(--color-fg-muted);
+  }
+
+  .physics-card__link {
+    font-size: var(--fs-sm);
+    white-space: nowrap;
   }
 
   .home__empty {
