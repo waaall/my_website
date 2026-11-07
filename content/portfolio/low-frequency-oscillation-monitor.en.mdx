@@ -1,0 +1,63 @@
+---
+title: Online Low-Frequency Oscillation Monitoring System
+summary: Independently developed monitoring software covering the detection algorithm, field communication, real-time monitoring, and alarm waveform recording.
+techStack: [C++20, Qt 6, QML, Modbus TCP/RTU, SQLite, CMake]
+order: 1
+---
+
+## Overview
+
+The software continuously acquires field signals, calculates oscillation frequencies and amplitudes, and determines alarms using a target frequency band and an amplitude threshold. I developed the project independently, including requirements, system architecture, the core detection algorithm, device communication, the monitoring interface, testing, and deployment tools.
+
+The system uses C++20 and Qt 6, with separate processes for communication, the backend controller, and the monitoring interface. The algorithm core is an independent C++ module with no dependency on Qt or a specific communication protocol.
+
+## Core Detection Algorithm
+
+The algorithm performs sliding-window FFT analysis. KissFFT provides the frequency-domain transform; project code implements signal processing, peak extraction, alarm decisions, and runtime state management.
+
+My main responsibilities included:
+
+- Implementing linear detrending, a Hann window, single-sided amplitude normalization, and spectral peak interpolation to calculate peak frequencies and amplitudes within the target band and across the full analysis range.
+- Supporting configurable analysis windows, calculation steps, target bands, and alarm thresholds, with distinct states for warm-up, valid results, disabled operation, and faults.
+- Validating sampling periods, Nyquist conditions, and available frequency bins within the target band, rather than reporting insufficient data or an unanalyzable band as a valid zero result.
+
+## Device Communication
+
+The communication module acquires field data and converts device-specific values into a common sample format for the backend controller.
+
+My main responsibilities included:
+
+- Implementing Modbus TCP and Modbus RTU acquisition with configurable register addresses, numeric types, byte order, and engineering-unit conversion.
+- Separating device register maps and decoding rules from transport connections and the shared acquisition workflow, reusing polling, timeout, and reconnection logic.
+- Implementing communication validation and trial reads. Trial reads do not change the active configuration or feed the algorithm and alarm recorder.
+
+## Sampling Quality and Error Handling
+
+A working connection does not mean that incoming data always meets the analysis requirements. Missing samples, timestamp jitter, and persistently insufficient data delivery require different handling. Results from before a fault must not be reused directly after recovery.
+
+My main responsibilities included:
+
+- Checking sample quality, timestamps, sequence numbers, and delivery density, with bounded sample holding for occasional missing samples and explicit quality flags.
+- Blocking algorithm input and invalidating previous results when sampling remains insufficient, then rebuilding the analysis window after data delivery recovers and remains stable.
+- Managing algorithm instances and runtime sessions by channel, checking asynchronous result identities so that results from an old session cannot update the current state.
+- Running communication and the interface in separate processes, with algorithm work dispatched through a bounded queue to a worker thread. Closing the interface does not stop background acquisition, and algorithm calculations do not block the controller's main event loop.
+
+## Monitoring Interface and Alarm Records
+
+The QML interface provides a multi-channel overview, individual channel views, communication settings, algorithm settings, and alarm history.
+
+My main responsibilities included:
+
+- Displaying raw signals, oscillation frequencies, amplitudes, thresholds, communication status, and data quality, with independent parameters and alarm states for each channel.
+- Separating raw waveform display from algorithm validity checks. Valid measured points remain visible during insufficient sampling, gaps remain disconnected, and display data is not used to supplement algorithm input.
+- Using SQLite to store waveforms around alarm triggers, algorithm results, and the configuration in effect at the time, with historical curve review, event package import and export, and CSV export.
+
+## Testing and Deployment
+
+I wrote tests for the algorithm, communication, sampling quality, fault recovery, recording storage, and interface, and used simulated devices and data replay to check the main runtime workflows.
+
+The project includes build and packaging scripts for Windows, macOS, and Linux, plus tools for background services, desktop autostart, installation, and removal on Kylin Linux. Development test packages and production deployment configuration are managed separately.
+
+## Project Scope
+
+The system monitors signals and reports alarms. It does not issue device control commands or automatically change device configuration. Device register maps, refresh periods, and operating conditions on the target industrial PC require hardware verification; simulation and automated tests do not replace on-site acceptance testing.
