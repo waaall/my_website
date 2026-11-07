@@ -153,3 +153,27 @@ The argument can therefore be summarized as follows:
 6. Consequently, every action a person takes, and their success, ultimately depend entirely on luck as it applies to that person. This retains the opening definition of the sources; there is no need to add “and their effects” to classify behavior and outcomes as luck.
 
 The generative principle adopted in this argument is that the prior state, relevant external conditions, natural laws, and any participating random factors exhaust the sources that generate the state and behavior at each step. The probability formulas above represent this process; the formulas alone cannot establish the exhaustiveness of those sources. The argument requires no additional assumption that “there is no randomness” or that “people lack the capacity to choose,” nor does it presuppose its conclusion. Merely pointing out that “people do think, choose, and make an effort” cannot end the inquiry into the sources of these capacities and the processes through which they are exercised.
+
+## Implications
+
+### Pessimistic Implications
+
+In fact, what people call agency does not exist.
+
+There are major differences between humans and animals, between animals and plants, and between plants and nonliving things. Yet these supposedly advanced capacities—agency, tool use, and self-awareness—are not as advanced as people imagine. This is a form of self-indoctrination people engage in to avoid self-destruction; otherwise, they would face an overwhelming sense of meaninglessness.
+
+In particular, the more successful people are in society, the more reluctant they are bound to be to accept this fact, because they derive satisfaction and a sense of significance from thinking, “I work harder than others; I am smarter; I am better.” If they discovered this fact, all their actions and efforts would become meaningless, the satisfaction and sense of significance they derive from feeling superior to others would disappear, and they might even lose the motivation to keep living.
+
+This is also something those in power in society are unwilling to face. They are even less willing to let ordinary people discover this fact: it would undermine their sense of significance and cause the material and psychological world they depend on to collapse.
+
+### Optimistic Implications
+
+Many people say, “I'm not good enough,” or “You're not good enough.” First, what does “good” mean? They define it, and their definitions aren't worth a damn, right?
+Even if I accept their definition, suppose I am not good enough—why am I not good enough? Put another way, if they had my genes, my parents, and everything else that makes me who I am, they would be me, exactly me. What the hell could they do? If they couldn't do a damn thing in my place, what gives them the right to criticize me? Right? No. They can indeed criticize me, because that is who they are; if I were them, I would say the same things about me. Likewise, this does not stop us from getting angry when we see people worse than ourselves. I was lucky enough not to become someone worse, so I became someone who gets angry at people who are worse. Their being worse than us is indeed their bad luck, and that does not stop me from being angry.
+
+Note: Here, “everything that makes me who I am” includes the same initial conditions, the complete course of experiences, and the actual outcomes of every random event along the way. In other words, they would follow exactly the same path through life as I did, with even the actual outcomes of random events being identical. The identity swaps below assume the same complete replication.
+
+The same applies to our families of origin. If we became parents, we might do better, because we are who we are. But if we were our parents, with their genes and the circumstances they were born into, we would do the same things that were not good enough for us back then.
+
+But I want to emphasize again: when we encounter people worse than ourselves, we will still get angry; when we encounter people who are more broad-minded and wealthier, we will still feel envy.
+But this is not because we have not tried hard enough, or even because our parents have not tried hard enough. Or, to put it another way, the reason we have not tried hard enough is precisely that we are who we are. If we had the same environment as that more broad-minded and wealthier person, we would be them too. We may feel helpless about this, but there is no need to blame ourselves or deny our own worth.
